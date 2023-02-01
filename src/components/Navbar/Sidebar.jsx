@@ -10,7 +10,7 @@ function Sidebar({ close }) {
         onClick={close}
         className="fixed inset-0 bg-white/50 backdrop-blur-sm"
       />
-      <div className="relative bg-white w-80 z-20 max-w-[calc(100%-3rem)] h-screen p-6 shadow ">
+      <div className="relative bg-white w-80 z-20 max-w-[calc(100%-3rem)] h-screen p-6 shadow-lg ">
         <nav>
           <ul className="text-lg font-medium">
             <li onClick={close}>

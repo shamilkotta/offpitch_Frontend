@@ -8,7 +8,7 @@ function TopNav({ open }) {
   const scrollpos = useScrollPosition();
   return (
     <nav
-      className={`sticky top-0 right-0 left-0 box-border ${
+      className={`sticky z-10 top-0 right-0 left-0 box-border ${
         scrollpos >= 100 ? "shadow-md" : "shadow-none"
       } py-3 bg-white`}
     >

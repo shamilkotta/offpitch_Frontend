@@ -4,8 +4,8 @@ import heroImg from "../../assets/img/hero-img.jpg";
 
 function Hero() {
   return (
-    <div className="h-[75vh] flex flex-col sm:flex-row justify-between mx-auto max-w-[1500px] px-10 ">
-      <div className="w-full sm:w-1/2 self-start sm:self-center order-2 sm:order-1">
+    <div className="h-[75vh] max-h-[500px] mb-10 sm:max-h-[2000] flex flex-col sm:flex-row justify-between mx-auto max-w-[1500px] px-10 ">
+      <div className="w-full h-full sm:w-1/2 flex flex-col justify-center self-start sm:self-center order-2 sm:order-1 sm:px-10">
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-black">
           Lorem ipsum dolor sit amet, consectetur adipiscing{" "}
         </h1>
@@ -15,7 +15,7 @@ function Hero() {
         </p>
         <button
           type="button"
-          className="bg-primary px-4 py-2 text-sm md:text-base lg:text-lg font-semibold rounded text-white hover:bg-orange-700"
+          className="bg-primary w-fit px-4 py-2 text-sm md:text-base lg:text-lg font-semibold rounded text-white hover:bg-orange-700"
         >
           Get started
         </button>

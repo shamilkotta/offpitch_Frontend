@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
@@ -31,7 +32,7 @@ function Login() {
       <div className="w-full">
         <div className="py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
           <div className="flex justify-center px-2 sm:px-4 md:px-2 my-12">
-            <div className="w-full xl:w-2/3 lg:w-3/4 flex h-[70vh] max-h-[600px] rounded-lg shadow-lg">
+            <div className="w-full xl:w-2/3 lg:w-3/4 flex h-full rounded-lg shadow-lg">
               <div className="w-full sm:w-11/12 md:w-3/5 bg-white py-5 px-2 lg:px-5 rounded-lg lg:rounded-l-none mx-auto">
                 <h3 className="pt-4 text-2xl font-bold text-center">
                   Hi, Welcome back
@@ -43,6 +44,7 @@ function Login() {
                       name="email"
                       type="email"
                       className="h-11"
+                      autoFocus
                       value={formik.values.email}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -70,9 +72,11 @@ function Login() {
                     />
                     <p className="text-base my-4 font-normal">
                       Forgot password?{" "}
-                      <span className="text-primary cursor-pointer">
-                        reset now
-                      </span>
+                      <Link to="/password-reset">
+                        <span className="text-primary cursor-pointer">
+                          reset now
+                        </span>
+                      </Link>
                     </p>
                   </div>
 
@@ -80,9 +84,11 @@ function Login() {
                     <InputSubmit onClick={formik.handleSubmit} />
                     <p className="text-base mt-8 font-normal">
                       Don&apos;t have an account?{" "}
-                      <span className="text-primary cursor-pointer">
-                        Sign up
-                      </span>
+                      <Link to="/signup">
+                        <span className="text-primary cursor-pointer">
+                          Sign up
+                        </span>
+                      </Link>
                     </p>
                   </div>
                   <div className="relative">

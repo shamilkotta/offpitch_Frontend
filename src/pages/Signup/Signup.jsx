@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
@@ -32,7 +33,7 @@ function Signup() {
       <div className="w-full">
         <div className="py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
           <div className="flex justify-center px-2 sm:px-4 md:px-2 my-12">
-            <div className="w-full xl:w-2/3 lg:w-3/4 flex h-[70vh] max-h-[600px] rounded-lg shadow-lg">
+            <div className="w-full xl:w-2/3 lg:w-3/4 flex rounded-lg shadow-lg">
               <div
                 className="w-full h-auto bg-text hidden md:block md:w-2/5 bg-contain bg-center bg-no-repeat rounded-l-lg bg-white"
                 style={{ backgroundImage: `url('${signupImg}')` }}
@@ -96,7 +97,11 @@ function Signup() {
                     <InputSubmit onClick={formik.handleSubmit} />
                     <p className="text-base mt-8 font-normal">
                       Already have an account?{" "}
-                      <span className="text-primary cursor-pointer">Login</span>
+                      <Link to="/login">
+                        <span className="text-primary cursor-pointer">
+                          Login
+                        </span>
+                      </Link>
                     </p>
                   </div>
                   <div className="relative">

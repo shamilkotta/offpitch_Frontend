@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import closeIcon from "../../assets/icons/close.svg";
 
@@ -17,12 +18,18 @@ function Sidebar({ close }) {
               <img className="ml-auto mr-0 p-2" src={closeIcon} alt="close" />
             </li>
             <li className="my-1 mb-8 ">
-              <span className="cursor-pointer border-2 rounded border-primary w-fit bg-primary text-white px-4 py-2 ">
-                Join offpitch
-              </span>
+              <Link to="/signup">
+                <span className="cursor-pointer border-2 rounded border-primary w-fit bg-primary text-white px-4 py-2 ">
+                  Join offpitch
+                </span>
+              </Link>
             </li>
-            <li className="my-4">Sign in</li>
-            <li className="my-4">Explore</li>
+            <li className="my-4">
+              <Link to="/login">Sign in</Link>
+            </li>
+            <li className="my-4">
+              <Link to="/explore">Explore</Link>
+            </li>
             <li className="text-red-600 my-4">Host a tournament</li>
           </ul>
         </nav>

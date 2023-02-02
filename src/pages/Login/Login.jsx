@@ -1,15 +1,30 @@
 import React from "react";
+import { useFormik } from "formik";
 
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 import InputFields, {
   InputSubmit,
 } from "../../components/InputFields/InputFields";
+import { loginSchema } from "../../schema/auth";
 
 import loginImg from "../../assets/img/login.svg";
 import googleIcon from "../../assets/icons/google.svg";
 
 function Login() {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+
+    validationSchema: loginSchema,
+
+    onSubmit: () => {
+      // console.log(values);
+    },
+  });
+
   return (
     <>
       <Navbar />
@@ -23,13 +38,35 @@ function Login() {
                 </h3>
                 <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
                   <div className="mb-4">
-                    <InputFields holder="Email" type="email" className="h-11" />
+                    <InputFields
+                      holder="Email"
+                      name="email"
+                      type="email"
+                      className="h-11"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errorMsg={
+                        formik.errors.email && formik.touched.email
+                          ? formik.errors.email
+                          : ""
+                      }
+                    />
                   </div>
                   <div className="mb-4">
                     <InputFields
+                      name="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
                       holder="Password"
                       type="password"
                       className="h-11"
+                      onBlur={formik.handleBlur}
+                      errorMsg={
+                        formik.errors.password && formik.touched.password
+                          ? formik.errors.password
+                          : ""
+                      }
                     />
                     <p className="text-base my-4 font-normal">
                       Forgot password?{" "}
@@ -40,7 +77,7 @@ function Login() {
                   </div>
 
                   <div className="mb-6 text-center">
-                    <InputSubmit />
+                    <InputSubmit onClick={formik.handleSubmit} />
                     <p className="text-base mt-8 font-normal">
                       Don&apos;t have an account?{" "}
                       <span className="text-primary cursor-pointer">

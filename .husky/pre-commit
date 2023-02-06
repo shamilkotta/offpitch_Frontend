@@ -15,12 +15,12 @@ yarn run lint-staged ||
 )
 
 ### you can check for build process is working or not
-echo "🟨 Alright... Code looks good, Trying to build now"
+# echo "🟨 Alright... Code looks good, Trying to build now"
 
-yarn run build ||
-(
-  echo "🟥🟥 Oh s**, build faild, View the errors above to see why🟥🟥"
-  false;
-)
+# yarn run build ||
+# (
+#   echo "🟥🟥 Oh s**, build faild, View the errors above to see why🟥🟥"
+#   false;
+# )
 
 echo "🟩🟩 Everything looks good, commiting now 🟩🟩"

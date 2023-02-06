@@ -17,9 +17,6 @@ export const loginSchema = yup.object().shape({
 export const signupSchema = yup.object().shape({
   name: yup
     .string()
-    .transform((value) =>
-      value !== null ? value.charAt(0).toUpperCase() + value.slice(1) : value
-    )
     .trim()
     .required("Name can not be empty")
     .test("isPerfectString", "Enter a valid name", (arg) =>

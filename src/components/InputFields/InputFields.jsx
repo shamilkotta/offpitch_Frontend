@@ -10,25 +10,33 @@ function InputFields({
   maxLength,
   holder,
   onChange,
+  error,
   errorMsg,
   ...props
 }) {
+  const handleNumberChange = (e) => {
+    const re = /^[0-9\b]+$/;
+    if (e.target.value === "" || re.test(e.target.value)) {
+      onChange(e);
+    }
+  };
+
   return (
     <>
       <input
-        type={type}
+        type={type === "number" ? "text" : type}
         name={name}
         value={value}
         className={`form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700
           bg-white bg-clip-padding border-2 border-solid  rounded transition ease-in-out m-0
           focus:text-gray-700 focus:bg-white ${
-            errorMsg
+            errorMsg || error
               ? "border-red-600 focus:border-red-600"
               : "focus:border-primary border-gray-300"
           } focus:outline-none ${className}`}
         maxLength={maxLength}
         placeholder={holder}
-        onChange={onChange}
+        onChange={type === "number" ? handleNumberChange : onChange}
         {...props}
       />
       <span className="text-red-600">{errorMsg}</span>
@@ -40,6 +48,7 @@ InputFields.defaultProps = {
   type: "text",
   maxLength: 1000,
   className: "",
+  error: false,
   errorMsg: "",
 };
 
@@ -51,6 +60,7 @@ InputFields.propTypes = {
   maxLength: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   holder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  error: PropTypes.bool,
   errorMsg: PropTypes.string,
 };
 

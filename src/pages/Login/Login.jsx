@@ -10,7 +10,7 @@ import { loginSchema } from "../../schema/auth";
 
 import loginImg from "../../assets/img/login.svg";
 import googleIcon from "../../assets/icons/google.svg";
-import { login } from "../../helpers/apis/auth";
+import { loginApi } from "../../helpers/apis/auth";
 import { useErrorToast } from "../../hooks/useToast";
 import { setAuth } from "../../app/slices/authSlice";
 
@@ -31,7 +31,7 @@ function Login() {
 
     onSubmit: (values, { resetForm }) => {
       setLoading(true);
-      login(values)
+      loginApi(values)
         .then((res) => {
           resetForm({ values: "" });
           setLoading(false);

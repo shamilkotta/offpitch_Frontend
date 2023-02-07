@@ -10,7 +10,7 @@ import InputFields, {
 import signupImg from "../../assets/img/signup.svg";
 import googleIcon from "../../assets/icons/google.svg";
 import { signupSchema } from "../../schema/auth";
-import { signup } from "../../helpers/apis/auth";
+import { signupApi } from "../../helpers/apis/auth";
 import { useErrorToast } from "../../hooks/useToast";
 
 function Signup() {
@@ -30,7 +30,7 @@ function Signup() {
 
     onSubmit: (values, { resetForm }) => {
       setLoading(true);
-      signup(values)
+      signupApi(values)
         .then((res) => {
           resetForm({ values: "" });
           setLoading(false);

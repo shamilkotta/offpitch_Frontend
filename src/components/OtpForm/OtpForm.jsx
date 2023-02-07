@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import InputFields, { InputSubmit } from "../InputFields/InputFields";
 import otpSchema from "../../schema/otp";
-import { resendOtp, verifyEmail } from "../../helpers/apis/auth";
+import { resendOtpApi, verifyEmailApi } from "../../helpers/apis/auth";
 import { setAuth } from "../../app/slices/authSlice";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 
@@ -63,7 +63,7 @@ function OtpForm() {
 
   const handleResendOtp = () => {
     clearTimer(getDeadTime());
-    resendOtp({ token })
+    resendOtpApi({ token })
       .then((res) => {
         if (res.data.success) {
           useSuccessToast({ message: res.data?.message });
@@ -103,7 +103,7 @@ function OtpForm() {
     onSubmit: (values, { resetForm }) => {
       setLoading(true);
       const otp = Object.values(values).join("");
-      verifyEmail({ otp, token })
+      verifyEmailApi({ otp, token })
         .then((res) => {
           resetForm({ values: "" });
           setLoading(false);

@@ -1,18 +1,19 @@
 import axios from "../../config/api";
 
-export const signup = ({ name, email, password }) =>
+export const signupApi = ({ name, email, password }) =>
   axios.post("/auth/signup", { name, email, password });
 
-export const login = ({ email, password }) =>
+export const loginApi = ({ email, password }) =>
   axios.post("/auth/login", { email, password });
 
-export const verifyEmail = ({ otp, token }) =>
+export const verifyEmailApi = ({ otp, token }) =>
   axios.post("/auth/verify-email", { otp, token });
 
-export const resendOtp = ({ token }) => axios.get(`/auth/resend-otp/${token}`);
+export const resendOtpApi = ({ token }) =>
+  axios.get(`/auth/resend-otp/${token}`);
 
-export const refresh = () =>
+export const refreshTokenApi = () =>
   axios.get("/auth/refresh", { withCredentials: true });
 
-export const logout = () =>
+export const logoutApi = () =>
   axios.get("/auth/logout", { withCredentials: true });

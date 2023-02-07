@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import InputFields, {
   InputSubmit,
@@ -11,11 +12,14 @@ import loginImg from "../../assets/img/login.svg";
 import googleIcon from "../../assets/icons/google.svg";
 import { login } from "../../helpers/apis/auth";
 import { useErrorToast } from "../../hooks/useToast";
+import { setAuth } from "../../app/slices/authSlice";
 
 function Login() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -31,12 +35,16 @@ function Login() {
         .then((res) => {
           resetForm({ values: "" });
           setLoading(false);
-          if (res.data.success)
-            navigate(location.state?.from || "/", { replace: true });
-          else if (res.data.message === "Email verification is pending") {
-            navigate("/email-verification", {
+          if (res.data.success) {
+            dispatch(setAuth(res.data.data)); // set to state
+            navigate(location.state?.from || "/", { replace: true }); // navigate to home
+          } else if (res.data.message === "Email verification is pending") {
+            navigate("/verify-email", {
               replace: true,
-              state: { from: location.state?.from || "/" },
+              state: {
+                from: location.state?.from || "/",
+                confirmToken: res.data?.data?.confirmToken,
+              },
             });
           } else useErrorToast({ message: res.data.message });
         })
@@ -49,7 +57,9 @@ function Login() {
     },
   });
 
-  return (
+  return auth?.accessToken ? (
+    <Navigate to={location.state?.from || "/"} replace />
+  ) : (
     <div className="w-full">
       <div className="py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
         <div className="flex justify-center px-2 sm:px-4 md:px-2 my-12">

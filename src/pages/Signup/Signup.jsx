@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import InputFields, {
   InputSubmit,
@@ -15,6 +16,7 @@ import { useErrorToast } from "../../hooks/useToast";
 function Signup() {
   const location = useLocation();
   const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -33,9 +35,12 @@ function Signup() {
           resetForm({ values: "" });
           setLoading(false);
           if (res.data.success)
-            navigate("/email-verification", {
+            navigate("/verify-email", {
               replace: true,
-              state: { from: location.state?.from || "/" },
+              state: {
+                from: location.state?.from || "/",
+                confirmToken: res.data?.data?.confirmToken,
+              },
             });
           else
             useErrorToast({
@@ -51,7 +56,9 @@ function Signup() {
     },
   });
 
-  return (
+  return auth?.accessToken ? (
+    <Navigate to={location.state?.from || "/"} replace />
+  ) : (
     <div className="w-full">
       <div className="py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
         <div className="flex justify-center px-2 sm:px-4 md:px-2 my-12">

@@ -33,7 +33,6 @@ function Signup() {
       signupApi(values)
         .then((res) => {
           resetForm({ values: "" });
-          setLoading(false);
           if (res.data.success)
             navigate("/verify-email", {
               replace: true,
@@ -48,10 +47,12 @@ function Signup() {
             });
         })
         .catch((err) => {
-          setLoading(false);
           useErrorToast({
             message: err?.response?.data?.message || "Something went wrong",
           });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     },
   });

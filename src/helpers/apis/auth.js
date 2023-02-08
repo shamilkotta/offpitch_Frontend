@@ -4,10 +4,10 @@ export const signupApi = ({ name, email, password }) =>
   axios.post("/auth/signup", { name, email, password });
 
 export const loginApi = ({ email, password }) =>
-  axios.post("/auth/login", { email, password });
+  axios.post("/auth/login", { email, password }, { withCredentials: true });
 
 export const verifyEmailApi = ({ otp, token }) =>
-  axios.post("/auth/verify-email", { otp, token });
+  axios.post("/auth/verify-email", { otp, token }, { withCredentials: true });
 
 export const resendOtpApi = ({ token }) =>
   axios.get(`/auth/resend-otp/${token}`);

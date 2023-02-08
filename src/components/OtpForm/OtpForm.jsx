@@ -106,7 +106,6 @@ function OtpForm() {
       verifyEmailApi({ otp, token })
         .then((res) => {
           resetForm({ values: "" });
-          setLoading(false);
           if (res.data.success) {
             dispatch(setAuth(res.data.data)); // set to state
             navigate(location.state?.from || "/", {
@@ -118,10 +117,12 @@ function OtpForm() {
           } else useErrorToast({ message: res.data.message });
         })
         .catch((err) => {
-          setLoading(false);
           useErrorToast({
             message: err?.response?.data?.message || "Something went wrong",
           });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     },
   });

@@ -8,6 +8,8 @@ import Signup from "./Signup/Signup";
 import Notfound from "./Notfound";
 import UserAuthorization from "../components/Authorization/UserAuthorization";
 import PersistLogin from "../components/PersistLogin";
+import MyOrganization from "./Organization/MyOrganization";
+import MyClub from "./Club/MyClub";
 
 function Router() {
   return (
@@ -18,8 +20,10 @@ function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify-email" element={<OtpConfirmation />} />
-          <Route element={<UserAuthorization />}>
-            <Route path="/profile" />
+          <Route path="/user" element={<UserAuthorization />}>
+            <Route path="/user/profile" />
+            <Route path="/user/organization" element={<MyOrganization />} />
+            <Route path="/user/club" element={<MyClub />} />
           </Route>
 
           <Route path="/admin" />

@@ -12,7 +12,7 @@ function Sidebar({ close }) {
   const dispatch = useDispatch();
 
   return (
-    <div className="fixed z-50 inset-0 overflow-y-auto lg:hidden">
+    <div className="fixed z-40 inset-0 overflow-y-auto lg:hidden">
       <div
         onClick={close}
         className="fixed inset-0 bg-white/50 backdrop-blur-sm"

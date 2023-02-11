@@ -17,7 +17,7 @@ function TopNav({ open }) {
 
   return (
     <nav
-      className={`sticky z-10 top-0 right-0 left-0 box-border ${
+      className={`sticky z-20 top-0 right-0 left-0 box-border ${
         scrollpos >= 100 ? "shadow-md" : "shadow-none"
       } py-3 bg-white`}
     >
@@ -87,14 +87,14 @@ function TopNav({ open }) {
                     </Link>
                   </li>
                   <li className="">
-                    <Link to="/">
+                    <Link to="/user/organization">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Organization
                       </h6>
                     </Link>
                   </li>
                   <li className="">
-                    <Link to="/">
+                    <Link to="/user/club">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Club
                       </h6>

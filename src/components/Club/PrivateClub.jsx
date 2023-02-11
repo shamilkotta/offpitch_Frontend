@@ -10,7 +10,7 @@ import useAxiosPrivate from "../../hooks/userAxiosPrivate";
 import { useErrorToast } from "../../hooks/useToast";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 
-function PirvateClub() {
+function PrivateClub() {
   const [currentTab, setCurrentTab] = useState("players");
   const [addPlayerModal, setAddPlayerModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -209,4 +209,4 @@ function PirvateClub() {
   );
 }
 
-export default PirvateClub;
+export default PrivateClub;

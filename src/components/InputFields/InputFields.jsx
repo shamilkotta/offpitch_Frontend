@@ -55,11 +55,69 @@ InputFields.defaultProps = {
 InputFields.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   className: PropTypes.string,
   maxLength: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   holder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  error: PropTypes.bool,
+  errorMsg: PropTypes.string,
+};
+
+export function InputTextArea({
+  name,
+  value,
+  className,
+  maxLength,
+  holder,
+  rows,
+  onChange,
+  error,
+  errorMsg,
+  resizable,
+  ...props
+}) {
+  return (
+    <>
+      <textarea
+        name={name}
+        value={value}
+        className={`form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700
+          bg-white bg-clip-padding border-2 border-solid  rounded transition ease-in-out m-0
+          focus:text-gray-700 focus:bg-white ${
+            errorMsg || error
+              ? "border-red-600 focus:border-red-600"
+              : "focus:border-primary border-gray-300"
+          } focus:outline-none ${!resizable && "resize-none"} ${className}`}
+        maxLength={maxLength}
+        placeholder={holder}
+        onChange={onChange}
+        rows={rows}
+        {...props}
+      />
+      <span className="text-red-600">{errorMsg}</span>
+    </>
+  );
+}
+
+InputTextArea.defaultProps = {
+  maxLength: 1000,
+  className: "",
+  rows: 4,
+  resizable: false,
+  error: false,
+  errorMsg: "",
+};
+
+InputTextArea.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  maxLength: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  holder: PropTypes.string.isRequired,
+  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func.isRequired,
+  resizable: PropTypes.bool,
   error: PropTypes.bool,
   errorMsg: PropTypes.string,
 };

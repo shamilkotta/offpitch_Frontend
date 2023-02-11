@@ -10,7 +10,6 @@ function OtpConfirmation() {
   return !confirmToken ? (
     <Navigate to="/login" replace />
   ) : (
-    // return (
     <div className="w-full">
       <div className="py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
         <div className="flex justify-center px-2 sm:px-4 md:px-2 my-12">

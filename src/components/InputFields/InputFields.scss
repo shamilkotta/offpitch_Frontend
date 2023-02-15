@@ -1,0 +1,112 @@
+.checkbox {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+
+    &:checked ~ .checkmark:after {
+      display: block;
+    }
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    border-radius: 4px;
+    border: 2px solid rgb(132, 132, 132);
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    &:after {
+      left: 6px;
+      top: 2px;
+      width: 7px;
+      height: 13px;
+      border: solid rgb(250, 250, 250);
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+
+  input:checked ~ .checkmark {
+    background-color: rgb(0, 0, 0);
+    border: 2px solid rgb(0, 0, 0);
+  }
+}
+
+.radio {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+
+    &:checked ~ .checkmark:after {
+      display: block;
+    }
+  }
+
+  input:checked ~ .checkmark {
+    background-color: rgb(0, 0, 0);
+    border: 2px solid rgb(0, 0, 0);
+  }
+
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    border-radius: 4px;
+    border: 2px solid rgb(132, 132, 132);
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    &:after {
+      left: 6px;
+      top: 2px;
+      width: 7px;
+      height: 13px;
+      border: solid rgb(250, 250, 250);
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+}

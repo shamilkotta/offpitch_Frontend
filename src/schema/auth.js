@@ -4,7 +4,7 @@ export const loginSchema = yup.object().shape({
   email: yup
     .string()
     .trim()
-    .required("Email can not be empty")
+    .required("Enter you email")
     .email("Enter a valid email"),
   password: yup
     .string()
@@ -25,7 +25,7 @@ export const signupSchema = yup.object().shape({
   email: yup
     .string()
     .trim()
-    .required("Email can not be empty")
+    .required("Enter you email")
     .email("Enter a valid email"),
   password: yup
     .string()

@@ -139,9 +139,9 @@ function PrivateOrg() {
                 Ended
               </button>
             </div>
-            <button type="button" className="bg-slate-200 px-3 py-1">
+            <Link to="/user/tournament/new" className="bg-slate-200 px-3 py-1">
               Host new tournament
-            </button>
+            </Link>
           </div>
         </div>
       </div>

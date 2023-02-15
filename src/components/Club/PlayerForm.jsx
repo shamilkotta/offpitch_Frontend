@@ -133,15 +133,12 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
           <div className="col-start-1 col-end-2 row-start-2 row-end-3 w-full">
             <InputFields
               className="h-12 w-80"
-              type="text"
+              type="date"
               holder="Date of birth"
               name="date_of_birth"
               max={new Date().toISOString().split("T")[0]}
               min="1953-01-01"
               value={formik.values.date_of_birth}
-              onFocus={(e) => {
-                e.target.type = "date";
-              }}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               errorMsg={

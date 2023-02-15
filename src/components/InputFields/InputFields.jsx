@@ -12,6 +12,8 @@ function InputFields({
   onChange,
   error,
   errorMsg,
+  disabled,
+  transform,
   ...props
 }) {
   const handleNumberChange = (e) => {
@@ -22,9 +24,10 @@ function InputFields({
   };
 
   return (
-    <>
+    <div className={`${transform}`}>
       <input
-        type={type === "number" ? "text" : type}
+        disabled={disabled}
+        type={type === "number" || type === "date" ? "text" : type}
         name={name}
         value={value}
         className={`form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700
@@ -37,10 +40,16 @@ function InputFields({
         maxLength={maxLength}
         placeholder={holder}
         onChange={type === "number" ? handleNumberChange : onChange}
+        onBlur={(e) => {
+          if (type === "date") e.target.type = "text";
+        }}
+        onFocus={(e) => {
+          if (type === "date") e.target.type = "date";
+        }}
         {...props}
       />
       <span className="text-red-600">{errorMsg}</span>
-    </>
+    </div>
   );
 }
 
@@ -50,6 +59,8 @@ InputFields.defaultProps = {
   className: "",
   error: false,
   errorMsg: "",
+  disabled: false,
+  transform: "",
 };
 
 InputFields.propTypes = {
@@ -62,6 +73,8 @@ InputFields.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.bool,
   errorMsg: PropTypes.string,
+  disabled: PropTypes.bool,
+  transform: PropTypes.string,
 };
 
 export function InputTextArea({
@@ -78,7 +91,7 @@ export function InputTextArea({
   ...props
 }) {
   return (
-    <>
+    <div>
       <textarea
         name={name}
         value={value}
@@ -96,12 +109,12 @@ export function InputTextArea({
         {...props}
       />
       <span className="text-red-600">{errorMsg}</span>
-    </>
+    </div>
   );
 }
 
 InputTextArea.defaultProps = {
-  maxLength: 1000,
+  maxLength: 10000,
   className: "",
   rows: 4,
   resizable: false,
@@ -122,14 +135,21 @@ InputTextArea.propTypes = {
   errorMsg: PropTypes.string,
 };
 
-export function InputSubmit({ type, className, loadingValue, onClick, value }) {
+export function InputSubmit({
+  type,
+  className,
+  loadingValue,
+  onClick,
+  value,
+  disabled,
+}) {
   return (
     <button
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={`bg-primary font-medium text-white py-1 px-3 w-full h-11 rounded disabled:bg-opacity-90 disabled:bg-orange-600 ${className}`}
+      className={`py-1 px-3 w-full h-11 rounded disabled:bg-opacity-90 disabled:bg-orange-600 ${className} bg-primary font-medium text-white `}
       onClick={onClick}
-      disabled={loadingValue}
+      disabled={loadingValue || disabled}
       value={value}
     >
       {loadingValue ? (
@@ -166,6 +186,7 @@ InputSubmit.defaultProps = {
   className: "",
   loadingValue: "",
   value: "Submit",
+  disabled: false,
 };
 
 InputSubmit.propTypes = {
@@ -174,6 +195,7 @@ InputSubmit.propTypes = {
   loadingValue: PropTypes.string,
   value: PropTypes.string,
   onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default InputFields;

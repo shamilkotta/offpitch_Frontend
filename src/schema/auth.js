@@ -37,3 +37,22 @@ export const signupSchema = yup.object().shape({
       /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W])(?!.*\s).{8,16})/.test(arg)
     ),
 });
+
+export const resetPassSchema = yup.object().shape({
+  password: yup
+    .string()
+    .trim()
+    .required("Password can not be empty")
+    .min(8, "Too short password")
+    .max(16, "Too long password")
+    .test("isPerfectPasswrod", "Enter a strong password", (arg) =>
+      /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W])(?!.*\s).{8,16})/.test(arg)
+    ),
+  confirm_password: yup
+    .string()
+    .trim()
+    .required("Confirm password can't be empty")
+    .test("passwords-match", "Passwords must match", function check(value) {
+      return this.parent.password === value;
+    }),
+});

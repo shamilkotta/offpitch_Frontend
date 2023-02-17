@@ -10,6 +10,8 @@ import UserAuthorization from "../components/Authorization/UserAuthorization";
 import PersistLogin from "../components/PersistLogin";
 import MyOrganization from "./Organization/MyOrganization";
 import MyClub from "./Club/MyClub";
+import NewTournament from "./Tournament/NewTournament";
+import ResetPassword from "./ResetPassword/ResetPassword";
 
 function Router() {
   return (
@@ -20,10 +22,12 @@ function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify-email" element={<OtpConfirmation />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/user" element={<UserAuthorization />}>
             <Route path="/user/profile" />
             <Route path="/user/organization" element={<MyOrganization />} />
             <Route path="/user/club" element={<MyClub />} />
+            <Route path="/user/tournament/new" element={<NewTournament />} />
           </Route>
 
           <Route path="/admin" />

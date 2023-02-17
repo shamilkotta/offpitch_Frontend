@@ -17,3 +17,9 @@ export const refreshTokenApi = () =>
 
 export const logoutApi = () =>
   axios.get("/auth/logout", { withCredentials: true });
+
+export const forgotPasswordApi = ({ email }) =>
+  axios.post("/auth/forgot-password", { email });
+
+export const resetPasswordApi = ({ password, token }) =>
+  axios.post("/auth/reset-password", { password, token });

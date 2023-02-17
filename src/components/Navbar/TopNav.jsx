@@ -52,7 +52,7 @@ function TopNav({ open }) {
           <>
             <ul className="flex justify-between items-center gap-x-10">
               <li className="hidden sm:block">
-                <Link to="/">
+                <Link to="/user/tournament/new">
                   <h3 className="cursor-pointer text-red-600 hover:text-primary">
                     Host a tournament
                   </h3>
@@ -80,7 +80,7 @@ function TopNav({ open }) {
               <div className="shadow-2xl fixed left-auto top-14 border rounded-md bg-white right-5 py-2 w-44">
                 <ul className="px-1">
                   <li className="border-b ">
-                    <Link to="/">
+                    <Link to="/user">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Profile
                       </h6>
@@ -101,14 +101,14 @@ function TopNav({ open }) {
                     </Link>
                   </li>
                   <li className="">
-                    <Link to="/">
+                    <Link to="/user/watchlist">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Watchlist
                       </h6>
                     </Link>
                   </li>
                   <li className="">
-                    <Link to="/">
+                    <Link to="/user/transactions">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Transactions
                       </h6>
@@ -135,7 +135,7 @@ function TopNav({ open }) {
         ) : (
           <ul className="flex justify-between items-center gap-x-10">
             <li className="hidden md:block">
-              <Link to="/">
+              <Link to="/user/tournament/new">
                 <h3 className="cursor-pointer text-red-600 hover:text-primary">
                   Host a tournament
                 </h3>

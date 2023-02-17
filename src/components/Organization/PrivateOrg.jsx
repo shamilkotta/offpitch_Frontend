@@ -8,10 +8,10 @@ import useAxiosPrivate from "../../hooks/userAxiosPrivate";
 import { useErrorToast } from "../../hooks/useToast";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 import OrgForm from "./OrgForm";
+import TournamentCard from "../Cards/TournamentCard";
 
 function PrivateOrg() {
-  // const [showUpcoming, setShowUpcoming] = useState(true);
-  const [currentTab, setCurrentTab] = useState("upcoming");
+  const [currentTab, setCurrentTab] = useState("active");
   const [editModal, setEditModal] = useState(false);
   const [data, setData] = useState({});
   // eslint-disable-next-line no-unused-vars
@@ -21,14 +21,22 @@ function PrivateOrg() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const fetchTournaments = () => {
+    axios
+      .get("/user/tournaments")
+      .then((res) => {
+        if (res.data.success) setTournaments(res.data.data);
+      })
+      .catch(() => {});
+  };
+
   const fetchData = () => {
     axios
       .get("/user/organization")
       .then((res) => {
         if (res.data.success) {
           setData(res?.data?.data);
-          setTournaments(res?.data?.data?.tournaments);
-          setData((prvs) => ({ ...prvs, tournaments: "" }));
+          fetchTournaments();
         } else {
           useErrorToast({
             message: res?.data?.message || "Something went wrong",
@@ -110,20 +118,33 @@ function PrivateOrg() {
         <hr />
         <div className="mt-4">
           <h1 className="text-lg font-medium mb-3">You&apos;r tournaments</h1>
-          <div className="flex gap-3">
+          <div className="flex gap-x-3 gap-y-1 my-3 flex-wrap justify-center sm:justify-start">
             <div className="flex gap-x-1">
               <button
                 type="button"
                 className={`${
-                  currentTab === "upcoming"
+                  currentTab === "active"
                     ? "bg-primary text-white"
                     : "bg-slate-200 text-black"
                 } px-3 py-1 rounded-l-sm`}
                 onClick={() => {
-                  setCurrentTab("upcoming");
+                  setCurrentTab("active");
                 }}
               >
                 Upcoming
+              </button>
+              <button
+                type="button"
+                className={`px-3 py-1 rounded-r-sm  ${
+                  currentTab === "draft"
+                    ? "bg-primary text-white"
+                    : "bg-slate-200 text-black"
+                }`}
+                onClick={() => {
+                  setCurrentTab("draft");
+                }}
+              >
+                Draft
               </button>
               <button
                 type="button"
@@ -142,6 +163,21 @@ function PrivateOrg() {
             <Link to="/user/tournament/new" className="bg-slate-200 px-3 py-1">
               Host new tournament
             </Link>
+          </div>
+          <div>
+            <div className="mt-4 grid grid-cols-1 min-[580px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-auto gap-2">
+              {tournaments.map(
+                (ele) =>
+                  ele.status === currentTab && (
+                    <TournamentCard
+                      data={ele}
+                      showEditButton={currentTab === "draft"}
+                      showAvatar={false}
+                      showBookMark={false}
+                    />
+                  )
+              )}
+            </div>
           </div>
         </div>
       </div>

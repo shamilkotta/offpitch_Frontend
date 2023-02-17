@@ -4,7 +4,7 @@ import TournamentCard from "../../components/Cards/TournamentCard";
 import arrowIcon from "../../assets/icons/arrow.svg";
 
 function UpcomingSection() {
-  const cards = [1, 2, 3, 4];
+  const cards = [1, 2, 3, 4, 5];
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
@@ -14,7 +14,7 @@ function UpcomingSection() {
             Explore <img src={arrowIcon} alt="explore" />{" "}
           </p>
         </div>
-        <div className="flex justify-center gap-8 flex-wrap items-center">
+        <div className="grid grid-cols-1 min-[580px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-auto gap-2">
           {cards.map(() => (
             <TournamentCard />
           ))}

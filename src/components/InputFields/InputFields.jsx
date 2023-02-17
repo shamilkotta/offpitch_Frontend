@@ -187,6 +187,7 @@ InputSubmit.defaultProps = {
   loadingValue: "",
   value: "Submit",
   disabled: false,
+  onClick: () => {},
 };
 
 InputSubmit.propTypes = {
@@ -194,7 +195,7 @@ InputSubmit.propTypes = {
   className: PropTypes.string,
   loadingValue: PropTypes.string,
   value: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   disabled: PropTypes.bool,
 };
 

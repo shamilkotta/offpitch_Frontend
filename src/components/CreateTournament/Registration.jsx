@@ -13,7 +13,7 @@ function Registration({
   setFieldValue,
 }) {
   const [handleFeeAmount, setHandleFeeAmount] = useState(
-    values.have_registration_fee
+    values.registration_fee.is
   );
 
   return (
@@ -64,18 +64,20 @@ function Registration({
         </div>
         <div className="sm:h-12 my-3 min-[500px]:my-1 border-slate-300 flex flex-col min-[500px]:flex-row justify-between min-[500px]:items-center">
           <InputCheckBox
-            name="have_registration_fee"
+            id="registration_fee"
+            name="registration_fee.is"
             onBlur={handleBlur}
             errorMsg={
-              errors.have_registration_fee && touched.have_registration_fee
-                ? errors.have_registration_fee
+              errors.registration_fee?.is && touched.registration_fee?.is
+                ? errors.registration_fee?.is
                 : ""
             }
-            checked={values.have_registration_fee}
+            checked={values.registration_fee.is}
             onChange={(e) => {
               setHandleFeeAmount(e.target.checked);
-              setFieldValue("have_registration_fee", e.target.checked);
-              if (!e.target.checked) setFieldValue("registration_fee", 0);
+              setFieldValue("registration_fee.is", e.target.checked);
+              if (!e.target.checked)
+                setFieldValue("registration_fee.amount", 0);
             }}
             label="Registration fee"
             className="text-slate-500"
@@ -84,7 +86,8 @@ function Registration({
             <div className="flex gap-x-3 items-center">
               <p
                 className={`${
-                  errors.registration_fee && touched.registration_fee
+                  errors.registration_fee?.amount &&
+                  touched.registration_fee?.amount
                     ? "text-red-600"
                     : "text-slate-500"
                 }`}
@@ -93,11 +96,14 @@ function Registration({
               </p>
               <div>
                 <InputFields
-                  name="registration_fee"
-                  value={values.registration_fee}
+                  name="registration_fee.amount"
+                  value={values.registration_fee.amount}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={errors.registration_fee && touched.registration_fee}
+                  error={
+                    errors.registration_fee?.amount &&
+                    touched.registration_fee?.amount
+                  }
                   type="number"
                   className="w-32"
                   holder=""

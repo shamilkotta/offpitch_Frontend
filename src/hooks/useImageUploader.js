@@ -1,10 +1,10 @@
 import axiosInstance from "axios";
 import useAxiosPrivate from "./userAxiosPrivate";
 
-function useImageUploader({ file, onProgress }) {
+function useImageUploader() {
   const axios = useAxiosPrivate();
 
-  const uploadImageToCloudinary = () =>
+  const uploadImageToCloudinary = ({ file, onProgress = () => {} }) =>
     // eslint-disable-next-line no-async-promise-executor
     new Promise(async (resolve, reject) => {
       const imageData = new FormData();

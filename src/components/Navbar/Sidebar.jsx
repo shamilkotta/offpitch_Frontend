@@ -25,7 +25,7 @@ function Sidebar({ close }) {
                 <img className="ml-auto mr-0 p-2" src={closeIcon} alt="close" />
               </li>
               <li className="border-b ">
-                <Link to="/" className="flex items-center">
+                <Link to="/user" className="flex items-center">
                   <img
                     src={auth.profile}
                     alt="pr"
@@ -41,33 +41,33 @@ function Sidebar({ close }) {
                 </Link>
               </li>
               <li className="border-b ">
-                <Link to="/">
+                <Link to="/user/tournament/new">
                   <h6 className="py-2 px-3 text-lg hover:text-primary text-red-700">
                     Host a tournament
                   </h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/">
+                <Link to="/user/organization">
                   <h6 className="py-2 px-3 text-lg hover:text-primary">
                     Organization
                   </h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/">
+                <Link to="/user/club">
                   <h6 className="py-2 px-3 text-lg hover:text-primary">Club</h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/">
+                <Link to="/user/watchlist">
                   <h6 className="py-2 px-3 text-lg hover:text-primary">
                     Watchlist
                   </h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/">
+                <Link to="/user/transactions">
                   <h6 className="py-2 px-3 text-lg hover:text-primary">
                     Transactions
                   </h6>

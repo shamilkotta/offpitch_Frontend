@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import * as yup from "yup";
 
 import InputFields, {
   InputSubmit,
 } from "../../components/InputFields/InputFields";
 import { loginSchema } from "../../schema/auth";
-
+import spinnerIcon from "../../assets/icons/spinner.svg";
 import loginImg from "../../assets/img/login.svg";
 import googleIcon from "../../assets/icons/google.svg";
-import { loginApi } from "../../helpers/apis/auth";
-import { useErrorToast } from "../../hooks/useToast";
+import { forgotPasswordApi, loginApi } from "../../helpers/apis/auth";
+import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 import { setAuth } from "../../app/slices/authSlice";
 
 function Login() {
   const [loading, setLoading] = useState(false);
+  const [resettingPass, setResettingPass] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,6 +59,37 @@ function Login() {
         });
     },
   });
+
+  const handleResetPass = () => {
+    formik.setTouched({ ...formik.touched, email: true });
+
+    // email validation schema
+    const schema = yup.object().shape({
+      email: yup
+        .string()
+        .trim()
+        .required("Enter you email")
+        .email("Enter a valid email"),
+    });
+
+    // validating schema and sending request
+    if (schema.isValidSync({ email: formik.values.email })) {
+      setResettingPass(true);
+      forgotPasswordApi({ email: formik.values.email })
+        .then((res) => {
+          formik.resetForm({ values: "" });
+          useSuccessToast({ message: res.data.message });
+        })
+        .catch((err) => {
+          useErrorToast({
+            message: err.response.data.message || "Something went wrong",
+          });
+        })
+        .finally(() => {
+          setResettingPass(false);
+        });
+    }
+  };
 
   return auth?.accessToken ? (
     <Navigate to={location.state?.from || "/"} replace />
@@ -101,13 +134,21 @@ function Login() {
                         : ""
                     }
                   />
-                  <p className="text-base my-4 font-normal">
+                  <p className="text-base my-4 font-normal flex gap-x-1 items-center">
                     Forgot password?{" "}
-                    <Link to="/password-reset">
-                      <span className="text-primary cursor-pointer">
-                        reset now
-                      </span>
-                    </Link>
+                    {resettingPass ? (
+                      <img
+                        src={spinnerIcon}
+                        alt="Sending link..."
+                        className="animate-spin w-4 text-primary"
+                      />
+                    ) : (
+                      <button type="button" onClick={handleResetPass}>
+                        <span className="text-primary cursor-pointer">
+                          reset now
+                        </span>
+                      </button>
+                    )}
                   </p>
                 </div>
 

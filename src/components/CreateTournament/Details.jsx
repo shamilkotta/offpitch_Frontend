@@ -1,22 +1,25 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
 import InputFields, { InputTextArea } from "../InputFields/InputFields";
 import cameraIcon from "../../assets/icons/camera.svg";
 
-function Details({ values, handleChange, handleBlur, errors, touched }) {
+function Details({
+  values,
+  handleChange,
+  handleBlur,
+  errors,
+  touched,
+  setFieldValue,
+}) {
   const ref = useRef();
-  // const [file, setFile] = useState(null);
-  const [photoURL, setPhotoURL] = useState("");
   // const [uploadProgress, setUploadProgress] = useState(0);
-  const [showImgErr, setShowImgErr] = useState(false);
 
   const handleUploadImage = (e) => {
     const image = e.target.files[0];
     if (image) {
-      setShowImgErr(false);
-      // setFile(image);
-      setPhotoURL(URL.createObjectURL(image));
+      setFieldValue("cover.file", image);
+      setFieldValue("cover.url", URL.createObjectURL(image));
     }
   };
 
@@ -26,11 +29,12 @@ function Details({ values, handleChange, handleBlur, errors, touched }) {
         <div className="flex flex-col sm:flex-row">
           <input
             type="file"
-            name="profile"
+            name="cover.url"
             ref={ref}
             accept="image/*"
             style={{ display: "none" }}
             onChange={handleUploadImage}
+            onBlur={handleBlur}
           />
           <button
             type="button"
@@ -38,13 +42,15 @@ function Details({ values, handleChange, handleBlur, errors, touched }) {
               ref.current.click();
             }}
             className={`col-start-1 ${
-              showImgErr && "border-red-700 border-2"
+              errors.cover?.url &&
+              touched.cover?.url &&
+              "border-red-700 border-2"
             } relative sm:col-end-2 col-end-3 row-start-1 row-end-2 w-full mr-3 h-32 border-2 rounded`}
           >
             <div
               className="relative w-full h-full rounded flex justify-center items-center after:content-[''] after:bg-black/10 hover:after:bg-black/30 after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0"
               style={{
-                backgroundImage: `url('${photoURL}')`,
+                backgroundImage: `url('${values.cover?.url}')`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 backgroundSize: "cover",
@@ -135,6 +141,7 @@ Details.propTypes = {
   handleBlur: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
 };
 
 export default Details;

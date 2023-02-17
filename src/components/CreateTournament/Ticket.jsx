@@ -53,26 +53,29 @@ function Ticket({
       <div className="sm:h-12 border-y py-10 border-slate-200 flex flex-col min-[500px]:flex-row justify-between min-[500px]:items-center">
         <InputCheckBox
           id="matchday_ticket"
-          name="have_matchday_ticket"
+          name="tickets.matchday_ticket.is"
           onBlur={handleBlur}
           errorMsg={
-            errors.have_matchday_ticket && touched.have_matchday_ticket
-              ? errors.have_matchday_ticket
+            errors.tickets?.matchday_ticket?.is &&
+            touched.tickets?.matchday_ticket?.is
+              ? errors.tickets?.matchday_ticket?.is
               : ""
           }
-          checked={values.have_matchday_ticket}
+          checked={values.tickets.matchday_ticket.is}
           onChange={(e) => {
-            setFieldValue("have_matchday_ticket", e.target.checked);
-            if (!e.target.checked) setFieldValue("matchday_ticket", 0);
+            setFieldValue("tickets.matchday_ticket.is", e.target.checked);
+            if (!e.target.checked)
+              setFieldValue("tickets.matchday_ticket.amount", 0);
           }}
           label="Matchday ticket"
           className="text-slate-500"
         />
-        {values.have_matchday_ticket && (
+        {values.tickets.matchday_ticket.is && (
           <div className="flex gap-x-3 items-center">
             <p
               className={`${
-                errors.matchday_ticket && touched.matchday_ticket
+                errors.tickets?.matchday_ticket?.amount &&
+                touched.tickets?.matchday_ticket?.amount
                   ? "text-red-600"
                   : "text-slate-500"
               }`}
@@ -81,11 +84,14 @@ function Ticket({
             </p>
             <div>
               <InputFields
-                name="matchday_ticket"
-                value={values.matchday_ticket}
+                name="tickets.matchday_ticket.amount"
+                value={values.tickets.matchday_ticket.amount}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={errors.matchday_ticket && touched.matchday_ticket}
+                error={
+                  errors.tickets?.matchday_ticket?.amount &&
+                  touched.tickets?.matchday_ticket?.amount
+                }
                 type="number"
                 className="w-32"
                 holder=""
@@ -99,26 +105,29 @@ function Ticket({
       <div className="sm:h-12 border-b py-10 border-slate-200 flex flex-col min-[500px]:flex-row justify-between min-[500px]:items-center">
         <InputCheckBox
           id="season_ticket"
-          name="have_season_ticket"
+          name="tickets.season_ticket.is"
           onBlur={handleBlur}
           errorMsg={
-            errors.have_season_ticket && touched.have_season_ticket
-              ? errors.have_season_ticket
+            errors.tickets?.season_ticket?.is &&
+            touched.tickets?.season_ticket?.is
+              ? errors.tickets?.season_ticket?.is
               : ""
           }
-          checked={values.have_season_ticket}
+          checked={values.tickets.season_ticket.is}
           onChange={(e) => {
-            setFieldValue("have_season_ticket", e.target.checked);
-            if (!e.target.checked) setFieldValue("season_ticket", 0);
+            setFieldValue("tickets.season_ticket.is", e.target.checked);
+            if (!e.target.checked)
+              setFieldValue("ckets.season_ticket.amount", 0);
           }}
           label="Season ticket"
           className="text-slate-500"
         />
-        {values.have_season_ticket && (
+        {values.tickets.season_ticket.is && (
           <div className="flex gap-x-3 items-center">
             <p
               className={`${
-                errors.season_ticket && touched.season_ticket
+                errors.tickets?.season_ticket?.amount &&
+                touched.tickets?.season_ticket?.amount
                   ? "text-red-600"
                   : "text-slate-500"
               }`}
@@ -127,11 +136,14 @@ function Ticket({
             </p>
             <div>
               <InputFields
-                name="season_ticket"
-                value={values.season_ticket}
+                name="tickets.season_ticket.amount"
+                value={values.tickets.season_ticket.amount}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={errors.season_ticket && touched.season_ticket}
+                error={
+                  errors.tickets?.season_ticket?.amount &&
+                  touched.tickets?.season_ticket?.amount
+                }
                 type="number"
                 className="w-32"
                 holder=""

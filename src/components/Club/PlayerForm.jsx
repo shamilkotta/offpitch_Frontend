@@ -18,12 +18,7 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
   const [photoURL, setPhotoURL] = useState(profile);
   const [uploadProgress, setUploadProgress] = useState(0);
   const axios = useAxiosPrivate();
-  const uploadImageToCloudinary = useImageUploader({
-    file,
-    onProgress: (value) => {
-      setUploadProgress(value);
-    },
-  });
+  const uploadImageToCloudinary = useImageUploader();
 
   const handleUploadImage = (e) => {
     const image = e.target.files[0];
@@ -44,7 +39,12 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
       else {
         setLoading(true);
         setShowImgErr(false);
-        uploadImageToCloudinary()
+        uploadImageToCloudinary({
+          file,
+          onProgress: (value) => {
+            setUploadProgress(value);
+          },
+        })
           .then((res) =>
             axios.post("/user/player", { ...values, imageData: res.photoData })
           )

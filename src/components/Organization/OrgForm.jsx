@@ -21,12 +21,7 @@ function OrgForm({ onClose, data, profile, reRender }) {
   const [photoURL, setPhotoURL] = useState(profile);
   const [uploadProgress, setUploadProgress] = useState(0);
   const axios = useAxiosPrivate();
-  const uploadImageToCloudinary = useImageUploader({
-    file,
-    onProgress: (value) => {
-      setUploadProgress(value);
-    },
-  });
+  const uploadImageToCloudinary = useImageUploader();
 
   const handleUploadImage = (e) => {
     const image = e.target.files[0];
@@ -39,7 +34,12 @@ function OrgForm({ onClose, data, profile, reRender }) {
 
   const handleSubmit = (values) => {
     if (file) {
-      return uploadImageToCloudinary().then((res) =>
+      return uploadImageToCloudinary({
+        file,
+        onProgress: (value) => {
+          setUploadProgress(value);
+        },
+      }).then((res) =>
         axios.put("/user/organization", { ...values, imageData: res.photoData })
       );
     }

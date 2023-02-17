@@ -11,6 +11,7 @@ import PersistLogin from "../components/PersistLogin";
 import MyOrganization from "./Organization/MyOrganization";
 import MyClub from "./Club/MyClub";
 import NewTournament from "./Tournament/NewTournament";
+import EditTournament from "./Tournament/EditTournament";
 
 function Router() {
   return (
@@ -26,6 +27,10 @@ function Router() {
             <Route path="/user/organization" element={<MyOrganization />} />
             <Route path="/user/club" element={<MyClub />} />
             <Route path="/user/tournament/new" element={<NewTournament />} />
+            <Route
+              path="/user/tournament/:id/edit"
+              element={<EditTournament />}
+            />
           </Route>
 
           <Route path="/admin" />

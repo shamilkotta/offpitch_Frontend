@@ -72,5 +72,6 @@
     "**/*.{json,css,scss,md,webmanifest,yml}": [
       "prettier -w"
     ]
-  }
+  },
+  "packageManager": "yarn@3.4.1"
 }

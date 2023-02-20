@@ -64,7 +64,7 @@ function CreateTournament({ data }) {
       const res = await handleSubmit(formData);
 
       // last submit
-      if (isLastStep) navigate("/user/organization");
+      if (isLastStep) navigate("/user/club");
 
       // changing values in form data
       actions.setFieldValue("cover.file", null);
@@ -89,8 +89,8 @@ function CreateTournament({ data }) {
     }
   };
 
-  return !auth?.organization ? (
-    <Navigate to="/user/organization" replace />
+  return !auth?.club ? (
+    <Navigate to="/user/club" replace />
   ) : (
     <div className="px-5 sm:px-10 py-12 ">
       <h1 className="text-xl font-medium mb-2 text-center">

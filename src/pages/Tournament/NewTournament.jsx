@@ -7,8 +7,8 @@ import CreateTournament from "../../components/CreateTournament/CreateTournament
 function NewTournament() {
   const auth = useSelector((state) => state.auth);
 
-  return !auth?.organization ? (
-    <Navigate to="/user/organization" replace />
+  return !auth?.club ? (
+    <Navigate to="/user/club" replace />
   ) : (
     <CreateTournament />
   );

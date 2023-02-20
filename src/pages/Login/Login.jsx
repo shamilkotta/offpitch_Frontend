@@ -108,7 +108,7 @@ function Login() {
                     holder="Email"
                     name="email"
                     type="email"
-                    className="h-11"
+                    className="h-12"
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -126,7 +126,7 @@ function Login() {
                     onChange={formik.handleChange}
                     holder="Password"
                     type="password"
-                    className="h-11"
+                    className="h-12"
                     onBlur={formik.handleBlur}
                     errorMsg={
                       formik.errors.password && formik.touched.password
@@ -154,6 +154,7 @@ function Login() {
 
                 <div className="mb-6 text-center">
                   <InputSubmit
+                    className="w-full"
                     loadingValue={loading ? "Submit" : ""}
                     onClick={formik.handleSubmit}
                   />

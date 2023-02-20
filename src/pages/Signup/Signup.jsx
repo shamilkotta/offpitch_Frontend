@@ -78,7 +78,7 @@ function Signup() {
                   <InputFields
                     name="name"
                     holder="Name"
-                    className="h-11"
+                    className="h-12"
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -94,7 +94,7 @@ function Signup() {
                     name="email"
                     holder="Email"
                     type="email"
-                    className="h-11"
+                    className="h-12"
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -110,7 +110,7 @@ function Signup() {
                     name="password"
                     holder="Password"
                     type="password"
-                    className="h-11"
+                    className="h-12"
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -124,6 +124,7 @@ function Signup() {
 
                 <div className="mb-6 text-center">
                   <InputSubmit
+                    className="w-full"
                     loadingValue={loading ? "Submit" : ""}
                     onClick={formik.handleSubmit}
                   />

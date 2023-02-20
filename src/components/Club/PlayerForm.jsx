@@ -117,6 +117,7 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
           <div className="col-start-1 col-end-2 row-start-1 row-end-2 w-full">
             <InputFields
               className="h-12"
+              transform="w-[80vw] sm:w-80"
               type="text"
               holder="Name"
               name="name"

@@ -143,6 +143,7 @@ function OtpForm() {
         ))}
       </div>
       <InputSubmit
+        className="w-full"
         value="Verify"
         loadingValue={loading ? "Submit" : ""}
         onClick={formik.handleSubmit}

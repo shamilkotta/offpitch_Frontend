@@ -141,7 +141,8 @@ function ClubForm({ onClose, data, profile, reRender }) {
           </div>
           <div className="col-start-1 col-end-3 md:col-end-2 row-start-2 row-end-3 w-full">
             <InputFields
-              className="h-12 w-80"
+              className="h-12"
+              transform="w-[80vw] sm:w-80"
               type="text"
               holder="Email"
               name="email"

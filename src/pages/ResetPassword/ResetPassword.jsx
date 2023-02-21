@@ -86,7 +86,7 @@ function ResetPassword() {
               />
               <InputSubmit
                 type="button"
-                className="mb-5"
+                className="mb-5 w-full"
                 value="Update password"
                 loadingValue={loading ? "Updating..." : ""}
                 onClick={formik.handleSubmit}

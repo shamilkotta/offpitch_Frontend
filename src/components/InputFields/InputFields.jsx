@@ -147,7 +147,7 @@ export function InputSubmit({
     <button
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={`py-1 px-3 w-full h-11 rounded disabled:bg-opacity-90 disabled:bg-orange-600 ${className} bg-primary font-medium text-white `}
+      className={`py-1 px-3 h-11 rounded disabled:bg-opacity-90 disabled:bg-orange-600 ${className} bg-primary font-medium text-white `}
       onClick={onClick}
       disabled={loadingValue || disabled}
       value={value}

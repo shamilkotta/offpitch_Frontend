@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +23,7 @@ function PrivateClub() {
   const club = useSelector((state) => state.club);
   const dispatch = useDispatch();
   const [tournaments, setTournaments] = useState([]);
+  const [currentList, setCurrentList] = useState([]);
   const [loadingTournaments, setLoadingTournaments] = useState(false);
   const [registered, setRegistered] = useState([]);
   const [currentFilter, setCurrentFilter] = useState("active");
@@ -101,6 +103,17 @@ function PrivateClub() {
       fetchRegistered();
     }
   }, [currentTab]);
+
+  useEffect(() => {
+    if (currentTab === "tournaments")
+      setCurrentList(
+        tournaments.filter((value) => value.status === currentFilter)
+      );
+    else if (currentTab === "registered")
+      setCurrentList(
+        registered.filter((value) => value.status === currentFilter)
+      );
+  }, [currentFilter, tournaments, registered]);
 
   return loading ? (
     <div className="flex justify-center items-center h-[90vh]">
@@ -206,6 +219,7 @@ function PrivateClub() {
             {(currentTab === "tournaments" || currentTab === "registered") && (
               <select
                 className=" px-3 py-1 rounded-r-sm bg-slate-200 outline-0"
+                value={currentFilter}
                 onChange={(e) => {
                   setCurrentFilter(e.target.value);
                 }}
@@ -251,7 +265,7 @@ function PrivateClub() {
             </div>
           ) : (
             <div className="mt-4 grid grid-cols-1 min-[580px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-auto gap-2">
-              {loadingTournaments && (
+              {loadingTournaments ? (
                 <div>
                   <img
                     src={spinnerIcon}
@@ -259,24 +273,31 @@ function PrivateClub() {
                     alt="Loading..."
                   />
                 </div>
-              )}
-              {!loadingTournaments && !tournaments.length && (
+              ) : currentTab === "tournaments" ? (
+                !currentList.length ? (
+                  <div>No data found</div>
+                ) : (
+                  currentList.map((ele) => (
+                    <TournamentCard
+                      data={ele}
+                      showEditButton={ele.status === "draft"}
+                      showAvatar={false}
+                      showBookMark={false}
+                    />
+                  ))
+                )
+              ) : !currentList.length ? (
                 <div>No data found</div>
+              ) : (
+                currentList.map((ele) => (
+                  <TournamentCard
+                    data={ele}
+                    showEditButton={ele.status === "draft"}
+                    showAvatar={false}
+                    showBookMark={false}
+                  />
+                ))
               )}
-
-              {tournaments.length
-                ? tournaments.map(
-                    (ele) =>
-                      ele.status === currentFilter && (
-                        <TournamentCard
-                          data={ele}
-                          showEditButton={ele.status === "draft"}
-                          showAvatar={false}
-                          showBookMark={false}
-                        />
-                      )
-                  )
-                : null}
             </div>
           )}
         </div>

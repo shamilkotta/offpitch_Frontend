@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Box, IconButton, Avatar, Menu } from "@mui/material";
 
 import useScrollPosition from "../../hooks/useScrollPosition";
 import menuIcon from "../../assets/icons/menu.svg";
@@ -12,8 +13,16 @@ import { clearAuth } from "../../app/slices/authSlice";
 function TopNav({ open }) {
   const scrollpos = useScrollPosition();
   const auth = useSelector((state) => state.auth);
-  const [showMenu, setShowMenu] = useState(false);
   const dispatch = useDispatch();
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   return (
     <nav
@@ -49,77 +58,78 @@ function TopNav({ open }) {
           </li>
         </ul>
         {auth?.accessToken ? (
-          <>
-            <ul className="flex justify-between items-center gap-x-10">
-              <li className="hidden sm:block">
-                <Link to="/user/tournament/new">
-                  <h3 className="cursor-pointer text-red-600 hover:text-primary">
-                    Host a tournament
-                  </h3>
-                </Link>
-              </li>
-              <li
-                className="hidden rounded-full w-8 h-8 md:flex md:gap-x-2 cursor-pointer"
-                onClick={() => {
-                  setShowMenu((prvs) => !prvs);
-                }}
-              >
-                <img
+          <ul className="flex justify-between items-center gap-x-10">
+            <li className="hidden sm:block">
+              <Link to="/user/tournament/new">
+                <h3 className="cursor-pointer text-red-600 hover:text-primary">
+                  Host a tournament
+                </h3>
+              </Link>
+            </li>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt={auth.name}
                   src={auth.profile}
-                  alt="profile"
-                  className="rounded-full"
+                  sx={{ width: 32, height: 32 }}
                 />
                 <img
                   src={arrowDownIcon}
                   alt="profile"
-                  className="w-6 h-6 my-auto mx-auto"
+                  className="w-5 h-5 my-auto mx-auto"
                 />
-              </li>
-            </ul>
-            {showMenu && (
-              <div className="shadow-2xl fixed left-auto top-14 border rounded-md bg-white right-5 py-2 w-44">
-                <ul className="px-1">
-                  <li className="border-b ">
+              </IconButton>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <ul className="px-2 w-44">
+                  <li className="border-b" onClick={handleCloseUserMenu}>
                     <Link to="/user">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Profile
                       </h6>
                     </Link>
                   </li>
-                  <li className="">
-                    <Link to="/user/organization">
-                      <h6 className="py-2 px-3 text-base hover:text-primary">
-                        Organization
-                      </h6>
-                    </Link>
-                  </li>
-                  <li className="">
+                  <li className="" onClick={handleCloseUserMenu}>
                     <Link to="/user/club">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Club
                       </h6>
                     </Link>
                   </li>
-                  <li className="">
+                  <li className="" onClick={handleCloseUserMenu}>
                     <Link to="/user/watchlist">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Watchlist
                       </h6>
                     </Link>
                   </li>
-                  <li className="">
+                  <li className="" onClick={handleCloseUserMenu}>
                     <Link to="/user/transactions">
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Transactions
                       </h6>
                     </Link>
                   </li>
-                  <li className="border-t ">
+                  <li className="border-t " onClick={handleCloseUserMenu}>
                     <button
                       type="button"
                       onClick={() => {
                         dispatch(clearAuth());
-                        setShowMenu(false);
                         logoutApi();
                       }}
                     >
@@ -129,9 +139,9 @@ function TopNav({ open }) {
                     </button>
                   </li>
                 </ul>
-              </div>
-            )}
-          </>
+              </Menu>
+            </Box>
+          </ul>
         ) : (
           <ul className="flex justify-between items-center gap-x-10">
             <li className="hidden md:block">

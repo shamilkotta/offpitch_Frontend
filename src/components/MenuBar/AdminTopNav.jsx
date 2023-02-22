@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, IconButton, Avatar, Menu } from "@mui/material";
 
@@ -12,6 +12,7 @@ function AdminNavbar() {
   const scrollpos = useScrollPosition();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const location = useLocation();
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -31,12 +32,12 @@ function AdminNavbar() {
       <div className="flex justify-between items-center text-lg font-medium px-4 py-1 sm:px-10 max-w-[1500px] mx-auto box-border">
         <ul className="flex justify-between items-center gap-x-5">
           <li className="">
-            <Link to="/">
+            <Link to="/" state={{ from: location.pathname }}>
               <img src="/logo.svg" alt="offpitch" width="110" height="100" />
             </Link>
           </li>
           <li className="hidden md:block ">
-            <Link to="/explore">
+            <Link to="/explore" state={{ from: location.pathname }}>
               <h3 className="cursor-pointer hover:text-primary">Explore</h3>
             </Link>
           </li>
@@ -73,7 +74,7 @@ function AdminNavbar() {
           >
             <ul className="px-1 w-44">
               <li className="border-b ">
-                <Link to="/user">
+                <Link to="/admin" state={{ from: location.pathname }}>
                   <h6 className="py-2 px-3 text-base hover:text-primary">
                     Dashboard
                   </h6>

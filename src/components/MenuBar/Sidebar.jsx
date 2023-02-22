@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Drawer, Box } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { clearAuth } from "../../app/slices/authSlice";
 function Sidebar({ openState, close }) {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   return (
     <Drawer anchor="left" open={openState} onClose={close}>
@@ -18,7 +19,11 @@ function Sidebar({ openState, close }) {
           {auth?.accessToken ? (
             <ul className="text-base font-medium px-3 py-6">
               <li className="border-b ">
-                <Link to="/user" className="flex items-center">
+                <Link
+                  to="/user"
+                  className="flex items-center"
+                  state={{ from: location.pathname }}
+                >
                   <img
                     src={auth.profile}
                     alt="pr"
@@ -34,29 +39,35 @@ function Sidebar({ openState, close }) {
                 </Link>
               </li>
               <li className="">
-                <Link to="/explore">
+                <Link to="/explore" state={{ from: location.pathname }}>
                   <h6 className="py-2 px-3 hover:text-primary">Explore</h6>
                 </Link>
               </li>
               <li className="border-b ">
-                <Link to="/user/tournament/new">
+                <Link
+                  to="/user/tournament/new"
+                  state={{ from: location.pathname }}
+                >
                   <h6 className="py-2 px-3 hover:text-primary text-red-700">
                     Host a tournament
                   </h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/user/club">
+                <Link to="/user/club" state={{ from: location.pathname }}>
                   <h6 className="py-2 px-3 hover:text-primary">Club</h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/user/watchlist">
+                <Link to="/user/watchlist" state={{ from: location.pathname }}>
                   <h6 className="py-2 px-3 hover:text-primary">Watchlist</h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/user/transactions">
+                <Link
+                  to="/user/transactions"
+                  state={{ from: location.pathname }}
+                >
                   <h6 className="py-2 px-3 hover:text-primary">Transactions</h6>
                 </Link>
               </li>
@@ -75,23 +86,26 @@ function Sidebar({ openState, close }) {
           ) : (
             <ul className="text-base font-medium w-60 px-3 py-6">
               <li className="my-4 ">
-                <Link to="/signup">
+                <Link to="/signup" state={{ from: location.pathname }}>
                   <span className="cursor-pointer border-2 rounded border-primary w-fit bg-primary text-white px-4 py-2 ">
                     Join offpitch
                   </span>
                 </Link>
               </li>
               <li className="">
-                <Link to="/login">
+                <Link to="/login" state={{ from: location.pathname }}>
                   <h6 className="py-2 px-3 hover:text-primary">Sign in</h6>
                 </Link>
               </li>
               <li className="">
-                <Link to="/explore">
+                <Link to="/explore" state={{ from: location.pathname }}>
                   <h6 className="py-2 px-3 hover:text-primary">Explore</h6>
                 </Link>
               </li>
-              <Link to="/user/tournament/new">
+              <Link
+                to="/user/tournament/new"
+                state={{ from: location.pathname }}
+              >
                 <h6 className="py-2 px-3 hover:text-primary text-red-700">
                   Host a tournament
                 </h6>

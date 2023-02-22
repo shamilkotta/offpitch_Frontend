@@ -1,9 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FaUsers, FaFolderOpen } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 
 function AdminSidebar() {
+  const location = useLocation();
+
   const navLinks = [
     {
       id: 1,
@@ -34,6 +36,7 @@ function AdminSidebar() {
             <NavLink
               to={ele.url}
               end
+              state={{ from: location.pathname }}
               className={({ isActive }) =>
                 `${
                   isActive
@@ -51,7 +54,7 @@ function AdminSidebar() {
       <ul className="px-4 min-[850px]:hidden">
         {navLinks.map((ele) => (
           <li className="" key={ele.id}>
-            <NavLink to={ele.url} end>
+            <NavLink to={ele.url} end state={{ from: location.pathname }}>
               {({ isActive }) => (
                 <div
                   className={`my-1 w-12 h-12 flex ${

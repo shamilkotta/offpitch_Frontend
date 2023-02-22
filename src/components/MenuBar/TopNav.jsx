@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, IconButton, Avatar, Menu } from "@mui/material";
 
@@ -15,6 +15,7 @@ function TopNav({ open }) {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const location = useLocation();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -47,12 +48,12 @@ function TopNav({ open }) {
         </ul>
         <ul className="flex justify-between items-center gap-x-5">
           <li className="sm:hidden md:block">
-            <Link to="/">
+            <Link to="/" state={{ from: location.pathname }}>
               <img src="/logo.svg" alt="offpitch" width="110" height="100" />
             </Link>
           </li>
           <li className="hidden md:block ">
-            <Link to="/explore">
+            <Link to="/explore" state={{ from: location.pathname }}>
               <h3 className="cursor-pointer hover:text-primary">Explore</h3>
             </Link>
           </li>
@@ -60,7 +61,10 @@ function TopNav({ open }) {
         {auth?.accessToken ? (
           <ul className="flex justify-between items-center gap-x-10">
             <li className="hidden sm:block">
-              <Link to="/user/tournament/new">
+              <Link
+                to="/user/tournament/new"
+                state={{ from: location.pathname }}
+              >
                 <h3 className="cursor-pointer text-red-600 hover:text-primary">
                   Host a tournament
                 </h3>
@@ -98,28 +102,34 @@ function TopNav({ open }) {
               >
                 <ul className="px-2 w-44">
                   <li className="border-b" onClick={handleCloseUserMenu}>
-                    <Link to="/user">
+                    <Link to="/user" state={{ from: location.pathname }}>
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Profile
                       </h6>
                     </Link>
                   </li>
                   <li className="" onClick={handleCloseUserMenu}>
-                    <Link to="/user/club">
+                    <Link to="/user/club" state={{ from: location.pathname }}>
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Club
                       </h6>
                     </Link>
                   </li>
                   <li className="" onClick={handleCloseUserMenu}>
-                    <Link to="/user/watchlist">
+                    <Link
+                      to="/user/watchlist"
+                      state={{ from: location.pathname }}
+                    >
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Watchlist
                       </h6>
                     </Link>
                   </li>
                   <li className="" onClick={handleCloseUserMenu}>
-                    <Link to="/user/transactions">
+                    <Link
+                      to="/user/transactions"
+                      state={{ from: location.pathname }}
+                    >
                       <h6 className="py-2 px-3 text-base hover:text-primary">
                         Transactions
                       </h6>
@@ -145,19 +155,22 @@ function TopNav({ open }) {
         ) : (
           <ul className="flex justify-between items-center gap-x-10">
             <li className="hidden md:block">
-              <Link to="/user/tournament/new">
+              <Link
+                to="/user/tournament/new"
+                state={{ from: location.pathname }}
+              >
                 <h3 className="cursor-pointer text-red-600 hover:text-primary">
                   Host a tournament
                 </h3>
               </Link>
             </li>
             <li className="hidden sm:block">
-              <Link to="/login">
+              <Link to="/login" state={{ from: location.pathname }}>
                 <h3 className="cursor-pointer hover:text-primary">Sign in</h3>
               </Link>
             </li>
             <li>
-              <Link to="/signup">
+              <Link to="/signup" state={{ from: location.pathname }}>
                 <h3 className="cursor-pointer sm:border-2 sm:rounded border-black sm:hover:bg-primary sm:hover:border-primary hover:text-primary sm:hover:text-white px-3 py-0">
                   Join
                 </h3>

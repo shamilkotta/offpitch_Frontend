@@ -1,11 +1,13 @@
 import React from "react";
 import { Drawer, Box } from "@mui/material";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FaUsers, FaFolderOpen } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 
 function AdminMobSidebar({ openState, close }) {
+  const location = useLocation();
+
   const navLinks = [
     {
       id: 1,
@@ -38,6 +40,7 @@ function AdminMobSidebar({ openState, close }) {
                 <NavLink
                   to={ele.url}
                   end
+                  state={{ from: location.pathname }}
                   className={({ isActive }) =>
                     `${
                       isActive

@@ -23,8 +23,9 @@ function AdminLayout() {
           <AdminSidebar />
         </div>
         <div className="col-start-2 w-full col-end-3 px-3 py-3 sm:px-6 h-[100vh]  overflow-y-auto">
-          <div className="h-16 sticky flex items-center px-3 sm:static top-0 left-2 right-2 bg-slate-100 shadow-lg">
+          <div className="h-16 sticky rounded flex items-center px-3 sm:static top-0 left-2 right-2 bg-slate-100 shadow-md">
             <img
+              className="sm:hidden"
               src={menuIcon}
               alt="menu"
               onClick={() => {
@@ -32,7 +33,7 @@ function AdminLayout() {
               }}
             />
           </div>
-          <div className="h-[200vh]">
+          <div className="mt-3">
             <Outlet />
           </div>
         </div>

@@ -31,8 +31,8 @@ function InputFields({
         name={name}
         value={value}
         className={`form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700
-          bg-white bg-clip-padding border-2 border-solid  rounded transition ease-in-out m-0
-          focus:text-gray-700 focus:bg-white ${
+           bg-clip-padding border-2 border-solid  rounded transition ease-in-out m-0
+          focus:text-gray-700  ${
             errorMsg || error
               ? "border-red-600 focus:border-red-600"
               : "focus:border-primary border-gray-300"

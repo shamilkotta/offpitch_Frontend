@@ -13,11 +13,14 @@ import useImageUploader from "../../hooks/useImageUploader";
 import useAxiosPrivate from "../../hooks/userAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 
-function ClubForm({ onClose, data, profile, reRender }) {
+function ClubForm({ onClose, data, profile, reRender, isEdit }) {
   const [showImgErr, setShowImgErr] = useState(false);
+  const [showDocErr, setShowDocErr] = useState(false);
   const [loading, setLoading] = useState(false);
   const ref = useRef();
+  const docRef = useRef();
   const [file, setFile] = useState(null);
+  const [doc, setDoc] = useState(null);
   const [photoURL, setPhotoURL] = useState(profile);
   const [uploadProgress, setUploadProgress] = useState(0);
   const axios = useAxiosPrivate();
@@ -29,6 +32,15 @@ function ClubForm({ onClose, data, profile, reRender }) {
       setShowImgErr(false);
       setFile(image);
       setPhotoURL(URL.createObjectURL(image));
+    }
+  };
+
+  const handleUploadDoc = (e) => {
+    const gDoc = e.target.files[0];
+    if (gDoc) {
+      setShowDocErr(false);
+      setDoc(gDoc);
+      setPhotoURL(URL.createObjectURL(gDoc));
     }
   };
 
@@ -53,9 +65,11 @@ function ClubForm({ onClose, data, profile, reRender }) {
 
     onSubmit: (values, { resetForm }) => {
       if (!file && !photoURL) setShowImgErr(true);
+      else if (!doc && !isEdit) setShowDocErr(true);
       else {
         setLoading(true);
         setShowImgErr(false);
+        setShowDocErr(false);
         handleSubmit(values)
           .then((res) => {
             resetForm({ values: "" });
@@ -122,7 +136,7 @@ function ClubForm({ onClose, data, profile, reRender }) {
             />
           </div>
         </button>
-        <div className="grid gap-3 h-fit grid-cols-auto grid-rows-auto col-start-1 sm:col-start-2 col-end-3 row-start-2 sm:row-start-1 row-end-3 sm:row-end-2">
+        <div className="grid self-end gap-3 h-fit grid-cols-auto grid-rows-auto col-start-1 sm:col-start-2 col-end-3 row-start-2 sm:row-start-1 row-end-3 sm:row-end-2">
           <div className="col-start-1 col-end-3 row-start-1 row-end-2 w-full">
             <InputFields
               className="h-12"
@@ -187,6 +201,39 @@ function ClubForm({ onClose, data, profile, reRender }) {
             }
           />
         </div>
+        {!isEdit && (
+          <div className="flex flex-col col-start-1 col-end-3 row-start-4 row-end-5">
+            <p
+              className={`text-sm ${
+                showDocErr ? "text-red-500" : "text-gray-500 "
+              } flex flex-wrap w-[80vw] sm:w-96`}
+            >
+              Choose a scanned pdf of government registration document
+            </p>
+            <div className="flex items-center gap-x-3 flex-wrap w-[80vw] sm:w-full">
+              <input
+                type="file"
+                name="profile"
+                ref={docRef}
+                accept="application/pdf"
+                style={{ display: "none" }}
+                onChange={handleUploadDoc}
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  docRef.current.click();
+                }}
+                className={` border ${
+                  showDocErr ? "border-red-500" : "border-slate-200"
+                } bg-slate-200 px-3 py-2 rounded`}
+              >
+                Govt. certificate
+              </button>
+              <div>{doc?.name}</div>
+            </div>
+          </div>
+        )}
       </form>
       {uploadProgress > 1 && (
         <div className="w-full h-2 rounded mt-3 relative bg-slate-200">
@@ -196,7 +243,7 @@ function ClubForm({ onClose, data, profile, reRender }) {
           />
         </div>
       )}
-      <div className="w-full mt-3 flex justify-end">
+      <div className="w-full mt-4 flex justify-end">
         <InputSubmit
           className="w-1/2"
           loadingValue={loading ? "Save" : ""}
@@ -216,12 +263,13 @@ ClubForm.defaultProps = {
     phone: "",
   },
   profile: "",
+  isEdit: false,
   reRender: () => {},
 };
 
 ClubForm.propTypes = {
   onClose: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
+  isEdit: PropTypes.bool,
   data: PropTypes.object,
   profile: PropTypes.string,
   reRender: PropTypes.func,

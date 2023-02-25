@@ -7,7 +7,7 @@ import CreateTournament from "../../components/CreateTournament/CreateTournament
 function NewTournament() {
   const auth = useSelector((state) => state.auth);
 
-  return !auth?.club ? (
+  return auth?.clubStatus !== "active" ? (
     <Navigate to="/user/club" replace />
   ) : (
     <CreateTournament />

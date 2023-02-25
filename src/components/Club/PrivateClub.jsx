@@ -62,9 +62,13 @@ function PrivateClub() {
       .then((res) => {
         if (res?.data?.success) {
           setTournaments(res?.data?.data);
+        } else {
+          setTournaments([]);
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        setTournaments([]);
+      })
       .finally(() => {
         setLoadingTournaments(false);
       });
@@ -72,13 +76,17 @@ function PrivateClub() {
 
   const fetchRegistered = () => {
     axios
-      .get("/user/tournaments")
+      .get("/user/registered-tournaments")
       .then((res) => {
         if (res?.data?.success) {
           setRegistered(res?.data?.data);
+        } else {
+          setRegistered([]);
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        setRegistered([]);
+      })
       .finally(() => {
         setLoadingTournaments(false);
       });
@@ -113,7 +121,7 @@ function PrivateClub() {
       setCurrentList(
         registered.filter((value) => value.status === currentFilter)
       );
-  }, [currentFilter, tournaments, registered]);
+  }, [currentFilter, tournaments, currentTab, registered]);
 
   return loading ? (
     <div className="flex justify-center items-center h-[90vh]">
@@ -312,6 +320,7 @@ function PrivateClub() {
       )}
       {editModal && (
         <ClubForm
+          isEdit
           onClose={() => {
             setEditModal(false);
           }}

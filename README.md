@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+<a href="https://github.com/shamilkotta/offpitch_Frontend"><h1><b>offpitch</b></h1></a>
+<br>
+<a href="https://github.com/shamilkotta/offpitch_Frontend">
+<img src="https://img.shields.io/badge/status-active-success.svg" alt="Status">
+</a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## **About**
 
-## Available Scripts
+offpitch is a webplatform for managing football tournaments. Here users can host tournaments and manage the teams, matches, table, points ...etc. And for the teams they can create a club page, add players and then they can register for the tournaments. Also the tournament host can sell the ticket to the tournament through this platform
 
-In the project directory, you can run:
+<!-- ![image](https://user-images.githubusercontent.com/64640025/211061221-cdd72a97-87b0-4ae9-a66e-310be5d07250.png) -->
 
-### `yarn start`
+## **Getting Started**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### _Prerequisites_
 
-### `yarn test`
+Requirements you need to run the software and how to get them.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. [Git](https://git-scm.com/downloads)
+2. [NodeJs](https://nodejs.org/en/download)
+3. [yarn](https://yarnpkg.com/getting-started/install)
 
-### `yarn build`
+### _Installation_
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+A step by step series of examples that tell you how to get a development env running.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Clone this repository to your local system.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+git clone https://github.com/shamilkotta/offpitch_Frontend.git
+```
 
-### `yarn eject`
+Then go to this project directory by running command `cd offpitch_Frontend`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Firstly install the required packages
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+yarn install --frozen-lockfile
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Then start the dev server by executing
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+yarn start
+```
 
-## Learn More
+Now you can navigate to browser in url http://localhost:3000 (by default) to see the output.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### _Coding style tests_
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Check if any files need to be formatted, if the check fails that means some files needed to be formatted or have to do some fixes.
 
-### Code Splitting
+eslint
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+yarn run lint
+```
 
-### Analyzing the Bundle Size
+prettier
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+yarn run format:check
+```
 
-### Making a Progressive Web App
+To format all required code files
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+yarn run lint:fix
+yarn run format
+```
 
-### Advanced Configuration
+## **Contributing**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Read contributing instructions and guidlines from [here](/CONTRIBUTING.md).
 
-### Deployment
+## **Built Using**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [NodeJs](https://nodejs.org/en/)
+- [React](https://reactjs.org/docs/getting-started.html)
+- [Redux](https://redux-toolkit.js.org/introduction/getting-started)
 
-### `yarn build` fails to minify
+## **Author**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [@shamilkotta](https://github.com/shamilkotta)
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!

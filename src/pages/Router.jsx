@@ -17,6 +17,7 @@ import PublicTournament from "./Tournament/PublicTournament";
 import AdminAuthorization from "../components/Authorization/AdminAuthorization";
 import Clubs from "./Admin/Clubs";
 import AdminLayout from "../layouts/AdminLayout";
+import Users from "./Admin/Users";
 
 function Router() {
   return (
@@ -45,6 +46,8 @@ function Router() {
         {/* admin account */}
         <Route element={<AdminLayout />}>
           <Route path="/admin" element={<AdminAuthorization />}>
+            <Route path="/admin" element={<div />} />
+            <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/clubs" element={<Clubs />} />
           </Route>
         </Route>

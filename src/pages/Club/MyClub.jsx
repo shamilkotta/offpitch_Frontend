@@ -7,7 +7,12 @@ import PrivateClub from "../../components/Club/PrivateClub";
 function MyClub() {
   const auth = useSelector((state) => state.auth);
 
-  return auth?.club ? <PrivateClub /> : <NoClub />;
+  if (!auth?.club) return <NoClub />;
+
+  if (auth?.club && auth?.clubStatus !== "active")
+    return <NoClub status={auth?.clubStatus} />;
+
+  return <PrivateClub />;
 }
 
 export default MyClub;

@@ -8,7 +8,6 @@ import cameraIcon from "../../assets/icons/camera.svg";
 import playerSchema from "../../schema/user/playerSchema";
 import useAxiosPrivate from "../../hooks/userAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
-import useImageUploader from "../../hooks/useImageUploader";
 
 function PlayerFrom({ onClose, data, profile, reRender }) {
   const [showImgErr, setShowImgErr] = useState(false);
@@ -16,9 +15,7 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
   const ref = useRef();
   const [file, setFile] = useState(null);
   const [photoURL, setPhotoURL] = useState(profile);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const axios = useAxiosPrivate();
-  const uploadImageToCloudinary = useImageUploader();
 
   const handleUploadImage = (e) => {
     const image = e.target.files[0];
@@ -39,15 +36,21 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
       else {
         setLoading(true);
         setShowImgErr(false);
-        uploadImageToCloudinary({
-          file,
-          onProgress: (value) => {
-            setUploadProgress(value);
-          },
-        })
-          .then((res) =>
-            axios.post("/user/player", { ...values, imageData: res.photoData })
-          )
+        // create a formData
+        const formData = new FormData();
+        // add profile image to formData
+        formData.append("profile", file);
+        // add every values to formData
+        Object.entries(values).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        // post data
+        axios
+          .post("/user/player", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
           .then(() => {
             reRender();
             useSuccessToast({ message: "New player added successfully" });
@@ -65,7 +68,6 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
           })
           .finally(() => {
             setLoading(false);
-            setUploadProgress(0);
           });
       }
     },
@@ -151,14 +153,6 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
           </div>
         </div>
       </form>
-      {loading && (
-        <div className="w-full h-2 rounded mt-3 relative bg-slate-200">
-          <div
-            className="bg-primary h-2 rounded"
-            style={{ width: `${uploadProgress}%` }}
-          />
-        </div>
-      )}
       <div className="w-full mt-3 flex justify-end">
         <InputSubmit
           className="w-1/2"

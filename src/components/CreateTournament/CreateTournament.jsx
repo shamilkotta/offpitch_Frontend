@@ -10,7 +10,6 @@ import Registration from "./Registration";
 import Ticket from "./Ticket";
 import TournamentType from "./TournamentType";
 import tournamentValidation from "../../schema/user/tournament";
-import useImageUploader from "../../hooks/useImageUploader";
 import useAxiosPrivate from "../../hooks/userAxiosPrivate";
 import { useErrorToast } from "../../hooks/useToast";
 
@@ -20,7 +19,6 @@ function CreateTournament({ data }) {
   const auth = useSelector((state) => state.auth);
   const axios = useAxiosPrivate();
   const navigate = useNavigate();
-  const uploadImageToCloudinary = useImageUploader();
 
   const renderStep = (currentStep, props) => {
     setIsLastStep(false);
@@ -42,18 +40,21 @@ function CreateTournament({ data }) {
 
   const handleSubmit = (values) => {
     if (values.cover?.file) {
-      return uploadImageToCloudinary({
-        file: values.cover.file,
-      }).then((res) =>
-        axios.put("/user/tournament", {
-          ...values,
-          imageData: { ...res.photoData },
-        })
-      );
+      // create a formData
+      const formData = new FormData();
+      formData.append("cover", values.cover.file);
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      return axios.put("/user/tournament", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     }
     return axios.put("/user/tournament", {
       ...values,
-      photoData: values.cover?.url,
+      cover: values.cover?.url,
     });
   };
 
@@ -78,13 +79,9 @@ function CreateTournament({ data }) {
         cover: { ...prvs.cover, url: res.data?.data?.cover },
       }));
     } catch (err) {
-      const largErr = err?.response?.data?.error?.message;
-      if (largErr && largErr.split(".")[0] === "File size too large")
-        useErrorToast({ message: "Image size is too large" });
-      else
-        useErrorToast({
-          message: err?.response?.data?.message || "Something went wrong",
-        });
+      useErrorToast({
+        message: err?.response?.data?.message || "Something went wrong",
+      });
       throw new Error();
     }
   };

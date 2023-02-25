@@ -9,7 +9,6 @@ import InputFields, {
 import Modal from "../Modal/Modal";
 import cameraIcon from "../../assets/icons/camera.svg";
 import organizationSchema from "../../schema/user/organization";
-import useImageUploader from "../../hooks/useImageUploader";
 import useAxiosPrivate from "../../hooks/userAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 
@@ -22,9 +21,7 @@ function ClubForm({ onClose, data, profile, reRender, isEdit }) {
   const [file, setFile] = useState(null);
   const [doc, setDoc] = useState(null);
   const [photoURL, setPhotoURL] = useState(profile);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const axios = useAxiosPrivate();
-  const uploadImageToCloudinary = useImageUploader();
 
   const handleUploadImage = (e) => {
     const image = e.target.files[0];
@@ -40,22 +37,25 @@ function ClubForm({ onClose, data, profile, reRender, isEdit }) {
     if (gDoc) {
       setShowDocErr(false);
       setDoc(gDoc);
-      setPhotoURL(URL.createObjectURL(gDoc));
     }
   };
 
   const handleSubmit = (values) => {
-    if (file) {
-      return uploadImageToCloudinary({
-        file,
-        onProgress: (value) => {
-          setUploadProgress(value);
+    if (file || doc) {
+      const formData = new FormData();
+      if (file) formData.append("profile", file);
+      if (doc) formData.append("doc", doc);
+      // create a formData
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      return axios.put("/user/club", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      }).then((res) =>
-        axios.put("/user/club", { ...values, imageData: res.photoData })
-      );
+      });
     }
-    return axios.put("/user/club", { ...values, photoData: photoURL });
+    return axios.put("/user/club", { ...values, profile: photoURL });
   };
 
   const formik = useFormik({
@@ -88,7 +88,6 @@ function ClubForm({ onClose, data, profile, reRender, isEdit }) {
           })
           .finally(() => {
             setLoading(false);
-            setUploadProgress(0);
           });
       }
     },
@@ -235,14 +234,6 @@ function ClubForm({ onClose, data, profile, reRender, isEdit }) {
           </div>
         )}
       </form>
-      {uploadProgress > 1 && (
-        <div className="w-full h-2 rounded mt-3 relative bg-slate-200">
-          <div
-            className="bg-primary h-2 rounded"
-            style={{ width: `${uploadProgress}%` }}
-          />
-        </div>
-      )}
       <div className="w-full mt-4 flex justify-end">
         <InputSubmit
           className="w-1/2"

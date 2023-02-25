@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box, IconButton, Avatar, Menu } from "@mui/material";
 
 import useScrollPosition from "../../hooks/useScrollPosition";
 import arrowDownIcon from "../../assets/icons/arrow-down.svg";
-import { logoutApi } from "../../helpers/apis/auth";
-import { clearAuth } from "../../app/slices/authSlice";
+import useLogout from "../../hooks/useLogout";
 
 function AdminNavbar() {
   const scrollpos = useScrollPosition();
   const auth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   const location = useLocation();
+  const logout = useLogout();
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -84,8 +83,7 @@ function AdminNavbar() {
                 <button
                   type="button"
                   onClick={() => {
-                    dispatch(clearAuth());
-                    logoutApi();
+                    logout();
                   }}
                 >
                   <h6 className="py-2 px-3 text-base text-red-700">Logout</h6>

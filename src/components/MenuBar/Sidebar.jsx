@@ -2,15 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import { Drawer, Box } from "@mui/material";
+import { useSelector } from "react-redux";
 
-import { useDispatch, useSelector } from "react-redux";
-import { logoutApi } from "../../helpers/apis/auth";
-import { clearAuth } from "../../app/slices/authSlice";
+import useLogout from "../../hooks/useLogout";
 
 function Sidebar({ openState, close }) {
   const auth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   const location = useLocation();
+  const logout = useLogout();
 
   return (
     <Drawer anchor="left" open={openState} onClose={close}>
@@ -75,8 +74,7 @@ function Sidebar({ openState, close }) {
                 <button
                   type="button"
                   onClick={() => {
-                    dispatch(clearAuth());
-                    logoutApi();
+                    logout();
                   }}
                 >
                   <h6 className="py-2 px-3 text-red-700">Logout</h6>

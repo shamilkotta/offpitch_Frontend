@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box, IconButton, Avatar, Menu } from "@mui/material";
 
 import useScrollPosition from "../../hooks/useScrollPosition";
 import menuIcon from "../../assets/icons/menu.svg";
 import arrowDownIcon from "../../assets/icons/arrow-down.svg";
-import { logoutApi } from "../../helpers/apis/auth";
-import { clearAuth } from "../../app/slices/authSlice";
+import useLogout from "../../hooks/useLogout";
 
 function TopNav({ open }) {
   const scrollpos = useScrollPosition();
   const auth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const location = useLocation();
+  const logout = useLogout();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -139,8 +138,7 @@ function TopNav({ open }) {
                     <button
                       type="button"
                       onClick={() => {
-                        dispatch(clearAuth());
-                        logoutApi();
+                        logout();
                       }}
                     >
                       <h6 className="py-2 px-3 text-base text-red-700">

@@ -13,6 +13,7 @@ import MyClub from "./Club/MyClub";
 import NewTournament from "./Tournament/NewTournament";
 import EditTournament from "./Tournament/EditTournament";
 import ResetPassword from "./ResetPassword/ResetPassword";
+import PublicTournament from "./Tournament/PublicTournament";
 import AdminAuthorization from "../components/Authorization/AdminAuthorization";
 import Clubs from "./Admin/Clubs";
 import AdminLayout from "../layouts/AdminLayout";
@@ -27,6 +28,7 @@ function Router() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify-email" element={<OtpConfirmation />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/tournament/:id" element={<PublicTournament />} />
 
           {/* user account */}
           <Route path="/user" element={<UserAuthorization />}>

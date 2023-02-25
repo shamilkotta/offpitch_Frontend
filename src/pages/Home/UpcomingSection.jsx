@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import TournamentCard from "../../components/Cards/TournamentCard";
 import arrowIcon from "../../assets/icons/arrow.svg";
+import TournamentCardTwo from "../../components/Cards/TournamentCardTwo";
+import axios from "../../config/api";
 
 function UpcomingSection() {
-  const cards = [1, 2, 3, 4, 5];
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/tournaments?limit=4")
+      .then((res) => {
+        if (res.data.success) setCards(res.data.data.allTournaments);
+        else setCards([]);
+      })
+      .catch(() => setCards([]));
+  }, []);
+
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
@@ -14,10 +26,10 @@ function UpcomingSection() {
             Explore <img src={arrowIcon} alt="explore" />{" "}
           </p>
         </div>
-        <div className="grid grid-cols-1 min-[580px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-auto gap-2">
-          {cards.map(() => (
-            <TournamentCard />
-          ))}
+        <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[950px]:grid-cols-3 xl:grid-cols-4 auto-rows-auto gap-x-4 gap-y-2">
+          {cards.length
+            ? cards.map((ele) => <TournamentCardTwo data={ele} />)
+            : ""}
         </div>
       </div>
     </div>

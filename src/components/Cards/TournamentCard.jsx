@@ -8,16 +8,14 @@ import calendarIcon from "../../assets/icons/calendar-tick.svg";
 import editIcon from "../../assets/icons/edit.svg";
 import "./TournamentCard.scss";
 
-import bannerImg from "../../assets/img/soccor2.jpg";
-
 function TournamentCard({ data, showAvatar, showBookMark, showEditButton }) {
   const location = useLocation();
 
   return (
-    <div className=" w-full aspect-[4/5] h-[370px] border-2 rounded-md">
+    <div className=" w-full border-2 rounded-md">
       <div
-        className="w-full h-[180px] rounded-t-md bg-center bg-no-repeat bg-cover relative"
-        style={{ backgroundImage: `url('${data?.cover || bannerImg}')` }}
+        className="w-full aspect-[16/9] rounded-t-md bg-center bg-no-repeat bg-cover relative"
+        style={{ backgroundImage: `url('${data.cover}')` }}
       >
         <div className="bg-black/30 w-full h-full rounded-t-md" />
         <div className="absolute flex justify-between top-2 right-2 left-2">
@@ -60,11 +58,11 @@ function TournamentCard({ data, showAvatar, showBookMark, showEditButton }) {
           </div>
         </div>
       </div>
-      <div className="py-2 px-2">
+      <div className="py-2 px-2 h-[180px]">
         <p className="cursor-pointer text-lg leading-6 font-medium overflow-hidden text-ellipsis tournament-card_head">
           {data?.title}
         </p>
-        <div className="flex justify-between my-2 text-sm">
+        <div className="flex justify-start gap-x-5 my-2 text-sm">
           <div className="flex">
             <img alt="location" src={locationIcon} />{" "}
             <span className="ml-1 text-primary">{data?.location}</span>

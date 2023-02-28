@@ -119,6 +119,8 @@ CreateTournament.defaultProps = {
     description: "",
     instruction: "",
     no_teams: "",
+    registration_date: "",
+    min_no_players: "",
     max_no_players: "",
     registration_fee: {
       is: false,

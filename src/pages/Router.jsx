@@ -18,6 +18,7 @@ import AdminAuthorization from "../components/Authorization/AdminAuthorization";
 import Clubs from "./Admin/Clubs";
 import AdminLayout from "../layouts/AdminLayout";
 import Users from "./Admin/Users";
+import Explore from "./Explore/Explore";
 
 function Router() {
   return (
@@ -30,6 +31,7 @@ function Router() {
           <Route path="/verify-email" element={<OtpConfirmation />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/tournament/:id" element={<PublicTournament />} />
+          <Route path="/explore" element={<Explore />} />
 
           {/* user account */}
           <Route path="/user" element={<UserAuthorization />}>

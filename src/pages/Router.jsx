@@ -19,6 +19,7 @@ import Clubs from "./Admin/Clubs";
 import AdminLayout from "../layouts/AdminLayout";
 import Users from "./Admin/Users";
 import Explore from "./Explore/Explore";
+import AdminLogin from "./Login/AdminLogin";
 
 function Router() {
   return (
@@ -26,10 +27,14 @@ function Router() {
       <Route element={<PersistLogin />}>
         <Route path="/" element={<UserLayout />}>
           <Route path="/" element={<Home />} />
+
+          {/* auth */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify-email" element={<OtpConfirmation />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+
           <Route path="/tournament/:id" element={<PublicTournament />} />
           <Route path="/explore" element={<Explore />} />
 

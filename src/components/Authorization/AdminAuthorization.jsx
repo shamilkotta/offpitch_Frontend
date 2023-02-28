@@ -12,7 +12,7 @@ function AdminAuthorization() {
   ) : auth?.accessToken ? (
     <Navigate to="/not-found" replace />
   ) : (
-    <Navigate to="/login" state={{ from: location.pathname }} replace />
+    <Navigate to="/admin/login" state={{ from: location.pathname }} replace />
   );
 }
 

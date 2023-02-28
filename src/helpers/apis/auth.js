@@ -23,3 +23,10 @@ export const forgotPasswordApi = ({ email }) =>
 
 export const resetPasswordApi = ({ password, token }) =>
   axios.post("/auth/reset-password", { password, token });
+
+export const adminLoginApi = ({ email, password }) =>
+  axios.post(
+    "/auth/admin/login",
+    { email, password },
+    { withCredentials: true }
+  );

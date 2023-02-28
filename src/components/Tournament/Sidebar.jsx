@@ -28,8 +28,12 @@ function Sidebar({ data }) {
             />
           </button>
           <div className="whitespace-nowrap text-sm">
-            <p>{data?.time}</p>
-            <p>{data?.start_date}</p>
+            <p className="text-base font-medium">
+              {data?.start_date?.split(" ").slice(0, 2).join(" ")}
+            </p>
+            <p className="text-base -mt-1 font-medium">
+              {data?.start_date?.split(" ").splice(2)}
+            </p>
           </div>
         </div>
         <div className="flex gap-1">
@@ -40,9 +44,11 @@ function Sidebar({ data }) {
             <img src={location} alt="date" className="mx-auto h-full w-full" />
           </button>
           <div className="whitespace-nowrap  text-sm">
-            <p>{data?.place}</p>
-            <p>
-              {data?.location}, {data?.country}
+            <p className="text-base font-medium">
+              {data?.location?.split(",")[0]}
+            </p>
+            <p className="text-base -mt-1 font-medium">
+              {data?.location?.split(",").splice(1).join(",")}
             </p>
           </div>
         </div>

@@ -59,9 +59,13 @@ function TournamentCard({ data, showAvatar, showBookMark, showEditButton }) {
         </div>
       </div>
       <div className="py-2 px-2 h-[180px]">
-        <p className="cursor-pointer text-lg leading-6 font-medium overflow-hidden text-ellipsis tournament-card_head">
+        <Link
+          to={`/tournament/${data?._id}`}
+          state={{ from: location.pathname }}
+          className="cursor-pointer text-lg leading-6 font-medium overflow-hidden text-ellipsis tournament-card_head"
+        >
           {data?.title}
-        </p>
+        </Link>
         <div className="flex justify-start gap-x-5 my-2 text-sm">
           <div className="flex">
             <img alt="location" src={locationIcon} />{" "}
@@ -72,9 +76,13 @@ function TournamentCard({ data, showAvatar, showBookMark, showEditButton }) {
             <span className="ml-1 text-primary">{data?.start_date}</span>
           </div>
         </div>
-        <p className="cursor-pointer mb-2 text-ellipsis overflow-hidden tournament-card_desc">
+        <Link
+          to={`/tournament/${data?._id}`}
+          state={{ from: location.pathname }}
+          className="cursor-pointer mb-2 text-ellipsis overflow-hidden tournament-card_desc"
+        >
           {data?.short_description}
-        </p>
+        </Link>
       </div>
     </div>
   );

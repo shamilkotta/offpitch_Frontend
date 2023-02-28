@@ -45,12 +45,27 @@ export default [
       .required("No of teams can not be empty")
       .min(4, "Atleast 4 teams needed")
       .max(64, "Can only register upto 64 teams max"),
+    registration_date: yup
+      .date()
+      .typeError("Please add last date for registration")
+      .min(new Date(), "Enter a last date for registration")
+      .required("Last date can not be empty"),
+    min_no_players: yup
+      .number("Enter valid no of players")
+      .typeError("Enter valid no of palyers")
+      .required("No of players can not be empty")
+      .min(3, "3-a-side the minimum match")
+      .max(11, "Allowed only upto 11-a-side match"),
     max_no_players: yup
       .number("Enter valid no of players")
       .typeError("Enter valid no of palyers")
       .required("No of players can not be empty")
       .min(3, "3-a-side the minimum match")
-      .max(18, "Allowed only max upto 18 players"),
+      .max(18, "Allowed only max upto 18 players")
+      // eslint-disable-next-line func-names
+      .test("Valid no", "Can't be less than minimum", function (value) {
+        return value >= this.parent.min_no_players;
+      }),
     registration_fee: yup.object().shape({
       is: yup
         .boolean("Choose valid selection")

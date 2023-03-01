@@ -24,30 +24,6 @@ function Ticket({
         >
           Do you plan to sell tickets:{" "}
         </p>
-        {/* <div className="flex gap-x-4 items-center">
-          <InputRadio
-            className="text-slate-500"
-            value={1}
-            checked={values.have_tickets === true}
-            onChange={() => {
-              setFieldValue("have_tickets", true);
-            }}
-            label="Yes"
-            id="radio1"
-            name="have_tickets"
-          />
-          <InputRadio
-            className="text-slate-500"
-            label="No"
-            id="radio2"
-            name="have_tickets"
-            value={0}
-            checked={values.have_tickets === false}
-            onChange={() => {
-              setFieldValue("have_tickets", false);
-            }}
-          />
-        </div> */}
       </div>
 
       <div className="sm:h-12 border-y py-10 border-slate-200 flex flex-col min-[500px]:flex-row justify-between min-[500px]:items-center">
@@ -65,23 +41,14 @@ function Ticket({
           onChange={(e) => {
             setFieldValue("tickets.matchday_ticket.is", e.target.checked);
             if (!e.target.checked)
-              setFieldValue("tickets.matchday_ticket.amount", 0);
+              setFieldValue("tickets.matchday_ticket.amount", "");
+            setFieldValue("tickets.matchday_ticket.total", "");
           }}
           label="Matchday ticket"
           className="text-slate-500"
         />
         {values.tickets.matchday_ticket.is && (
-          <div className="flex gap-x-3 items-center">
-            <p
-              className={`${
-                errors.tickets?.matchday_ticket?.amount &&
-                touched.tickets?.matchday_ticket?.amount
-                  ? "text-red-600"
-                  : "text-slate-500"
-              }`}
-            >
-              Amount:{" "}
-            </p>
+          <div className="flex gap-x-3 items-center mt-2">
             <div>
               <InputFields
                 name="tickets.matchday_ticket.amount"
@@ -94,11 +61,24 @@ function Ticket({
                 }
                 type="number"
                 className="w-32"
-                holder=""
-                // disabled={!handleFeeAmount}
+                holder="Amount"
               />
             </div>
-            <p>₹</p>
+            <div>
+              <InputFields
+                name="tickets.matchday_ticket.total"
+                value={values.tickets.matchday_ticket.total}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={
+                  errors.tickets?.matchday_ticket?.total &&
+                  touched.tickets?.matchday_ticket?.total
+                }
+                type="number"
+                className="w-32"
+                holder="Count"
+              />
+            </div>
           </div>
         )}
       </div>
@@ -117,23 +97,14 @@ function Ticket({
           onChange={(e) => {
             setFieldValue("tickets.season_ticket.is", e.target.checked);
             if (!e.target.checked)
-              setFieldValue("ckets.season_ticket.amount", 0);
+              setFieldValue("tickets.season_ticket.amount", "");
+            setFieldValue("tickets.season_ticket.total", "");
           }}
           label="Season ticket"
           className="text-slate-500"
         />
         {values.tickets.season_ticket.is && (
-          <div className="flex gap-x-3 items-center">
-            <p
-              className={`${
-                errors.tickets?.season_ticket?.amount &&
-                touched.tickets?.season_ticket?.amount
-                  ? "text-red-600"
-                  : "text-slate-500"
-              }`}
-            >
-              Amount:{" "}
-            </p>
+          <div className="flex gap-x-3 items-center mt-2">
             <div>
               <InputFields
                 name="tickets.season_ticket.amount"
@@ -146,11 +117,24 @@ function Ticket({
                 }
                 type="number"
                 className="w-32"
-                holder=""
-                // disabled={!handleFeeAmount}
+                holder="Amount"
               />
             </div>
-            <p>₹</p>
+            <div>
+              <InputFields
+                name="tickets.season_ticket.total"
+                value={values.tickets.season_ticket.total}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={
+                  errors.tickets?.season_ticket?.total &&
+                  touched.tickets?.season_ticket?.total
+                }
+                type="number"
+                className="w-32"
+                holder="Count"
+              />
+            </div>
           </div>
         )}
       </div>

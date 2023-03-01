@@ -130,10 +130,12 @@ CreateTournament.defaultProps = {
       matchday_ticket: {
         is: false,
         amount: 0,
+        total: 0,
       },
       season_ticket: {
         is: false,
         amount: 0,
+        total: 0,
       },
     },
     tournament_type: "",

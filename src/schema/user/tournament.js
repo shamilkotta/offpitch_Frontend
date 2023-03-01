@@ -101,6 +101,14 @@ export default [
                 .required("Enter a valid fee amount")
                 .min(1, "Enter a valid amount"),
           }),
+        total: yup
+          .number("Enter total tickets count")
+          .typeError("Enter total tickets count")
+          .when("is", {
+            is: true,
+            then: (schema) =>
+              schema.required("Enter total count").min(1, "Enter total count"),
+          }),
       }),
 
       season_ticket: yup.object().shape({
@@ -116,6 +124,14 @@ export default [
               schema
                 .required("Enter a valid amount")
                 .min(1, "Enter a valid amount"),
+          }),
+        total: yup
+          .number("Enter total tickets count")
+          .typeError("Enter total tickets count")
+          .when("is", {
+            is: true,
+            then: (schema) =>
+              schema.required("Enter total count").min(1, "Enter total count"),
           }),
       }),
     }),

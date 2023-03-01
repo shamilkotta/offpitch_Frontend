@@ -164,15 +164,18 @@ function Explore() {
               </Menu>
             </Box>
           </div>
-          <InputFields
-            holder="Search"
-            name="search"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-            transform="w-full"
-          />
+          <div>
+            <InputFields
+              holder="Search"
+              name="search"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              transform="w-full sm:w-80"
+              className="w-full"
+            />
+          </div>
         </div>
       </div>
       <div className="relative">

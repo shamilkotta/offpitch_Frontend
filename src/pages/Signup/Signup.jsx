@@ -69,7 +69,7 @@ function Signup() {
               style={{ backgroundImage: `url('${signupImg}')` }}
             />
 
-            <div className="w-full sm:w-11/12 md:w-3/5 bg-white py-5 px-2 lg:px-5 rounded-lg lg:rounded-l-none mx-auto">
+            <div className="w-full sm:w-11/12 md:w-3/5 my-auto mt-10 bg-white py-5 px-2 lg:px-5 rounded-lg lg:rounded-l-none mx-auto">
               <h3 className="pt-4 text-2xl font-bold text-center">
                 Create an account
               </h3>

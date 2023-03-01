@@ -98,7 +98,7 @@ function Login() {
       <div className="py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
         <div className="flex justify-center px-2 sm:px-4 md:px-2 my-12">
           <div className="w-full xl:w-2/3 lg:w-3/4 flex rounded-xl shadow-lg  border-2">
-            <div className="w-full sm:w-11/12 md:w-3/5 bg-white py-5 px-2 lg:px-5 rounded-lg mx-auto">
+            <div className="w-full sm:w-11/12 md:w-3/5 my-auto mt-10 bg-white py-5 px-2 lg:px-5 rounded-lg mx-auto">
               <h3 className="pt-4 text-2xl font-bold text-center">
                 Hi, Welcome back
               </h3>

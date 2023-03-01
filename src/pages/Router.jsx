@@ -9,7 +9,7 @@ import Signup from "./Signup/Signup";
 import Notfound from "./Notfound";
 import UserAuthorization from "../components/Authorization/UserAuthorization";
 import PersistLogin from "../components/PersistLogin";
-import MyClub from "./Club/MyClub";
+import MyClub from "./User/MyClub";
 import NewTournament from "./Tournament/NewTournament";
 import EditTournament from "./Tournament/EditTournament";
 import ResetPassword from "./ResetPassword/ResetPassword";
@@ -20,6 +20,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import Users from "./Admin/Users";
 import Explore from "./Explore/Explore";
 import AdminLogin from "./Login/AdminLogin";
+import Profile from "./User/Profile";
 
 function Router() {
   return (
@@ -40,7 +41,7 @@ function Router() {
 
           {/* user account */}
           <Route path="/user" element={<UserAuthorization />}>
-            <Route path="/user" />
+            <Route path="/user" element={<Profile />} />
             <Route path="/user/club" element={<MyClub />} />
             <Route path="/user/tournament/new" element={<NewTournament />} />
             <Route

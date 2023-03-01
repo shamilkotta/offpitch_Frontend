@@ -30,7 +30,7 @@ function Registration({
           holder="Instruction for clubs"
           rows={8}
         />
-        <div className="min-[440px]:flex gap-y-2 mb-1 w-full">
+        <div className="min-[440px]:flex gap-y-2 w-full">
           <InputFields
             name="no_teams"
             value={values.no_teams}
@@ -39,10 +39,43 @@ function Registration({
             errorMsg={
               errors.no_teams && touched.no_teams ? errors.no_teams : ""
             }
-            holder="No of registration"
+            holder="Max no of registration"
             type="number"
             className="h-12"
-            transform="mr-2 mb-3 min-[440px]:mb-0 w-full"
+            transform="mr-2 mb-2 min-[440px]:mb-0 w-full"
+            maxLength="160"
+          />
+          <InputFields
+            name="registration_date"
+            className="h-12"
+            transform="w-full "
+            holder="Last date for registration"
+            value={values.registration_date}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            errorMsg={
+              errors.registration_date && touched.registration_date
+                ? errors.registration_date
+                : ""
+            }
+            type="date"
+          />
+        </div>
+        <div className="min-[440px]:flex gap-y-2 mb-1 w-full">
+          <InputFields
+            name="min_no_players"
+            value={values.min_no_players}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            errorMsg={
+              errors.min_no_players && touched.min_no_players
+                ? errors.min_no_players
+                : ""
+            }
+            holder="Min no of players"
+            type="number"
+            className="h-12"
+            transform="w-full mr-2 mb-2 min-[440px]:mb-0 "
             maxLength="160"
           />
           <InputFields

@@ -6,51 +6,66 @@ export default [
     cover: yup
       .object()
       .shape({
-        url: yup.string().trim().required("Cover image can not be emtpty"),
+        url: yup.string().trim().required("Image can not be emtpty"),
       })
-      .typeError("Cover image can not be empty"),
+      .typeError("Image can not be empty"),
     title: yup
       .string()
       .trim()
       .required("Title can not be empty")
-      .min(10, "Too short"),
+      .min(10, "Atleast 10 characters"),
     short_description: yup
       .string()
       .trim()
       .required("Description can not be empty")
-      .min(200, "Too short")
+      .min(200, "Atleast 200 characters")
       .max(400, "Too long, maximum of 400 characters"),
     start_date: yup
       .date()
-      .typeError("Please add valid starting date")
-      .min(new Date(), "Enter a valid starting date")
+      .typeError("Enter valid date")
+      .min(new Date(), "Enter a valid date")
       .required("Starting date can not be empty"),
     location: yup.string().trim().required("Location can not be empty"),
     description: yup
       .string()
       .trim()
       .required("About section can not be empty")
-      .min(500, "Too short"),
+      .min(500, "Atleast 500 characters"),
   }),
   // step 2
   yup.object().shape({
     instruction: yup
       .string()
       .trim()
-      .required("About section can not be empty")
-      .min(500, "Too short"),
+      .required("Instructions can not be empty")
+      .min(500, "Atleast 500 characters"),
     no_teams: yup
-      .number("Enter no of teams that can be registerd")
-      .typeError("Enter no of teams that can be registerd")
-      .required("No of teams can not be empty")
+      .number("Number of  registration")
+      .typeError("Number of  registration")
+      .required("No of registration can not be empty")
       .min(4, "Atleast 4 teams needed")
       .max(64, "Can only register upto 64 teams max"),
-    max_no_players: yup
-      .number("Enter valid no of players")
-      .typeError("Enter valid no of palyers")
+    registration_date: yup
+      .date()
+      .typeError("Enter last date of registration")
+      .min(new Date(), "Enter last date of registration")
+      .required("Last date can not be empty"),
+    min_no_players: yup
+      .number("Enter valid number")
+      .typeError("Enter valid number")
       .required("No of players can not be empty")
       .min(3, "3-a-side the minimum match")
-      .max(18, "Allowed only max upto 18 players"),
+      .max(11, "Only upto 11-a-side match"),
+    max_no_players: yup
+      .number("Enter valid number")
+      .typeError("Enter valid number")
+      .required("No of players can not be empty")
+      .min(3, "3-a-side the minimum match")
+      .max(18, "Only max upto 18 players")
+      // eslint-disable-next-line func-names
+      .test("Valid no", "Can't be less than minimum", function (value) {
+        return value >= this.parent.min_no_players;
+      }),
     registration_fee: yup.object().shape({
       is: yup
         .boolean("Choose valid selection")
@@ -86,6 +101,14 @@ export default [
                 .required("Enter a valid fee amount")
                 .min(1, "Enter a valid amount"),
           }),
+        total: yup
+          .number("Enter total tickets count")
+          .typeError("Enter total tickets count")
+          .when("is", {
+            is: true,
+            then: (schema) =>
+              schema.required("Enter total count").min(1, "Enter total count"),
+          }),
       }),
 
       season_ticket: yup.object().shape({
@@ -101,6 +124,14 @@ export default [
               schema
                 .required("Enter a valid amount")
                 .min(1, "Enter a valid amount"),
+          }),
+        total: yup
+          .number("Enter total tickets count")
+          .typeError("Enter total tickets count")
+          .when("is", {
+            is: true,
+            then: (schema) =>
+              schema.required("Enter total count").min(1, "Enter total count"),
           }),
       }),
     }),

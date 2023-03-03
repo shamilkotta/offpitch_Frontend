@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import calendarIcon from "../../assets/icons/calendar-tick-dark.svg";
 import locationIcon from "../../assets/icons/location-dark.svg";
 import ticketIcon from "../../assets/icons/ticket.svg";
 import calendarIconLight from "../../assets/icons/calendar-tick.svg";
-import location from "../../assets/icons/location.svg";
+import locationIconLight from "../../assets/icons/location.svg";
 import clockIcon from "../../assets/icons/clock.svg";
 import { InputSubmit } from "../InputFields/InputFields";
+import RegisterForm from "./RegisterForm";
 
 function Sidebar({ data }) {
+  const [registerModal, setRegisterModal] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(data?.isRegistered);
+  const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <div className="mx-auto md:px-3 md:max-w-[450px] mb-6">
       <div className="mb-6">
@@ -41,7 +50,11 @@ function Sidebar({ data }) {
             type="button"
             className="bg-slate-200/70 p-3 aspect-square h-full rounded"
           >
-            <img src={location} alt="date" className="mx-auto h-full w-full" />
+            <img
+              src={locationIconLight}
+              alt="date"
+              className="mx-auto h-full w-full"
+            />
           </button>
           <div className="whitespace-nowrap  text-sm">
             <p className="text-base font-medium">
@@ -104,7 +117,7 @@ function Sidebar({ data }) {
               <InputSubmit
                 type="button"
                 value="Buy now"
-                className="w-1/3 min-w-[100px]"
+                className="w-1/3 min-w-[100px] h-9"
               />
             </div>
           </div>
@@ -113,40 +126,57 @@ function Sidebar({ data }) {
         <div />
       )}
 
-      <div className="my-10">
-        <p className="text-xl font-semibold mb-3">Register you team</p>
-        <div className="rounded-lg py-2 px-3">
-          <div className="flex justify-between items-start gap-x-4 gap-y-4">
-            <div className="flex items-start gap-x-1">
-              <img src={clockIcon} alt="last date" className="self-start" />
-              <div className="">
-                <p className="text-sm">Last date </p>
-                <p className="text-sm">{data?.start_date}</p>
+      {!isRegistered && (
+        <div className="my-10">
+          <p className="text-xl font-semibold mb-3">Register you team</p>
+          <div className="rounded-lg py-2 px-3">
+            <div className="flex justify-between items-start gap-x-4 gap-y-4">
+              <div className="flex items-start gap-x-1">
+                <img src={clockIcon} alt="last date" className="self-start" />
+                <div className="">
+                  <p className="text-sm">Last date </p>
+                  <p className="text-sm">{data?.registration_date}</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-start gap-x-1">
-              <img src={ticketIcon} alt="calendar" className="w-4" />
-              <div>
-                <p className="text-sm">Fee </p>
-                <p className="">
-                  ₹
-                  <span className="text-3xl font-semibold">
-                    {data?.registration_fee?.amount}
-                  </span>
-                </p>
+              <div className="flex items-start gap-x-1">
+                <img src={ticketIcon} alt="calendar" className="w-4" />
+                <div>
+                  <p className="text-sm">Fee </p>
+                  <p className="">
+                    ₹
+                    <span className="text-3xl font-semibold">
+                      {data?.registration_fee?.amount}
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex mt-4  justify-end">
-            <InputSubmit
-              type="button"
-              value="Register now"
-              className="w-1/3 min-w-[130px]"
-            />
+            <div className="flex mt-4  justify-end">
+              <InputSubmit
+                type="button"
+                value="Register now"
+                className="w-1/3 min-w-[130px] h-9"
+                onClick={() => {
+                  if (!auth.name)
+                    navigate("/login", { state: { from: location.pathname } });
+                  else setRegisterModal(true);
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {registerModal && (
+        <RegisterForm
+          data={data}
+          setIsRegistered={setIsRegistered}
+          close={() => {
+            setRegisterModal(false);
+          }}
+        />
+      )}
     </div>
   );
 }

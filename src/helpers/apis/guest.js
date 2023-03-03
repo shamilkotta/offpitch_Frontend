@@ -5,4 +5,11 @@ export const getTournaments = async (query) => {
   return result;
 };
 
-export const hi = "";
+export const getTournament = async (id, auth) => {
+  const result = await axios.get(`/tournament/${id}`, {
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+  });
+  return result;
+};

@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import axios from "../../config/api";
 import About from "../../components/Tournament/About";
 import Header from "../../components/Tournament/Header";
 import Sidebar from "../../components/Tournament/Sidebar";
 import Notfound from "../Notfound";
 import spinnerIcon from "../../assets/icons/spinner.svg";
+import { getTournament } from "../../helpers/apis/guest";
 
 function PublicTournament() {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [dataFound, setDataFound] = useState(false);
   const [loading, setLoading] = useState(false);
+  const auth = useSelector((state) => state.auth);
 
   const fetchTournament = () => {
-    axios
-      .get(`/tournament/${id}`)
+    getTournament(id, auth)
       .then((res) => {
         if (res.data.success) {
           setDataFound(true);

@@ -21,7 +21,7 @@ function Modal({ closeOnOutSide, closeModal, showWarning, children }) {
       />
       <div className="relative bg-white border flex flex-col rounded-sm w-fit min-w-[300px] mx-auto my-auto z-20 max-w-[calc(100%-2rem)] h-fit min-h-[120px] max-h-[90vh] py-4 px-4 shadow-lg box-border">
         {closeAlert && (
-          <div className="absolute z-10 bg-white/90 top-0 bottom-0 left-0 right-0 box-border flex justify-center">
+          <div className="absolute z-20 bg-white/90 top-0 bottom-0 left-0 right-0 box-border flex justify-center">
             <div className="my-auto mx-auto">
               <h1 className="text-lg mx-auto w-full mb-3">Are you sure?</h1>
               <div>

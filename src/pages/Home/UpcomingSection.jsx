@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import arrowIcon from "../../assets/icons/arrow.svg";
 import TournamentCardTwo from "../../components/Cards/TournamentCardTwo";
-import axios from "../../config/api";
+import { getTournaments } from "../../helpers/apis/guest";
 
 function UpcomingSection() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/tournaments?limit=4")
+    getTournaments("limit=4")
       .then((res) => {
         if (res.data.success) setCards(res.data.data.allTournaments);
         else setCards([]);

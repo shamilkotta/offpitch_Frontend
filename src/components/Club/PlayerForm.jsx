@@ -16,6 +16,9 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
   const [file, setFile] = useState(null);
   const [photoURL, setPhotoURL] = useState(profile);
   const axios = useAxiosPrivate();
+  const docRef = useRef();
+  const [doc, setDoc] = useState(null);
+  const [showDocErr, setShowDocErr] = useState(false);
 
   const handleUploadImage = (e) => {
     const image = e.target.files[0];
@@ -26,6 +29,14 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
     }
   };
 
+  const handleUploadDoc = (e) => {
+    const gDoc = e.target.files[0];
+    if (gDoc) {
+      setShowDocErr(false);
+      setDoc(gDoc);
+    }
+  };
+
   const formik = useFormik({
     initialValues: data,
 
@@ -33,13 +44,15 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
 
     onSubmit: (values, { resetForm }) => {
       if (!file) setShowImgErr(true);
+      else if (!doc) setShowDocErr(true);
       else {
         setLoading(true);
         setShowImgErr(false);
         // create a formData
         const formData = new FormData();
-        // add profile image to formData
+        // add files to formData
         formData.append("profile", file);
+        formData.append("doc", doc);
         // add every values to formData
         Object.entries(values).forEach(([key, value]) => {
           formData.append(key, value);
@@ -119,7 +132,7 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
           <div className="col-start-1 col-end-2 row-start-1 row-end-2 w-full">
             <InputFields
               className="h-12"
-              transform="w-[80vw] sm:w-80"
+              transform="w-[80vw] sm:w-96"
               type="text"
               holder="Name"
               name="name"
@@ -150,6 +163,39 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
                   : ""
               }
             />
+          </div>
+          <div className="col-start-1 col-end-2 row-start-3 row-end-4 w-full">
+            <p
+              className={`text-sm ${
+                showDocErr ? "text-red-500" : "text-gray-500 "
+              } flex flex-wrap w-[80vw] sm:w-96`}
+            >
+              Choose a scanned age proof
+            </p>
+            <div className="flex items-center gap-x-3 flex-wrap w-[80vw] sm:w-full">
+              <input
+                type="file"
+                name="profile"
+                ref={docRef}
+                accept="application/pdf"
+                style={{ display: "none" }}
+                onChange={handleUploadDoc}
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  docRef.current.click();
+                }}
+                className={` border ${
+                  showDocErr
+                    ? "border-red-500 text-red-600"
+                    : "border-slate-200 text-black"
+                } bg-slate-200 px-3 py-2 rounded`}
+              >
+                Certificate
+              </button>
+              <div>{doc?.name}</div>
+            </div>
           </div>
         </div>
       </form>

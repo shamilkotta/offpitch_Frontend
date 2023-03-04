@@ -36,7 +36,7 @@ function Carousel() {
       );
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides]);
 
   const handleDotClick = (index) => {
     setCurrentSlide(index);

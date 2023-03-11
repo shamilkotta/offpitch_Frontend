@@ -36,19 +36,20 @@ function TopNav({ open }) {
             <img src={menuIcon} alt="menu" />
           </li>
           <li>
-            <img
-              src="/logo.svg"
-              alt="offpitch"
-              className="hidden sm:block"
-              width="110"
-              height="100"
-            />
+            <Link to="/" state={{ from: location.pathname }}>
+              <img
+                src="/logo.svg"
+                alt="offpitch"
+                className="hidden sm:block"
+                width="150"
+              />
+            </Link>
           </li>
         </ul>
         <ul className="flex justify-between items-center gap-x-5">
           <li className="sm:hidden md:block">
             <Link to="/" state={{ from: location.pathname }}>
-              <img src="/logo.svg" alt="offpitch" width="110" height="100" />
+              <img src="/logo.svg" alt="offpitch" width="150" />
             </Link>
           </li>
           <li className="hidden md:block ">
@@ -70,7 +71,10 @@ function TopNav({ open }) {
               </Link>
             </li>
 
-            <Box sx={{ flexGrow: 0 }}>
+            <Box
+              sx={{ flexGrow: 0 }}
+              className="invisible sm:hidden sm:visible md:block"
+            >
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt={auth.name}

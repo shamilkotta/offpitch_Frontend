@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import { InputSubmit } from "../InputFields/InputFields";
 import useAxiosPrivate from "../../hooks/userAxiosPrivate";
-import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
+import { useErrorToast } from "../../hooks/useToast";
 import InputCheckBox from "../InputFields/InputCheckBox";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 
-function RegisterForm({ close, data, setIsRegistered }) {
+function RegisterForm({ close, data, setIsRegistered, showMessage }) {
   const [players, setPlayers] = useState([]);
   const auth = useSelector((state) => state.auth);
   const axios = useAxiosPrivate();
@@ -21,6 +21,7 @@ function RegisterForm({ close, data, setIsRegistered }) {
   const [acceptTC, setAcceptTC] = useState(false);
   const [fetchingPlayers, setFetchingPlayers] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [order, setOrder] = useState({ amount: "", id: "" });
   const [haveClub, setHaveClub] = useState(
     auth?.club && auth?.clubStatus === "active"
   );
@@ -40,25 +41,107 @@ function RegisterForm({ close, data, setIsRegistered }) {
     else setStep(2);
   };
 
-  const handleSubmit = () => {
+  // adding razorpay script to body
+  useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const saveData = ({ amount, orderId }) => {
+    const options = {
+      key: "rzp_test_yrNP9XZJenorHu",
+      amount: amount * 100,
+      currency: "INR",
+      name: "offpitch",
+      description: "Fee payment",
+      image: "/logo-sm.svg",
+      order_id: orderId,
+      handler(response) {
+        // on successfull saving data
+        axios
+          .post(`/user/tournament/${data._id}/fee`, { ...response })
+          .then(() => {
+            setIsRegistered(true);
+            showMessage({
+              type: "success",
+              message: "Registered successfully",
+            });
+            close();
+          })
+          .catch(() => {
+            showMessage({
+              type: "error",
+              message: "Something went wrong, contact support center",
+            });
+            close();
+          })
+          .finally(() => {
+            setSubmitting(false);
+          });
+      },
+      theme: {
+        color: "#F2811D",
+      },
+    };
+    // eslint-disable-next-line no-undef
+    const rzp = new Razorpay(options);
+    rzp.open();
+  };
+
+  const handleSubmit = async () => {
     setSubmitting(true);
-    axios
-      .post(`/user/tournament/${data._id}/register`, {
-        players: selectedPlayers,
-      })
-      .then((res) => {
-        if (res?.data?.success) useSuccessToast({ message: res?.dat?.message });
-        setIsRegistered(true);
-        close();
-      })
-      .catch((err) => {
-        useErrorToast({
-          message: err?.response?.data?.message || "Something went wrong",
+
+    try {
+      if (order?.id) saveData({ amount: order.amount, orderId: order.id });
+      else {
+        // generate invoice
+        const res = await axios.post(`/user/tournament/${data._id}/register`, {
+          players: selectedPlayers,
         });
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
+
+        if (res.data?.success && res.data?.data?.amount > 0) {
+          setIsRegistered(true);
+          setOrder({
+            amount: res.data?.data.amount,
+            id: res.data?.data.order_id,
+          });
+          saveData({
+            amount: res.data?.data?.amount,
+            orderId: res.data?.data.order_id,
+          });
+        } else {
+          setIsRegistered(true);
+          showMessage({
+            type: "success",
+            message: "Registered successfully",
+          });
+          close();
+        }
+      }
+    } catch (err) {
+      if (err?.response?.data?.message === "Partial completion") {
+        setIsRegistered(true);
+        showMessage({
+          type: "error",
+          message:
+            "Something went wrong, complete the process form your profile",
+        });
+        close();
+      } else
+        useErrorToast({
+          message:
+            err?.response?.data?.message || "Something went wrong, try again",
+        });
+      setSubmitting(false);
+    }
   };
 
   const fetchPlayers = async () => {
@@ -85,7 +168,18 @@ function RegisterForm({ close, data, setIsRegistered }) {
   }, []);
 
   return (
-    <Modal closeOnOutSide closeModal={close}>
+    <Modal
+      closeOnOutSide
+      closeModal={() => {
+        if (order?.id) {
+          showMessage({
+            type: "success",
+            message: "You can complete payment in your profile",
+          });
+          close();
+        } else close();
+      }}
+    >
       <div className=" w-[80vw] sm:w-[600px]">
         {haveClub ? (
           step === 1 ? (
@@ -203,7 +297,7 @@ function RegisterForm({ close, data, setIsRegistered }) {
           )
         ) : (
           <div className="flex justify-center items-center flex-wrap">
-            <h1>You don&apose;t have a club, </h1>
+            <h1>You don&apos;t have a club, &nbsp;</h1>
             <Link to="/user/club" className="text-primary">
               {" "}
               Create new
@@ -219,6 +313,7 @@ RegisterForm.propTypes = {
   close: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   setIsRegistered: PropTypes.func.isRequired,
+  showMessage: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;

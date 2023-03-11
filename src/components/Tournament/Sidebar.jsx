@@ -11,6 +11,7 @@ import locationIconLight from "../../assets/icons/location.svg";
 import clockIcon from "../../assets/icons/clock.svg";
 import { InputSubmit } from "../InputFields/InputFields";
 import RegisterForm from "./RegisterForm";
+import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 
 function Sidebar({ data }) {
   const [registerModal, setRegisterModal] = useState(false);
@@ -172,6 +173,11 @@ function Sidebar({ data }) {
         <RegisterForm
           data={data}
           setIsRegistered={setIsRegistered}
+          showMessage={(arg) => {
+            if (arg.type === "success")
+              useSuccessToast({ message: arg.message });
+            else useErrorToast({ message: arg.message });
+          }}
           close={() => {
             setRegisterModal(false);
           }}

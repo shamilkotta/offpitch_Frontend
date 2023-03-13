@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
 
 import NoClub from "../../components/Club/NoClub";
-import PrivateClub from "../../components/Club/PrivateClub";
 
 function MyClub() {
   const auth = useSelector((state) => state.auth);
@@ -12,7 +12,7 @@ function MyClub() {
   if (auth?.club && auth?.clubStatus !== "active")
     return <NoClub status={auth?.clubStatus} />;
 
-  return <PrivateClub />;
+  return <Outlet />;
 }
 
 export default MyClub;

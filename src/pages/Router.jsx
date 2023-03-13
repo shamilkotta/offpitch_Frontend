@@ -21,6 +21,8 @@ import Users from "./Admin/Users";
 import Explore from "./Explore/Explore";
 import AdminLogin from "./Login/AdminLogin";
 import Profile from "./User/Profile";
+import PrivateClub from "../components/Club/PrivateClub";
+import Tournaments from "../components/Club/Tournaments";
 
 function Router() {
   return (
@@ -42,7 +44,10 @@ function Router() {
           {/* user account */}
           <Route path="/user" element={<UserAuthorization />}>
             <Route path="/user" element={<Profile />} />
-            <Route path="/user/club" element={<MyClub />} />
+            <Route path="/user/club" element={<MyClub />}>
+              <Route path="/user/club" element={<PrivateClub />} />
+              <Route path="/user/club/tournaments" element={<Tournaments />} />
+            </Route>
             <Route path="/user/tournament/new" element={<NewTournament />} />
             <Route
               path="/user/tournament/:id/edit"

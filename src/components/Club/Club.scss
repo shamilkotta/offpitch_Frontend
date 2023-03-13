@@ -1,0 +1,18 @@
+.club-description-show-less {
+  max-height: calc(3 * 1em * 1.4);
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.club-description-show-more {
+  max-height: auto;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.tournament-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

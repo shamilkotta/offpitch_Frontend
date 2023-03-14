@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import arrowIcon from "../../assets/icons/arrow.svg";
 import TournamentCardTwo from "../../components/Cards/TournamentCardTwo";
@@ -21,9 +22,9 @@ function UpcomingSection() {
       <div className="flex flex-col py-10 px-5 sm:p-10 max-w-[1500px] mx-auto box-border">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-bold">Upcoming</h3>
-          <p className="flex gap-x-2 cursor-pointer">
+          <Link to="/explore" className="flex gap-x-2 cursor-pointer">
             Explore <img src={arrowIcon} alt="explore" />{" "}
-          </p>
+          </Link>
         </div>
         <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[950px]:grid-cols-3 xl:grid-cols-4 auto-rows-auto gap-x-4 gap-y-2">
           {cards.length

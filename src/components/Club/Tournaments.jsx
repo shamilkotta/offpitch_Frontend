@@ -16,6 +16,7 @@ function Tournaments() {
   const [registered, setRegistered] = useState([]);
   const [draft, setDraft] = useState([]);
   const [live, setLive] = useState([]);
+  const [pendingReg, setPendingReg] = useState([]);
   const axios = useAxiosPrivate();
   const location = useLocation();
   const [currentTab, setCurrentTab] = useState(
@@ -52,6 +53,9 @@ function Tournaments() {
       .then((res) => {
         if (res?.data?.success) {
           setRegistered(res?.data?.data);
+          setPendingReg(
+            res?.data?.data.filter((value) => value.status === "pending")
+          );
         } else {
           setRegistered([]);
         }
@@ -316,8 +320,29 @@ function Tournaments() {
                 </>
               ) : (
                 <div>
-                  <h1>Upcoming matches :</h1>
+                  <h1>Pending :</h1>
                   <hr />
+                  {pendingReg.map((ele) => (
+                    <Link
+                      key={ele._id}
+                      to={`/user/tournament/${ele?._id}/edit`}
+                      className="flex gap-x-2 px-2 items-center rounded-md mt-1 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-50 box-border"
+                    >
+                      <img
+                        src={ele.cover}
+                        className="rounded-full w-8 h-8"
+                        alt="s"
+                      />
+                      <div className="py-2">
+                        <p className="text-sm sm:text-base overflow-hidden text-ellipsis tournament-title">
+                          {ele.title}
+                        </p>
+                        <p className="-mt-1 text-slate-400 text-sm">
+                          Last date : {ele.last_date}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>

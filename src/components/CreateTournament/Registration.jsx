@@ -13,7 +13,7 @@ function Registration({
   setFieldValue,
 }) {
   const [handleFeeAmount, setHandleFeeAmount] = useState(
-    values.registration_fee.is
+    values.registration?.fee?.is
   );
 
   return (
@@ -46,16 +46,16 @@ function Registration({
             maxLength="160"
           />
           <InputFields
-            name="registration_date"
+            name="registration.last_date"
             className="h-12"
             transform="w-full "
             holder="Last date for registration"
-            value={values.registration_date}
+            value={values.registration?.last_date}
             onChange={handleChange}
             onBlur={handleBlur}
             errorMsg={
-              errors.registration_date && touched.registration_date
-                ? errors.registration_date
+              errors.registration?.last_date && touched.registration?.last_date
+                ? errors.registration?.last_date
                 : ""
             }
             type="date"
@@ -98,19 +98,19 @@ function Registration({
         <div className="sm:h-12 my-3 min-[500px]:my-1 border-slate-300 flex flex-col min-[500px]:flex-row justify-between min-[500px]:items-center">
           <InputCheckBox
             id="registration_fee"
-            name="registration_fee.is"
+            name="registration.fee.is"
             onBlur={handleBlur}
             errorMsg={
-              errors.registration_fee?.is && touched.registration_fee?.is
-                ? errors.registration_fee?.is
+              errors.registration?.fee?.is && touched.registration?.fee?.is
+                ? errors.registration?.fee?.is
                 : ""
             }
-            checked={values.registration_fee.is}
+            checked={values.registration?.fee?.is}
             onChange={(e) => {
               setHandleFeeAmount(e.target.checked);
-              setFieldValue("registration_fee.is", e.target.checked);
+              setFieldValue("registration.fee.is", e.target.checked);
               if (!e.target.checked)
-                setFieldValue("registration_fee.amount", 0);
+                setFieldValue("registration.fee.amount", 0);
             }}
             label="Registration fee"
             className="text-slate-500"
@@ -119,8 +119,8 @@ function Registration({
             <div className="flex gap-x-3 items-center">
               <p
                 className={`${
-                  errors.registration_fee?.amount &&
-                  touched.registration_fee?.amount
+                  errors.registration?.fee?.amount &&
+                  touched.registration?.fee?.amount
                     ? "text-red-600"
                     : "text-slate-500"
                 }`}
@@ -129,13 +129,13 @@ function Registration({
               </p>
               <div>
                 <InputFields
-                  name="registration_fee.amount"
-                  value={values.registration_fee.amount}
+                  name="registration.fee.amount"
+                  value={values.registration?.fee?.amount}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={
-                    errors.registration_fee?.amount &&
-                    touched.registration_fee?.amount
+                    errors.registration?.fee?.amount &&
+                    touched.registration?.fee?.amount
                   }
                   type="number"
                   className="w-32"

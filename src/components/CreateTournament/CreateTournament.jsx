@@ -65,7 +65,7 @@ function CreateTournament({ data }) {
       const res = await handleSubmit(formData);
 
       // last submit
-      if (isLastStep) navigate("/user/club");
+      if (isLastStep) navigate("/user/club/tournaments");
 
       // changing values in form data
       actions.setFieldValue("cover.file", null);

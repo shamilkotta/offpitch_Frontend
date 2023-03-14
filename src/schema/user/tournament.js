@@ -45,11 +45,30 @@ export default [
       .required("No of registration can not be empty")
       .min(4, "Atleast 4 teams needed")
       .max(64, "Can only register upto 64 teams max"),
-    registration_date: yup
-      .date()
-      .typeError("Enter last date of registration")
-      .min(new Date(), "Enter last date of registration")
-      .required("Last date can not be empty"),
+    registration: yup.object().shape({
+      last_date: yup
+        .date()
+        .typeError("Enter last date of registration")
+        .min(new Date(), "Enter last date of registration")
+        .required("Last date can not be empty"),
+      fee: yup.object().shape({
+        is: yup
+          .boolean("Choose valid selection")
+          .typeError("Choose valid selection")
+          .required("Choose valid selection")
+          .default(false),
+        amount: yup
+          .number("Enter a valid amount")
+          .typeError("Enter a valid amount")
+          .when("is", {
+            is: true,
+            then: (schema) =>
+              schema
+                .required("Enter a valid fee amount")
+                .min(1, "Enter a valid amount"),
+          }),
+      }),
+    }),
     min_no_players: yup
       .number("Enter valid number")
       .typeError("Enter valid number")
@@ -66,23 +85,6 @@ export default [
       .test("Valid no", "Can't be less than minimum", function (value) {
         return value >= this.parent.min_no_players;
       }),
-    registration_fee: yup.object().shape({
-      is: yup
-        .boolean("Choose valid selection")
-        .typeError("Choose valid selection")
-        .required("Choose valid selection")
-        .default(false),
-      amount: yup
-        .number("Enter a valid amount")
-        .typeError("Enter a valid amount")
-        .when("is", {
-          is: true,
-          then: (schema) =>
-            schema
-              .required("Enter a valid fee amount")
-              .min(1, "Enter a valid amount"),
-        }),
-    }),
   }),
   // step 3
   yup.object().shape({

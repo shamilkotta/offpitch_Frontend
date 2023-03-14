@@ -191,7 +191,7 @@ function RegisterForm({ close, data, setIsRegistered, showMessage }) {
                   <p className="text-gray-500">
                     Last date :{" "}
                     <span className="text-base text-black">
-                      {data?.registration_date}
+                      {data?.registration?.last_date}
                     </span>
                   </p>
                 </div>
@@ -199,7 +199,7 @@ function RegisterForm({ close, data, setIsRegistered, showMessage }) {
                   <p className="text-gray-500">
                     Fee : ₹
                     <span className="text-base text-black">
-                      {data?.registration_fee?.amount}
+                      {data?.registration?.fee?.amount}
                     </span>
                   </p>
                 </div>

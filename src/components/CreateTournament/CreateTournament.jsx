@@ -10,7 +10,7 @@ import Registration from "./Registration";
 import Ticket from "./Ticket";
 import TournamentType from "./TournamentType";
 import tournamentValidation from "../../schema/user/tournament";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast } from "../../hooks/useToast";
 
 function CreateTournament({ data }) {

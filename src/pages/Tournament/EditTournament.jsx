@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import CreateTournament from "../../components/CreateTournament/CreateTournament";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 
 function EditTournament() {

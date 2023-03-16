@@ -15,7 +15,7 @@ import RegisterForm from "./RegisterForm";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 import deniedImg from "../../assets/img/access-denied.svg";
 import registredImg from "../../assets/img/registered.svg";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 
 function CountdownTimer({ date }) {

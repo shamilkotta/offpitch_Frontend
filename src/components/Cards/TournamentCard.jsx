@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import locationIcon from "../../assets/icons/location.svg";
 import watchIcon from "../../assets/icons/watch.svg";
 import calendarIcon from "../../assets/icons/calendar-tick.svg";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./TournamentCard.scss";
 
 function TournamentCard({ data, showAvatar, showBookMark }) {

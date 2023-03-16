@@ -9,7 +9,7 @@ import InputFields, {
 import Modal from "../Modal/Modal";
 import cameraIcon from "../../assets/icons/camera.svg";
 import organizationSchema from "../../schema/user/organization";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 
 function ClubForm({ onClose, data, profile, reRender, isEdit }) {

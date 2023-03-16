@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import Modal from "../Modal/Modal";
 import { InputSubmit } from "../InputFields/InputFields";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast } from "../../hooks/useToast";
 import InputCheckBox from "../InputFields/InputCheckBox";
 import spinnerIcon from "../../assets/icons/spinner.svg";

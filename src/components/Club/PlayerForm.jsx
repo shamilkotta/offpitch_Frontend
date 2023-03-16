@@ -6,7 +6,7 @@ import InputFields, { InputSubmit } from "../InputFields/InputFields";
 import Modal from "../Modal/Modal";
 import cameraIcon from "../../assets/icons/camera.svg";
 import playerSchema from "../../schema/user/playerSchema";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 
 function PlayerFrom({ onClose, data, profile, reRender }) {

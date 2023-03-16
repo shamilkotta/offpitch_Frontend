@@ -8,7 +8,7 @@ import smsIcon from "../../assets/icons/sms.svg";
 import callIcon from "../../assets/icons/call.svg";
 import PlayerFrom from "./PlayerForm";
 import ClubForm from "./ClubForm";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast } from "../../hooks/useToast";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 import { setClubData } from "../../app/slices/clubSlice";

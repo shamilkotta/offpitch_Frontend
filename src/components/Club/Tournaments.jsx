@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 import noDataImg from "../../assets/img/no-data.svg";
 import locationIcon from "../../assets/icons/location.svg";

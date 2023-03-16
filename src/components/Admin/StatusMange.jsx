@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { InputSubmit, InputTextArea } from "../InputFields/InputFields";
 import Modal from "../Modal/Modal";
-import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 
 function StatusManage({

@@ -177,7 +177,7 @@ function LiveTournament({ data }) {
           <div className="mx-auto md:px-3 md:max-w-[450px] mb-6">
             {data?.groups?.length ? (
               data?.groups.map((group) => (
-                <div className="my-5">
+                <div className="my-5" key={group.name}>
                   <h1 className="font-semibold text-slate-400">
                     {group?.name}
                   </h1>
@@ -199,7 +199,10 @@ function LiveTournament({ data }) {
                       {group?.teams
                         ?.sort((a, b) => a.c_position - b.c_position)
                         .map((team) => (
-                          <tr className="hover:bg-gradient-to-r rounded-md cursor-pointer hover:from-slate-200 hover:to-slate-50">
+                          <tr
+                            key={team.club}
+                            className="hover:bg-gradient-to-r rounded-md cursor-pointer hover:from-slate-200 hover:to-slate-50"
+                          >
                             <td className="">
                               <div className="flex gap-x-2 px-2 items-center rounded-md box-border">
                                 <img

@@ -131,6 +131,7 @@ function OtpForm() {
       <div className="flex gap-x-1 w-full mb-5">
         {fields.map((ele) => (
           <InputFields
+            key={ele}
             name={ele}
             type="number"
             holder=""

@@ -128,16 +128,6 @@ function TopNav({ open }) {
                       </h6>
                     </Link>
                   </li>
-                  <li className="" onClick={handleCloseUserMenu}>
-                    <Link
-                      to="/user/transactions"
-                      state={{ from: location.pathname }}
-                    >
-                      <h6 className="py-2 px-3 text-base hover:text-primary">
-                        Transactions
-                      </h6>
-                    </Link>
-                  </li>
                   <li className="border-t " onClick={handleCloseUserMenu}>
                     <button
                       type="button"

@@ -62,14 +62,6 @@ function Sidebar({ openState, close }) {
                   <h6 className="py-2 px-3 hover:text-primary">Watchlist</h6>
                 </Link>
               </li>
-              <li className="">
-                <Link
-                  to="/user/transactions"
-                  state={{ from: location.pathname }}
-                >
-                  <h6 className="py-2 px-3 hover:text-primary">Transactions</h6>
-                </Link>
-              </li>
               <li className="border-t ">
                 <button
                   type="button"

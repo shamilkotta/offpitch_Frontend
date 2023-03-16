@@ -41,6 +41,7 @@ function TournamentCard({ data, showAvatar, showBookMark }) {
             <div className="inline-flex flex-row">
               {data?.teams.map((ele) => (
                 <span
+                  key={ele._id}
                   title={ele.name}
                   className="tournament-card_avatar relative border border-white/80 rounded-full overflow-hidden w-[30px]"
                 >

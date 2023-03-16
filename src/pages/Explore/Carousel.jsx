@@ -63,11 +63,11 @@ function Carousel() {
             >
               <div className="flex z-10 justify-between w-full">
                 <div className="flex flex-col">
-                  <p className="border mb-1 w-fit border-white rounded-3xl px-3 py-1 text-sm text-white">
-                    Live Now
-                  </p>
                   <p className="cursor-pointer text-4xl text-white font-semibold leading-10 overflow-hidden text-ellipsis tournament-card_head">
                     {slide?.title}
+                  </p>
+                  <p className="text-white">
+                    {slide?.start_date} . {slide.location}
                   </p>
                 </div>
               </div>

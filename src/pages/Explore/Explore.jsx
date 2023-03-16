@@ -115,8 +115,8 @@ function Explore() {
               <IconButton onClick={handleOpenFilterMenu} sx={{ p: 0 }}>
                 <img
                   src={filterIcon}
-                  alt="profile"
-                  className="w-9 my-auto mx-auto"
+                  alt="filter"
+                  className="w-7 my-auto mx-auto"
                 />
               </IconButton>
               <Menu

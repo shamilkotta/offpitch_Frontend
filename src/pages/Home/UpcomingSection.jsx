@@ -30,7 +30,7 @@ function UpcomingSection() {
         </div>
         <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[950px]:grid-cols-3 xl:grid-cols-4 auto-rows-auto gap-x-4 gap-y-2">
           {cards.length
-            ? cards.map((ele) => <TournamentCardTwo data={ele} />)
+            ? cards.map((ele) => <TournamentCardTwo key={ele._id} data={ele} />)
             : ""}
         </div>
       </div>

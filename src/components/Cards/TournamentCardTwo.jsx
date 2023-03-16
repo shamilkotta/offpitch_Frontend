@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import watchIcon from "../../assets/icons/watch.svg";
 import editIcon from "../../assets/icons/edit.svg";
 import "./TournamentCard.scss";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 function TournamentCardTwo({ data, showAvatar, showBookMark, showEditButton }) {
   const location = useLocation();
+  const [isSaved, setIsSaved] = useState(data?.isSaved || false);
+  const auth = useSelector((state) => state.auth);
+  const axios = useAxiosPrivate();
+  const navigate = useNavigate();
+
+  const addToWatch = () => {
+    if (!auth.accessToken)
+      navigate("/login", { state: { from: location.pathname } });
+    axios
+      .get(`/user/tournament/${data._id}/save`)
+      .then((res) => {
+        if (res.data.success) {
+          setIsSaved(true);
+        }
+      })
+      .catch(() => {});
+  };
 
   return (
     <div className=" w-full">
@@ -21,6 +40,7 @@ function TournamentCardTwo({ data, showAvatar, showBookMark, showEditButton }) {
             <div className="inline-flex flex-row">
               {data?.teams.map((ele) => (
                 <span
+                  key={ele._id}
                   title={ele.name}
                   className="tournament-card_avatar relative border border-white/80 rounded-full overflow-hidden w-[30px]"
                 >
@@ -38,10 +58,13 @@ function TournamentCardTwo({ data, showAvatar, showBookMark, showEditButton }) {
           )}
 
           <div className="flex gap-x-1 ml-auto mr-0">
-            {showBookMark && (
+            {showBookMark && !isSaved && (
               <button
                 type="button"
                 className="bg-white/40 hover:bg-white/70 rounded-full p-1"
+                onClick={() => {
+                  addToWatch();
+                }}
               >
                 <img alt="watch" className="w-full block" src={watchIcon} />
               </button>

@@ -15,11 +15,8 @@ function TournamentType({ values, handleChange, handleBlur }) {
           onBlur={handleBlur}
         >
           <option value="t1">League (Round robin tournament)</option>
-          <option value="t2">
-            Double league (Double round robin tournament)
-          </option>
-          <option value="t3">Knock-out (Elimination tournament)</option>
-          <option value="t4">Group stage + knockout</option>
+          <option value="t2">Knock-out (Elimination tournament)</option>
+          <option value="t3">Group stage + knockout</option>
         </select>
       </div>
     </div>

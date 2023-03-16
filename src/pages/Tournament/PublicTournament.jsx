@@ -8,6 +8,7 @@ import Sidebar from "../../components/Tournament/Sidebar";
 import Notfound from "../Notfound";
 import spinnerIcon from "../../assets/icons/spinner.svg";
 import { getTournament } from "../../helpers/apis/guest";
+import LiveTournament from "../../components/Tournament/LiveTournament/LiveTournament";
 
 function PublicTournament() {
   const { id } = useParams();
@@ -45,9 +46,12 @@ function PublicTournament() {
       </div>
     );
 
-  return !loading && !dataFound ? (
-    <Notfound />
-  ) : (
+  if (!loading && !dataFound) return <Notfound />;
+
+  if (dataFound && ["scheduled"].includes(data?.registration?.status))
+    return <LiveTournament data={data} />;
+
+  return (
     <div className="max-w-[1400px] px-5 py-10 sm:px-10 mx-auto">
       <p className="text-3xl font-bold mb-5">{data.title}</p>
       <div className="grid auto-cols-auto md:grid-cols-[60%_auto] grid-rows-[auto_auto_auto]">

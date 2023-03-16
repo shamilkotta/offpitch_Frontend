@@ -15,6 +15,8 @@ import RegisterForm from "./RegisterForm";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
 import deniedImg from "../../assets/img/access-denied.svg";
 import registredImg from "../../assets/img/registered.svg";
+import useAxiosPrivate from "../../hooks/userAxiosPrivate";
+import spinnerIcon from "../../assets/icons/spinner.svg";
 
 function CountdownTimer({ date }) {
   const [countdown, setCountdown] = useState({
@@ -84,8 +86,32 @@ function Sidebar({ data }) {
   const [registerModal, setRegisterModal] = useState(false);
   const [isRegistered, setIsRegistered] = useState(data?.isRegistered);
   const auth = useSelector((state) => state.auth);
+  const [tournamentScheduler, setTournamentScheduler] = useState(false);
+  const axios = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const scheduleTournament = () => {
+    setTournamentScheduler(true);
+    axios
+      .get(`/user/tournament/${data._id}/schedule`)
+      .then((res) => {
+        if (res?.data?.success)
+          useSuccessToast({ message: res?.data?.message });
+        else
+          useErrorToast({
+            message: res?.data?.message || "Something went wrong",
+          });
+      })
+      .catch((err) => {
+        useErrorToast({
+          message: err?.response?.data?.message || "Something went wrong",
+        });
+      })
+      .finally(() => {
+        setTournamentScheduler(false);
+      });
+  };
 
   return (
     <div className="mx-auto md:px-3 md:max-w-[450px] mb-6">
@@ -210,9 +236,16 @@ function Sidebar({ data }) {
               Schedule tournament
             </p>
             <button
-              className="hover:shadow border border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white px-3 py-1"
+              className="hover:shadow border flex gap-x-2 disabled:bg-slate-300 disabled:border-slate-300 disabled:text-gray-600 border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white px-3 py-1"
               type="button"
+              onClick={() => {
+                scheduleTournament();
+              }}
+              disabled={tournamentScheduler}
             >
+              {tournamentScheduler && (
+                <img src={spinnerIcon} className="animate-spin w-5" alt="..." />
+              )}
               Schedule
             </button>
           </div>

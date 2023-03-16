@@ -41,7 +41,7 @@ function Explore() {
   };
 
   const fetchData = (query) => {
-    getTournaments(query, {})
+    getTournaments(query, auth)
       .then((res) => {
         if (res?.data?.success) {
           if (newPage)

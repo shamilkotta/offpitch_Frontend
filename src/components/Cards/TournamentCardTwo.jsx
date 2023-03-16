@@ -19,18 +19,21 @@ function TournamentCardTwo({ data, showAvatar, showBookMark, showEditButton }) {
         <div className="absolute flex justify-between top-2 right-2 left-2">
           {showAvatar && (
             <div className="inline-flex flex-row">
-              {[
-                "https://picsum.photos/70",
-                "https://picsum.photos/90",
-                "https://picsum.photos/70",
-              ].map((ele) => (
-                <span className="tournament-card_avatar relative border border-white/80 rounded-full overflow-hidden w-[30px]">
-                  <img src={ele} alt="profiles" />
+              {data?.teams.map((ele) => (
+                <span
+                  title={ele.name}
+                  className="tournament-card_avatar relative border border-white/80 rounded-full overflow-hidden w-[30px]"
+                >
+                  <img src={ele.profile} alt="profiles" />
                 </span>
               ))}
-              <span className="tournament-card_avatar relative border flex justify-center text-xs items-center bg-white border-white/80 rounded-full overflow-hidden w-[30px]">
-                5+
-              </span>
+              {data?.teams?.length > 3 && (
+                <span className="tournament-card_avatar relative border flex justify-center text-xs items-center bg-white border-white/80 rounded-full overflow-hidden w-[30px]">
+                  {parseInt(data?.teams_count, 10) -
+                    parseInt(data?.teams?.length, 10)}
+                  +
+                </span>
+              )}
             </div>
           )}
 

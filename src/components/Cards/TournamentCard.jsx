@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import locationIcon from "../../assets/icons/location.svg";
 import watchIcon from "../../assets/icons/watch.svg";
 import calendarIcon from "../../assets/icons/calendar-tick.svg";
-import editIcon from "../../assets/icons/edit.svg";
+import useAxiosPrivate from "../../hooks/userAxiosPrivate";
 import "./TournamentCard.scss";
 
-function TournamentCard({ data, showAvatar, showBookMark, showEditButton }) {
+function TournamentCard({ data, showAvatar, showBookMark }) {
+  const [isSaved, setIsSaved] = useState(data?.isSaved || false);
+  const auth = useSelector((state) => state.auth);
   const location = useLocation();
+  const axios = useAxiosPrivate();
+  const navigate = useNavigate();
+
+  const addToWatch = () => {
+    if (!auth.accessToken)
+      navigate("/login", { state: { from: location.pathname } });
+    axios
+      .get(`/user/tournament/${data._id}/save`)
+      .then((res) => {
+        if (res.data.success) {
+          setIsSaved(true);
+        }
+      })
+      .catch(() => {});
+  };
 
   return (
     <div className=" w-full border-2 rounded-md">
@@ -21,39 +39,36 @@ function TournamentCard({ data, showAvatar, showBookMark, showEditButton }) {
         <div className="absolute flex justify-between top-2 right-2 left-2">
           {showAvatar && (
             <div className="inline-flex flex-row">
-              {[
-                "https://picsum.photos/70",
-                "https://picsum.photos/90",
-                "https://picsum.photos/70",
-              ].map((ele) => (
-                <span className="tournament-card_avatar relative border border-white/80 rounded-full overflow-hidden w-[30px]">
-                  <img src={ele} alt="profiles" />
+              {data?.teams.map((ele) => (
+                <span
+                  title={ele.name}
+                  className="tournament-card_avatar relative border border-white/80 rounded-full overflow-hidden w-[30px]"
+                >
+                  <img src={ele.profile} alt="profiles" />
                 </span>
               ))}
-              <span className="tournament-card_avatar relative border flex justify-center text-xs items-center bg-white border-white/80 rounded-full overflow-hidden w-[30px]">
-                5+
-              </span>
+              {data?.teams?.length > 3 && (
+                <span className="tournament-card_avatar relative border flex justify-center text-xs items-center bg-white border-white/80 rounded-full overflow-hidden w-[30px]">
+                  {parseInt(data?.teams_count, 10) -
+                    parseInt(data?.teams?.length, 10)}
+                  +
+                </span>
+              )}
             </div>
           )}
 
           <div className="flex gap-x-1 ml-auto mr-0">
-            {showBookMark && (
+            {showBookMark && !isSaved && (
               <button
                 type="button"
-                className="bg-white/40 hover:bg-white/70 rounded-full p-1"
+                className="bg-white/40 hover:bg-white/70 disabled:hover:bg-white/40 rounded-full p-1"
+                onClick={() => {
+                  addToWatch();
+                }}
+                disabled={isSaved}
               >
                 <img alt="watch" className="w-full block" src={watchIcon} />
               </button>
-            )}
-
-            {showEditButton && (
-              <Link
-                to={`/user/tournament/${data?._id}/edit`}
-                state={{ from: location.pathname }}
-                className="bg-white/40 hover:bg-white/70 rounded-full py-2 px-2"
-              >
-                <img alt="watch" className="w-full block" src={editIcon} />
-              </Link>
             )}
           </div>
         </div>
@@ -91,14 +106,12 @@ function TournamentCard({ data, showAvatar, showBookMark, showEditButton }) {
 TournamentCard.defaultProps = {
   showAvatar: true,
   showBookMark: true,
-  showEditButton: false,
 };
 
 TournamentCard.propTypes = {
   data: PropTypes.object.isRequired,
   showAvatar: PropTypes.bool,
   showBookMark: PropTypes.bool,
-  showEditButton: PropTypes.bool,
 };
 
 export default TournamentCard;

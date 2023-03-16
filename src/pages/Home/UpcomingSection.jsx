@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import arrowIcon from "../../assets/icons/arrow.svg";
@@ -7,9 +8,10 @@ import { getTournaments } from "../../helpers/apis/guest";
 
 function UpcomingSection() {
   const [cards, setCards] = useState([]);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getTournaments("limit=4")
+    getTournaments("limit=4", auth)
       .then((res) => {
         if (res.data.success) setCards(res.data.data.allTournaments);
         else setCards([]);

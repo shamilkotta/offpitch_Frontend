@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { getTournaments } from "../../helpers/apis/guest";
@@ -15,9 +16,10 @@ const colours = [
 function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState([]);
+  const auth = useSelector((state) => state.auth);
 
   const fetchData = (query) => {
-    getTournaments(query)
+    getTournaments(query, auth)
       .then((res) => {
         if (res?.data?.success) setSlides(res.data.data.allTournaments);
       })

@@ -289,6 +289,10 @@ function Sidebar({ data }) {
                 onClick={() => {
                   if (!auth.name)
                     navigate("/login", { state: { from: location.pathname } });
+                  if (auth.clubStatus !== "active")
+                    navigate("/user/club", {
+                      state: { from: location.pathname },
+                    });
                   else setRegisterModal(true);
                 }}
               />

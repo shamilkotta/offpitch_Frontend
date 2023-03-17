@@ -1,9 +1,12 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { FaUsers, FaFolderOpen } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdPayments } from "react-icons/md";
+import PropTypes from "prop-types";
 
-function AdminSidebar() {
+import logoutIcon from "../../assets/icons/logout.svg";
+
+function AdminSidebar({ logout }) {
   const location = useLocation();
 
   const navLinks = [
@@ -25,11 +28,28 @@ function AdminSidebar() {
       holder: "Clubs",
       icon: <FaFolderOpen size="20px" />,
     },
+    {
+      id: 3,
+      url: "/admin/transactions",
+      holder: "Transactions",
+      icon: <MdPayments size="22px" />,
+    },
   ];
 
   return (
     <nav className="h-full bg-white/30 box-border overflow-auto flex flex-col justify-between w-fit min-[850px]:w-64 ">
-      <div />
+      <div className="w-full">
+        <img
+          src="/logo.svg"
+          className="h-6 mt-7 ml-5 hidden min-[850px]:block"
+          alt="offpitch"
+        />
+        <img
+          src="/favicon.svg"
+          className="h-6 w-6 mt-5 mx-auto min-[850px]:hidden"
+          alt="offpitch"
+        />
+      </div>
       <ul className="px-4 hidden min-[850px]:block">
         {navLinks.map((ele) => (
           <li className="" key={ele.id}>
@@ -70,9 +90,37 @@ function AdminSidebar() {
           </li>
         ))}
       </ul>
-      <div />
+      <div className="w-full">
+        <div className="mx-auto w-fit hidden min-[850px]:block">
+          <button
+            type="button"
+            onClick={() => {
+              logout();
+            }}
+            className="text-red-500 mb-5 flex items-center gap-x-2 font-medium"
+          >
+            <img src={logoutIcon} className="w-5" alt="logout" />
+            Logout
+          </button>
+        </div>
+        <div className="mx-auto w-fit min-[850px]:hidden">
+          <button
+            type="button"
+            onClick={() => {
+              logout();
+            }}
+            className="text-red-500 mb-5 flex items-center gap-x-2 font-medium"
+          >
+            <img src={logoutIcon} className="w-6" alt="logout" />
+          </button>
+        </div>
+      </div>
     </nav>
   );
 }
+
+AdminSidebar.propTypes = {
+  logout: PropTypes.func.isRequired,
+};
 
 export default AdminSidebar;

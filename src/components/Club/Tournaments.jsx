@@ -52,9 +52,11 @@ function Tournaments() {
       .get("/user/tournaments/registered")
       .then((res) => {
         if (res?.data?.success) {
-          setRegistered(res?.data?.data);
+          setRegistered(
+            res?.data?.data.filter((value) => value.teams.status === "paid")
+          );
           setPendingReg(
-            res?.data?.data.filter((value) => value.status === "pending")
+            res?.data?.data.filter((value) => value.teams.status === "pending")
           );
         } else {
           setRegistered([]);
@@ -242,7 +244,8 @@ function Tournaments() {
                           </div>
                         </div>
                         <p className="text-gray-700 text-sm">
-                          70 <span className="text-gray-500">registered</span>
+                          {ele.teams_count || 0}{" "}
+                          <span className="text-gray-500">registered</span>
                         </p>
                       </div>
                     </Link>
@@ -256,6 +259,18 @@ function Tournaments() {
                   {currentFilter !== "live" && live.length > 0 && (
                     <div>
                       <h1>Live :</h1>
+                      <div className="flex justify-between items-center">
+                        <h1 className="">Live</h1>
+                        <button
+                          type="button"
+                          className="text-slate-500 text-sm"
+                          onClick={() => {
+                            setCurrentFilter("live");
+                          }}
+                        >
+                          View all
+                        </button>
+                      </div>
                       <hr />
                       {live.map((ele) => (
                         <Link
@@ -325,7 +340,7 @@ function Tournaments() {
                   {pendingReg.map((ele) => (
                     <Link
                       key={ele._id}
-                      to={`/user/tournament/${ele?._id}/edit`}
+                      to={`/tournament/${ele?._id}`}
                       className="flex gap-x-2 px-2 items-center rounded-md mt-1 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-50 box-border"
                     >
                       <img
@@ -338,7 +353,7 @@ function Tournaments() {
                           {ele.title}
                         </p>
                         <p className="-mt-1 text-slate-400 text-sm">
-                          Last date : {ele.last_date}
+                          Last date : {ele.registration.last_date}
                         </p>
                       </div>
                     </Link>

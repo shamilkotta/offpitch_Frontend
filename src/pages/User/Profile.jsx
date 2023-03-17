@@ -9,6 +9,7 @@ import walletIcon from "../../assets/icons/wallet.svg";
 import addDataimg from "../../assets/img/add-data.svg";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import loadingSpinnerIcon from "../../assets/icons/spinner.svg";
+import arrowIcon from "../../assets/icons/arrow.svg";
 
 function Profile() {
   const auth = useSelector((state) => state.auth);
@@ -132,7 +133,17 @@ function Profile() {
                       </Link>
                     </div>
                   </>
-                ) : null}
+                ) : (
+                  <Link
+                    to="/user/club"
+                    className="border rounded-md py-2 px-3 flex justify-between gap-4 items-center w-full"
+                  >
+                    <h1>You didn&apos;t created a club, create now</h1>
+                    <div to="/user/club" className="text-blue-800 font-medium">
+                      <img src={arrowIcon} className="w-7" alt="create new" />
+                    </div>
+                  </Link>
+                )}
               </div>
             )}
           </div>
@@ -150,7 +161,7 @@ function Profile() {
                     Balance
                   </h1>
                   <h1 className="text-white mr-0 ml-auto text-end">
-                    $
+                    ₹
                     <span className="text-2xl font-bold text-white">
                       {userProfile.wallet || "00.00"}
                     </span>
@@ -160,51 +171,59 @@ function Profile() {
               {transactions.length ? (
                 <div className="mt-3 px-3 py-4">
                   <h1 className="text-lg">Transactions</h1>
-                  {transactions.map((ele) =>
-                    ele.from === userProfile?.club?.name ? (
-                      <div className="flex gap-x-2 my-4  justify-start items-center">
-                        <img className="w-8" src={transactionOutIcon} alt="" />
-                        <div className="flex w-full justify-between items-center">
-                          <div>
-                            <h1 className="text-black my-0">
-                              <span className="text-slate-500 text-sm">
-                                To :{" "}
-                              </span>
-                              {ele.to}
-                            </h1>
-                            <p className="-mt-1 text-slate-400 text-sm">
-                              {ele.transaction_date}
+                  {transactions.map((ele) => (
+                    <div key={ele._id}>
+                      {ele.from === userProfile?.club?.name ? (
+                        <div className="flex gap-x-2 my-4 justify-start items-center">
+                          <img
+                            className="w-8"
+                            src={transactionOutIcon}
+                            alt=""
+                          />
+                          <div className="flex w-full justify-between items-center">
+                            <div>
+                              <h1 className="text-black my-0">
+                                <span className="text-slate-500 text-sm">
+                                  To :{" "}
+                                </span>
+                                {ele.to}
+                              </h1>
+                              <p className="-mt-1 text-slate-400 text-sm">
+                                {ele.transaction_date}
+                              </p>
+                            </div>
+                            <p className="text-lg text-red-600">
+                              -{ele.amount}
                             </p>
                           </div>
-                          <p className="text-lg text-red-600">-{ele.amount}</p>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="flex gap-x-2 box-border my-4 justify-start items-center">
-                        <img
-                          className="w-8 my-auto align-middle mt-1"
-                          src={transactionInIcon}
-                          alt=""
-                        />
-                        <div className="flex w-[90%] max-w-full justify-between gap-x-2 items-center">
-                          <div className="overflow-hidden">
-                            <p className="text-black my-0 text-ellipsis whitespace-nowrap overflow-hidden">
-                              <span className="text-slate-500 text-sm">
-                                From :{" "}
-                              </span>
-                              {ele.from}
-                            </p>
-                            <p className="-mt-1 text-slate-400 text-sm">
-                              {ele.transaction_date}
+                      ) : (
+                        <div className="flex gap-x-2 box-border my-4 justify-start items-center">
+                          <img
+                            className="w-8 my-auto align-middle mt-1"
+                            src={transactionInIcon}
+                            alt=""
+                          />
+                          <div className="flex w-[90%] max-w-full justify-between gap-x-2 items-center">
+                            <div className="overflow-hidden">
+                              <p className="text-black my-0 text-ellipsis whitespace-nowrap overflow-hidden">
+                                <span className="text-slate-500 text-sm">
+                                  From :{" "}
+                                </span>
+                                {ele.from}
+                              </p>
+                              <p className="-mt-1 text-slate-400 text-sm">
+                                {ele.transaction_date}
+                              </p>
+                            </div>
+                            <p className="text-lg w-max text-green-600">
+                              +{ele.amount}
                             </p>
                           </div>
-                          <p className="text-lg w-max text-green-600">
-                            +{ele.amount}
-                          </p>
                         </div>
-                      </div>
-                    )
-                  )}
+                      )}
+                    </div>
+                  ))}
                 </div>
               ) : null}
             </div>
@@ -242,6 +261,7 @@ function Profile() {
                   watchlist.map((ele) => (
                     <Link
                       to={`/tournament/${ele._id}`}
+                      key={ele._id}
                       className="flex gap-x-2 px-2 items-center rounded-md mt-1 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-50 box-border"
                     >
                       <img

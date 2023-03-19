@@ -2,17 +2,14 @@ import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
 
-import InputFields, {
-  InputSubmit,
-  InputTextArea,
-} from "../InputFields/InputFields";
-import Modal from "../Modal/Modal";
+import { CssTextField, InputSubmit } from "../InputFields/InputFields";
 import cameraIcon from "../../assets/icons/camera.svg";
-import organizationSchema from "../../schema/user/organization";
+import clubSchema from "../../schema/user/club";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
+import RightDrawer from "../Drawer/RightDrawer";
 
-function ClubForm({ onClose, data, profile, reRender, isEdit }) {
+function ClubForm({ onClose, data, profile, reRender, isEdit, openState }) {
   const [showImgErr, setShowImgErr] = useState(false);
   const [showDocErr, setShowDocErr] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -61,7 +58,7 @@ function ClubForm({ onClose, data, profile, reRender, isEdit }) {
   const formik = useFormik({
     initialValues: data,
 
-    validationSchema: organizationSchema,
+    validationSchema: clubSchema,
 
     onSubmit: (values, { resetForm }) => {
       if (!file && !photoURL) setShowImgErr(true);
@@ -94,155 +91,159 @@ function ClubForm({ onClose, data, profile, reRender, isEdit }) {
   });
 
   return (
-    <Modal
-      closeOnOutSide
-      closeModal={() => {
+    <RightDrawer
+      variant="persistent"
+      openState={openState}
+      close={() => {
         onClose(false);
       }}
     >
-      <h1 className="text-lg font-medium mb-5">Create new Club</h1>
-      <form className="grid gap-3 auto-rows-auto grid-cols-auto w-max sm:w-max md:w-max box-border">
-        <input
-          type="file"
-          name="profile"
-          ref={ref}
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={handleUploadImage}
-        />
-        <button
-          type="button"
-          onClick={() => {
-            ref.current.click();
-          }}
-          className={`col-start-1 ${
-            showImgErr && "border-red-700 border-2"
-          } relative sm:col-end-2 col-end-3 row-start-1 row-end-2 w-36 h-40 border-2 rounded`}
-        >
-          <div
-            className="relative w-full h-full rounded flex justify-center items-center after:content-[''] after:bg-black/10 hover:after:bg-black/30 after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0"
-            style={{
-              backgroundImage: `url('${photoURL}')`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-            }}
-          >
-            <img
-              src={cameraIcon}
-              alt=""
-              className="absolute top-0 bottom-0 mx-auto my-auto left-0 right-0"
-            />
-          </div>
-        </button>
-        <div className="grid self-end gap-3 h-fit grid-cols-auto grid-rows-auto col-start-1 sm:col-start-2 col-end-3 row-start-2 sm:row-start-1 row-end-3 sm:row-end-2">
-          <div className="col-start-1 col-end-3 row-start-1 row-end-2 w-full">
-            <InputFields
-              className="h-12"
-              type="text"
-              holder="Name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              errorMsg={
-                formik.errors.name && formik.touched.name
-                  ? formik.errors.name
-                  : ""
-              }
-            />
-          </div>
-          <div className="col-start-1 col-end-3 md:col-end-2 row-start-2 row-end-3 w-full">
-            <InputFields
-              className="h-12"
-              transform="w-[80vw] sm:w-80"
-              type="text"
-              holder="Email"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              errorMsg={
-                formik.errors.email && formik.touched.email
-                  ? formik.errors.email
-                  : ""
-              }
-            />
-          </div>
-          <div className="col-start-1 md:col-start-2 col-end-3 row-start-3 md:row-start-2 row-end-4 md:row-end-3 w-full">
-            <InputFields
-              className="h-12"
-              type="number"
-              holder="Phone"
-              name="phone"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              errorMsg={
-                formik.errors.phone && formik.touched.phone
-                  ? formik.errors.phone
-                  : ""
-              }
-            />
-          </div>
-        </div>
-        <div className="col-start-1 col-end-3 row-start-3 sm:row-start-2 row-end-4">
-          <InputTextArea
-            holder="Description"
-            name="description"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            errorMsg={
-              formik.errors.description && formik.touched.description
-                ? formik.errors.description
-                : ""
-            }
-          />
-        </div>
-        {!isEdit && (
-          <div className="flex flex-col col-start-1 col-end-3 row-start-4 row-end-5">
-            <p
-              className={`text-sm ${
-                showDocErr ? "text-red-500" : "text-gray-500 "
-              } flex flex-wrap w-[80vw] sm:w-96`}
-            >
-              Choose a scanned pdf of government registration document
-            </p>
-            <div className="flex items-center gap-x-3 flex-wrap w-[80vw] sm:w-full">
+      <div className="w-[80vw] min-[450px]:w-[400px]">
+        <h1 className="text-lg font-medium mb-5">Create new Club</h1>
+        <form className="">
+          <div className="flex gap-x-4">
+            <div>
               <input
                 type="file"
                 name="profile"
-                ref={docRef}
-                accept="application/pdf"
+                ref={ref}
+                accept="image/*"
                 style={{ display: "none" }}
-                onChange={handleUploadDoc}
+                onChange={handleUploadImage}
               />
               <button
                 type="button"
                 onClick={() => {
-                  docRef.current.click();
+                  ref.current.click();
                 }}
-                className={` border ${
-                  showDocErr ? "border-red-500" : "border-slate-200"
-                } bg-slate-200 px-3 py-2 rounded`}
+                className={`col-start-1 ${
+                  showImgErr && "border-red-700 border-2"
+                } relative w-40 h-40 border-2 rounded`}
               >
-                Govt. certificate
+                <div
+                  className="relative w-full h-full rounded flex justify-center items-center after:content-[''] after:bg-black/10 hover:after:bg-black/30 after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0"
+                  style={{
+                    backgroundImage: `url('${photoURL}')`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <img
+                    src={cameraIcon}
+                    alt=""
+                    className="absolute top-0 bottom-0 mx-auto my-auto left-0 right-0"
+                  />
+                </div>
               </button>
-              <div>{doc?.name}</div>
+            </div>
+            <div>
+              {!isEdit && (
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-x-3 flex-wrap w-[80vw] sm:w-full">
+                    <input
+                      type="file"
+                      name="profile"
+                      ref={docRef}
+                      accept="application/pdf"
+                      style={{ display: "none" }}
+                      onChange={handleUploadDoc}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        docRef.current.click();
+                      }}
+                      className={` border ${
+                        showDocErr
+                          ? "border-red-500 text-red-500"
+                          : "border-slate-200 text-slate-500"
+                      } bg-slate-200 px-3 py-2 relative w-40 h-40 border-2 rounded`}
+                    >
+                      Pdf of Govt. registration
+                      <div className="h-5">
+                        <div className="text-black">{doc?.name}</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        )}
-      </form>
-      <div className="w-full mt-4 flex justify-end">
-        <InputSubmit
-          className="w-1/2"
-          loadingValue={loading ? "Save" : ""}
-          value="Save"
-          onClick={formik.handleSubmit}
-        />
+
+          <CssTextField
+            error={formik.errors.name && formik.touched.name}
+            sx={{ marginTop: "12px" }}
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={
+              formik.errors.name && formik.touched.name
+                ? formik.errors.name
+                : ""
+            }
+            label="Name"
+            className="w-full"
+          />
+          <CssTextField
+            error={formik.errors.email && formik.touched.email}
+            sx={{ marginTop: "12px" }}
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={
+              formik.errors.email && formik.touched.email
+                ? formik.errors.email
+                : ""
+            }
+            label="Email"
+            className="w-full"
+          />
+          <CssTextField
+            error={formik.errors.phone && formik.touched.phone}
+            sx={{ marginTop: "12px" }}
+            name="phone"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={
+              formik.errors.phone && formik.touched.phone
+                ? formik.errors.phone
+                : ""
+            }
+            label="Phone"
+            className="w-full"
+          />
+          <CssTextField
+            error={formik.errors.description && formik.touched.description}
+            sx={{ marginTop: "12px" }}
+            name="description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={
+              formik.errors.description && formik.touched.description
+                ? formik.errors.description
+                : ""
+            }
+            label="Description"
+            className="w-full"
+            multiline
+            rows={5}
+          />
+        </form>
+        <div className="w-full mt-4 flex justify-end">
+          <InputSubmit
+            className="w-1/2"
+            loadingValue={loading ? "Save" : ""}
+            value="Save"
+            onClick={formik.handleSubmit}
+          />
+        </div>
       </div>
-    </Modal>
+    </RightDrawer>
   );
 }
 
@@ -264,6 +265,7 @@ ClubForm.propTypes = {
   data: PropTypes.object,
   profile: PropTypes.string,
   reRender: PropTypes.func,
+  openState: PropTypes.bool.isRequired,
 };
 
 export default ClubForm;

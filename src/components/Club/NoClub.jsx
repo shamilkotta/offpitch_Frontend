@@ -84,15 +84,15 @@ function NoClub({ status }) {
           Create new
         </button>
       </div>
-      {showForm && (
-        <ClubForm
-          onClose={setShowForm}
-          reRender={() => {
-            setClubStatus("awaiting");
-            refresh();
-          }}
-        />
-      )}
+
+      <ClubForm
+        onClose={setShowForm}
+        openState={showForm}
+        reRender={() => {
+          setClubStatus("awaiting");
+          refresh();
+        }}
+      />
     </div>
   );
 }

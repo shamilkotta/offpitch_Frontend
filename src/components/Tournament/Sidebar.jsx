@@ -130,13 +130,11 @@ function Sidebar({ data }) {
               className="mx-auto h-full w-full"
             />
           </button>
-          <div className="whitespace-nowrap text-sm">
-            <p className="text-base">
+          <div className="whitespace-nowrap ">
+            <p className="">
               {data?.start_date?.split(" ").slice(0, 2).join(" ")}
             </p>
-            <p className="text-base -mt-2">
-              {data?.start_date?.split(" ").splice(2)}
-            </p>
+            <p className=" -mt-2">{data?.start_date?.split(" ").splice(2)}</p>
           </div>
         </div>
         <div className="flex gap-1">
@@ -150,9 +148,9 @@ function Sidebar({ data }) {
               className="mx-auto h-full w-full"
             />
           </button>
-          <div className="whitespace-nowrap  text-sm">
-            <p className="text-base">{data?.location?.split(",")[0]}</p>
-            <p className="text-base -mt-1">
+          <div className="whitespace-nowrap  ">
+            <p className="">{data?.location?.split(",")[0]}</p>
+            <p className=" -mt-1">
               {data?.location?.split(",").splice(1).join(",")}
             </p>
           </div>
@@ -161,8 +159,7 @@ function Sidebar({ data }) {
 
       <hr />
 
-      {data?.tickets?.matchday_ticket?.is ||
-      data?.tickets?.season_ticket?.is ? (
+      {data?.ticket?.is ? (
         <div className="my-10">
           <p className="text-xl font-semibold mb-3">Buy tickets</p>
           <div className="border rounded-lg py-2 px-3">
@@ -183,17 +180,18 @@ function Sidebar({ data }) {
                 </div>
               </div>
               <div>
-                {data?.tickets?.season_ticket.is && (
+                <div className="flex items-center gap-1">
+                  <img src={ticketIcon} alt="calendar" className="w-4" />
+                  <p className="text-sm">Tickets are available</p>
+                </div>
+                {data?.ticket?.total <= 5 ? (
                   <div className="flex items-center gap-1">
-                    <img src={ticketIcon} alt="calendar" className="w-4" />
-                    <p className="text-sm">Season ticket</p>
+                    <p className="text-sm text-red-600 mt-1">
+                      Only {data?.ticket?.total} is available
+                    </p>
                   </div>
-                )}
-                {data?.tickets?.matchday_ticket.is && (
-                  <div className="flex items-center gap-1">
-                    <img src={ticketIcon} alt="calendar" className="w-4" />
-                    <p className="text-sm">Matchday ticket</p>
-                  </div>
+                ) : (
+                  ""
                 )}
               </div>
             </div>
@@ -203,9 +201,7 @@ function Sidebar({ data }) {
                 <p className="">
                   ₹
                   <span className="text-3xl font-semibold">
-                    {data?.tickets?.matchday_ticket.is
-                      ? data?.tickets?.matchday_ticket.amount
-                      : data?.tickets?.season_ticket.amount}
+                    {data?.ticket?.amount}
                   </span>
                 </p>
               </div>
@@ -231,12 +227,12 @@ function Sidebar({ data }) {
       ) : (
         data?.isHost &&
         data?.registration?.status === "closed" && (
-          <div className="mt-5 rounded-md px-3 py-4 flex justify-between items-center">
+          <div className="mt-5 rounded-md px-3 py-4 flex flex-col gap-y-2 justify-between items-center">
             <p className="text-red-600 text-lg font-medium">
               Schedule tournament
             </p>
             <button
-              className="hover:shadow border flex gap-x-2 disabled:bg-slate-300 disabled:border-slate-300 disabled:text-gray-600 border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white px-3 py-1"
+              className="hover:shadow border flex gap-x-2 w-full disabled:bg-slate-300 disabled:border-slate-300 disabled:text-gray-600 border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white px-3 py-1"
               type="button"
               onClick={() => {
                 scheduleTournament();
@@ -303,10 +299,12 @@ function Sidebar({ data }) {
         // viewing as tournament author
         <>
           {!isRegistered && data?.registration?.status === "open" && (
-            <div className="mt-4 rounded-md px-3 py-4 flex justify-between items-center">
-              <p className="text-black text-md">Register you team</p>
+            <div className="mt-4 rounded-md px-3 py-4 flex flex-col gap-y-2 justify-between items-center">
+              <p className="text-black text-center text-md">
+                Register yourself for the tournament
+              </p>
               <button
-                className="hover:shadow border border-black rounded text-black hover:bg-black hover:text-white px-3 py-1"
+                className="hover:shadow border border-black rounded text-black w-full hover:bg-black hover:text-white px-3 py-1"
                 type="button"
                 onClick={() => {
                   setRegisterModal(true);
@@ -372,20 +370,18 @@ function Sidebar({ data }) {
         </div>
       )}
 
-      {registerModal && (
-        <RegisterForm
-          data={data}
-          setIsRegistered={setIsRegistered}
-          showMessage={(arg) => {
-            if (arg.type === "success")
-              useSuccessToast({ message: arg.message });
-            else useErrorToast({ message: arg.message });
-          }}
-          close={() => {
-            setRegisterModal(false);
-          }}
-        />
-      )}
+      <RegisterForm
+        data={data}
+        setIsRegistered={setIsRegistered}
+        showMessage={(arg) => {
+          if (arg.type === "success") useSuccessToast({ message: arg.message });
+          else useErrorToast({ message: arg.message });
+        }}
+        openState={registerModal}
+        close={() => {
+          setRegisterModal(false);
+        }}
+      />
     </div>
   );
 }

@@ -88,20 +88,21 @@ export default [
   }),
   // step 3
   yup.object().shape({
-    tickets: yup.object().shape({
-      matchday_ticket: yup.object().shape({
+    ticket: yup
+      .object()
+      .shape({
         is: yup
           .boolean("choose a valid ticket option")
           .typeError("Choose valid ticket option"),
         amount: yup
-          .number("Enter a valid amount")
-          .typeError("Enter a valid amount")
+          .number("Enter a valid ticket amount")
+          .typeError("Enter a valid ticket amount")
           .when("is", {
             is: true,
             then: (schema) =>
               schema
-                .required("Enter a valid fee amount")
-                .min(1, "Enter a valid amount"),
+                .required("Enter a valid ticket amount")
+                .min(1, "Enter a valid ticket amount"),
           }),
         total: yup
           .number("Enter total tickets count")
@@ -109,34 +110,12 @@ export default [
           .when("is", {
             is: true,
             then: (schema) =>
-              schema.required("Enter total count").min(1, "Enter total count"),
-          }),
-      }),
-
-      season_ticket: yup.object().shape({
-        is: yup
-          .boolean("choose a valid ticket option")
-          .typeError("Choose valid ticket option"),
-        amount: yup
-          .number("Enter a valid amount")
-          .typeError("Enter a valid amount")
-          .when("is", {
-            is: true,
-            then: (schema) =>
               schema
-                .required("Enter a valid amount")
-                .min(1, "Enter a valid amount"),
+                .required("Enter total tickets count")
+                .min(1, "Enter total tickets count"),
           }),
-        total: yup
-          .number("Enter total tickets count")
-          .typeError("Enter total tickets count")
-          .when("is", {
-            is: true,
-            then: (schema) =>
-              schema.required("Enter total count").min(1, "Enter total count"),
-          }),
-      }),
-    }),
+      })
+      .typeError("Choose a valid ticket type"),
   }),
   // step 4
   yup.object().shape({

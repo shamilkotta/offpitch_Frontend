@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import PropTypes from "prop-types";
+import { withStyles } from "@mui/styles";
+import TextField from "@mui/material/TextField";
 
 function InputFields({
   type,
@@ -198,5 +200,24 @@ InputSubmit.propTypes = {
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
 };
+
+export const CssTextField = withStyles({
+  root: {
+    "& label.Mui-focused": {
+      color: "#F2811D",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#F2811D",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "#F2811D",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#F2811D",
+      },
+    },
+  },
+})(TextField);
 
 export default InputFields;

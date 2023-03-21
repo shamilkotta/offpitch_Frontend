@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import UserLayout from "../layouts/UserLayout";
 import Home from "./Home/Home";
@@ -24,8 +24,18 @@ import Profile from "./User/Profile";
 import PrivateClub from "../components/Club/PrivateClub";
 import Tournaments from "../components/Club/Tournaments";
 import Watchlist from "./User/Watchlist";
+import Transactions from "./Admin/Transactions";
+import Dashboard from "./Admin/Dashboard";
 
 function Router() {
+  const location = useLocation();
+  useEffect(
+    () => () => {
+      window.scrollTo(0, 0);
+    },
+    [location.pathname]
+  );
+
   return (
     <Routes>
       <Route element={<PersistLogin />}>
@@ -61,9 +71,10 @@ function Router() {
         {/* admin account */}
         <Route element={<AdminLayout />}>
           <Route path="/admin" element={<AdminAuthorization />}>
-            <Route path="/admin" element={<div />} />
+            <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/clubs" element={<Clubs />} />
+            <Route path="/admin/transactions" element={<Transactions />} />
           </Route>
         </Route>
 

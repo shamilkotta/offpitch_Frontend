@@ -4,9 +4,22 @@ import PropTypes from "prop-types";
 import About from "../About";
 import calendarIconLight from "../../../assets/icons/calendar-tick.svg";
 import locationIconLight from "../../../assets/icons/location.svg";
+import TeamData from "../TeamData";
+import MatchData from "./MatchData";
 
 function LiveTournament({ data }) {
   const [tab, setTab] = useState("matches");
+  const [showTeamData, setShowTeamData] = useState({
+    teamId: "",
+    show: false,
+    tournament: data._id,
+    isHost: data?.isHost,
+  });
+  const [showMatchData, setShowMatchData] = useState({
+    show: false,
+    match: {},
+    round: {},
+  });
   const ref = useRef();
 
   useEffect(() => {
@@ -81,7 +94,19 @@ function LiveTournament({ data }) {
                       ?.sort((a, b) => a.match_no - b.match_no)
                       .map((match) => (
                         <div
-                          className="shadow px-3 py-1 rounded-md my-1"
+                          className="shadow cursor-pointer px-3 py-1 rounded-md my-1"
+                          onClick={() => {
+                            if (match?.teamA?.name && match?.teamB?.name)
+                              setShowMatchData((prvs) => ({
+                                ...prvs,
+                                show: true,
+                                match,
+                                round: {
+                                  round_no: round?.round_no,
+                                  round_name: round?.name,
+                                },
+                              }));
+                          }}
                           key={match.match_no}
                           ref={
                             data?.matches?.c_match[0] ===
@@ -98,21 +123,47 @@ function LiveTournament({ data }) {
                           <div className="flex justify-between mb-2 items-center">
                             <div className="flex gap-x-2 items-center">
                               <img
-                                src={match?.teamA?.profile}
+                                src={
+                                  match?.teamA?.profile ||
+                                  "https://www.gstatic.com/onebox/sports/logos/crest_48dp.png"
+                                }
                                 className="w-8 h-8 rounded-full"
                                 alt=".."
                               />
                               <h1 className="text-left">
-                                {match?.teamA?.name}
+                                {match?.teamA?.name ? (
+                                  match.teamA.name
+                                ) : (
+                                  <span className="text-slate-500">Team A</span>
+                                )}
                               </h1>
                             </div>
-                            <h1>-</h1>
+                            <div className="flex gap-x-2">
+                              <h1 className="text-lg font-medium">
+                                {match?.teamA?.goals >= 0
+                                  ? match?.teamA?.goals
+                                  : ""}
+                              </h1>
+                              <h1 className="text-slate-400 font-medium">-</h1>
+                              <h1 className="text-lg font-medium">
+                                {match?.teamB?.goals >= 0
+                                  ? match?.teamB?.goals
+                                  : ""}
+                              </h1>
+                            </div>
                             <div className="flex gap-x-2 items-center">
                               <h1 className="text-right">
-                                {match?.teamB?.name}
+                                {match?.teamB?.name ? (
+                                  match.teamB.name
+                                ) : (
+                                  <span className="text-slate-500">Team B</span>
+                                )}
                               </h1>
                               <img
-                                src={match?.teamB?.profile}
+                                src={
+                                  match?.teamB?.profile ||
+                                  "https://www.gstatic.com/onebox/sports/logos/crest_48dp.png"
+                                }
                                 className="w-7 h-7 rounded-full"
                                 alt=".."
                               />
@@ -179,7 +230,7 @@ function LiveTournament({ data }) {
               data?.groups.map((group) => (
                 <div className="my-5" key={group.name}>
                   <h1 className="font-semibold text-slate-400">
-                    {group?.name}
+                    {data.tournament_type === "t1" ? "Teams" : group?.name}
                   </h1>
                   <table className="table-auto">
                     <thead>
@@ -201,6 +252,13 @@ function LiveTournament({ data }) {
                         .map((team) => (
                           <tr
                             key={team.club}
+                            onClick={() => {
+                              setShowTeamData((prvs) => ({
+                                ...prvs,
+                                teamId: team.club,
+                                show: true,
+                              }));
+                            }}
                             className="hover:bg-gradient-to-r rounded-md cursor-pointer hover:from-slate-200 hover:to-slate-50"
                           >
                             <td className="">
@@ -237,6 +295,28 @@ function LiveTournament({ data }) {
           </div>
         </div>
       </div>
+
+      <TeamData
+        openState={showTeamData?.show}
+        data={showTeamData}
+        close={() => {
+          setShowTeamData((prvs) => ({ ...prvs, teamId: "", show: false }));
+        }}
+      />
+      <MatchData
+        openState={showMatchData?.show}
+        data={showMatchData}
+        isHost={data?.isHost}
+        tournamentId={data._id}
+        close={() => {
+          setShowMatchData((prvs) => ({
+            ...prvs,
+            match: {},
+            round: {},
+            show: false,
+          }));
+        }}
+      />
     </div>
   );
 }

@@ -25,7 +25,7 @@ function UpcomingSection() {
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-bold">Upcoming</h3>
           <Link to="/explore" className="flex gap-x-2 cursor-pointer">
-            Explore <img src={arrowIcon} alt="explore" />{" "}
+            Explore <img src={arrowIcon} className="w-5" alt="explore" />{" "}
           </Link>
         </div>
         <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[950px]:grid-cols-3 xl:grid-cols-4 auto-rows-auto gap-x-4 gap-y-2">

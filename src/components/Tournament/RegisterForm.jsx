@@ -159,9 +159,6 @@ function RegisterForm({
         setHaveClub(false);
       }
     } catch (err) {
-      useErrorToast({
-        message: err?.response?.data.message || "Something went wrong",
-      });
       close();
     } finally {
       setFetchingPlayers(false);

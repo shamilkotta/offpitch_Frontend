@@ -17,6 +17,7 @@ import deniedImg from "../../assets/img/access-denied.svg";
 import registredImg from "../../assets/img/registered.svg";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import spinnerIcon from "../../assets/icons/spinner.svg";
+import TeamData from "./TeamData";
 
 function CountdownTimer({ date }) {
   const [countdown, setCountdown] = useState({
@@ -87,6 +88,12 @@ function Sidebar({ data }) {
   const [isRegistered, setIsRegistered] = useState(data?.isRegistered);
   const auth = useSelector((state) => state.auth);
   const [tournamentScheduler, setTournamentScheduler] = useState(false);
+  const [showTeamData, setShowTeamData] = useState({
+    teamId: "",
+    show: false,
+    tournament: data._id,
+    isHost: data.isHost,
+  });
   const axios = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -96,8 +103,7 @@ function Sidebar({ data }) {
     axios
       .get(`/user/tournament/${data._id}/schedule`)
       .then((res) => {
-        if (res?.data?.success)
-          useSuccessToast({ message: res?.data?.message });
+        if (res?.data?.success) window.location.reload();
         else
           useErrorToast({
             message: res?.data?.message || "Something went wrong",
@@ -232,7 +238,7 @@ function Sidebar({ data }) {
               Schedule tournament
             </p>
             <button
-              className="hover:shadow border flex gap-x-2 w-full disabled:bg-slate-300 disabled:border-slate-300 disabled:text-gray-600 border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white px-3 py-1"
+              className="hover:shadow border justify-center flex gap-x-2 w-full disabled:bg-slate-300 disabled:border-slate-300 disabled:text-gray-600 border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white px-3 py-1"
               type="button"
               onClick={() => {
                 scheduleTournament();
@@ -321,7 +327,14 @@ function Sidebar({ data }) {
               data?.teams?.map((ele) => (
                 <div
                   key={ele._id}
-                  className="flex gap-x-2 px-2 items-center rounded-md mt-1 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-50 box-border"
+                  onClick={() => {
+                    setShowTeamData((prvs) => ({
+                      ...prvs,
+                      teamId: ele.club,
+                      show: true,
+                    }));
+                  }}
+                  className="flex gap-x-2 cursor-pointer px-2 items-center rounded-md mt-1 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-50 box-border"
                 >
                   <img
                     src={ele.profile}
@@ -380,6 +393,14 @@ function Sidebar({ data }) {
         openState={registerModal}
         close={() => {
           setRegisterModal(false);
+        }}
+      />
+
+      <TeamData
+        openState={showTeamData?.show}
+        data={showTeamData}
+        close={() => {
+          setShowTeamData((prvs) => ({ ...prvs, teamId: "", show: false }));
         }}
       />
     </div>

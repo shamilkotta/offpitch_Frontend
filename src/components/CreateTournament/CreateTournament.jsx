@@ -90,9 +90,6 @@ function CreateTournament({ data }) {
     <Navigate to="/user/club" replace />
   ) : (
     <div className="px-5 sm:px-10 py-12 ">
-      <h1 className="text-xl font-medium mb-2 text-center">
-        Create new tournament
-      </h1>
       <MultiStepForm
         formInitialValues={initialData}
         validationSchema={tournamentValidation}

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
-import InputFields, { InputTextArea } from "../InputFields/InputFields";
+import InputFields, { CssTextField } from "../InputFields/InputFields";
 import cameraIcon from "../../assets/icons/camera.svg";
 
 function Details({
@@ -64,69 +64,78 @@ function Details({
             </div>
           </button>
           <div className="mb-1 mt-2 w-full">
-            <InputFields
-              name="start_date"
-              className="h-12"
-              transform="mr-2 mb-2 w-full "
-              holder="Starting date"
-              value={values.start_date}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              errorMsg={
-                errors.start_date && touched.start_date ? errors.start_date : ""
-              }
-              type="date"
-            />
+            <div className="w-full mr-2 mb-2">
+              <p className="text-slate-500 sm:-mt-3 text-sm">Starting date</p>
+              <InputFields
+                name="start_date"
+                className="h-12"
+                holder="Starting date"
+                value={values.start_date}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorMsg={
+                  errors.start_date && touched.start_date
+                    ? errors.start_date
+                    : ""
+                }
+                type="date"
+              />
+            </div>
 
-            <InputFields
+            <CssTextField
+              error={errors.location && touched.location}
+              sx={{ marginTop: "8px" }}
+              fullWidth
               name="location"
-              holder="Location"
+              label="Location"
               value={values.location}
               onChange={handleChange}
               onBlur={handleBlur}
-              errorMsg={
+              helperText={
                 errors.location && touched.location ? errors.location : ""
               }
-              className="h-12 w-full"
-              transform="mb-3 min-[440px]:mb-0 w-full "
             />
           </div>
         </div>
-        <InputFields
-          holder="Title of tournament"
+        <CssTextField
+          error={errors.title && touched.title}
+          sx={{ marginTop: "8px" }}
+          label="Title of tournament"
           name="title"
           value={values.title}
           onChange={handleChange}
           onBlur={handleBlur}
-          errorMsg={errors.title && touched.title ? errors.title : ""}
-          className="h-12"
-          transform="w-full"
-          maxLength="160"
+          helperText={errors.title && touched.title ? errors.title : ""}
         />
-        <InputTextArea
+        <CssTextField
+          error={errors.short_description && touched.short_description}
+          sx={{ marginTop: "8px" }}
           name="short_description"
-          holder="Brief description"
+          label="Brief description"
           value={values.short_description}
           onChange={handleChange}
           onBlur={handleBlur}
-          errorMsg={
+          helperText={
             errors.short_description && touched.short_description
               ? errors.short_description
               : ""
           }
-          rows="3"
+          multiline
+          row={3}
         />
-
-        <InputTextArea
+        <CssTextField
+          error={errors.description && touched.description}
+          sx={{ marginTop: "8px" }}
           name="description"
-          holder="About the tournament"
+          label="About the tournament"
           rows={8}
           value={values.description}
           onChange={handleChange}
           onBlur={handleBlur}
-          errorMsg={
+          helperText={
             errors.description && touched.description ? errors.description : ""
           }
+          multiline
         />
       </div>
     </div>

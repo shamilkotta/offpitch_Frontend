@@ -2,14 +2,17 @@ import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
 
-import InputFields, { InputSubmit } from "../InputFields/InputFields";
-import Modal from "../Modal/Modal";
+import InputFields, {
+  CssTextField,
+  InputSubmit,
+} from "../InputFields/InputFields";
 import cameraIcon from "../../assets/icons/camera.svg";
 import playerSchema from "../../schema/user/playerSchema";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useErrorToast, useSuccessToast } from "../../hooks/useToast";
+import RightDrawer from "../Drawer/RightDrawer";
 
-function PlayerFrom({ onClose, data, profile, reRender }) {
+function PlayerFrom({ onClose, openState, data, profile, reRender }) {
   const [showImgErr, setShowImgErr] = useState(false);
   const [loading, setLoading] = useState(false);
   const ref = useRef();
@@ -68,6 +71,9 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
             reRender();
             useSuccessToast({ message: "New player added successfully" });
             resetForm({ values: "" });
+            setPhotoURL("");
+            setDoc(null);
+            setFile(null);
             onClose();
           })
           .catch((err) => {
@@ -87,68 +93,102 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
   });
 
   return (
-    <Modal
-      closeOnOutSide
-      closeModal={() => {
+    <RightDrawer
+      variant="persistent"
+      openState={openState}
+      close={() => {
         onClose(false);
       }}
     >
-      <h1 className="text-lg font-medium mb-5">Add a player</h1>
-      <form className="grid gap-3 auto-rows-auto grid-cols-auto w-max box-border">
-        <input
-          type="file"
-          name="profile"
-          ref={ref}
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={handleUploadImage}
-        />
-        <button
-          type="button"
-          onClick={() => {
-            ref.current.click();
-          }}
-          className={`col-start-1 ${
-            showImgErr && "border-red-700 border-2"
-          } relative sm:col-end-2 col-end-3 row-start-1 row-end-2 w-36 h-40 border-2 rounded`}
-        >
-          <div
-            className="relative w-full h-full rounded flex justify-center items-center after:content-[''] after:bg-black/10 hover:after:bg-black/30 after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0"
-            style={{
-              backgroundImage: `url('${photoURL}')`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-            }}
-          >
-            <img
-              src={cameraIcon}
-              alt=""
-              className="absolute top-0 bottom-0 mx-auto my-auto left-0 right-0"
-            />
+      <div className="w-[80vw] min-[450px]:w-[400px]">
+        <h1 className="text-lg font-medium mb-5">Add a player</h1>
+        <form className="box-border">
+          <div className="flex gap-x-4">
+            <div>
+              <input
+                type="file"
+                name="profile"
+                ref={ref}
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleUploadImage}
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  ref.current.click();
+                }}
+                className={`col-start-1 ${
+                  showImgErr && "border-red-700 border-2"
+                } relative sm:col-end-2 col-end-3 row-start-1 row-end-2 w-36 h-40 border-2 rounded`}
+              >
+                <div
+                  className="relative w-full h-full rounded flex justify-center items-center after:content-[''] after:bg-black/10 hover:after:bg-black/30 after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0"
+                  style={{
+                    backgroundImage: `url('${photoURL}')`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <img
+                    src={cameraIcon}
+                    alt=""
+                    className="absolute top-0 bottom-0 mx-auto my-auto left-0 right-0"
+                  />
+                </div>
+              </button>
+            </div>
+            <div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-x-3 flex-wrap">
+                  <input
+                    type="file"
+                    name="profile"
+                    ref={docRef}
+                    accept="application/pdf"
+                    style={{ display: "none" }}
+                    onChange={handleUploadDoc}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      docRef.current.click();
+                    }}
+                    className={` border ${
+                      showDocErr
+                        ? "border-red-500 text-red-500"
+                        : "border-slate-200 text-slate-500"
+                    } bg-slate-200 px-3 py-2 relative w-full min-[450px]:w-60 h-40 border-2 rounded`}
+                  >
+                    Pdf of Age proof
+                    <div className="h-5">
+                      <div className="text-black">{doc?.name}</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </button>
-        <div className="grid gap-3 h-fit grid-cols-auto grid-rows-auto col-start-1 sm:col-start-2 col-end-3 row-start-2 sm:row-start-1 row-end-3 sm:row-end-2">
-          <div className="col-start-1 col-end-2 row-start-1 row-end-2 w-full">
+
+          <CssTextField
+            error={formik.errors.name && formik.touched.name}
+            sx={{ marginTop: "12px" }}
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={
+              formik.errors.name && formik.touched.name
+                ? formik.errors.name
+                : ""
+            }
+            label="Name"
+            className="w-full"
+          />
+          <div className="w-full">
             <InputFields
-              className="h-12"
-              transform="w-[80vw] sm:w-96"
-              type="text"
-              holder="Name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              errorMsg={
-                formik.errors.name && formik.touched.name
-                  ? formik.errors.name
-                  : ""
-              }
-            />
-          </div>
-          <div className="col-start-1 col-end-2 row-start-2 row-end-3 w-full">
-            <InputFields
-              className="h-12 w-80"
+              className="h-12 mt-3 w-80"
               type="date"
               holder="Date of birth"
               name="date_of_birth"
@@ -164,50 +204,17 @@ function PlayerFrom({ onClose, data, profile, reRender }) {
               }
             />
           </div>
-          <div className="col-start-1 col-end-2 row-start-3 row-end-4 w-full">
-            <p
-              className={`text-sm ${
-                showDocErr ? "text-red-500" : "text-gray-500 "
-              } flex flex-wrap w-[80vw] sm:w-96`}
-            >
-              Choose a scanned age proof
-            </p>
-            <div className="flex items-center gap-x-3 flex-wrap w-[80vw] sm:w-full">
-              <input
-                type="file"
-                name="profile"
-                ref={docRef}
-                accept="application/pdf"
-                style={{ display: "none" }}
-                onChange={handleUploadDoc}
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  docRef.current.click();
-                }}
-                className={` border ${
-                  showDocErr
-                    ? "border-red-500 text-red-600"
-                    : "border-slate-200 text-black"
-                } bg-slate-200 px-3 py-2 rounded`}
-              >
-                Certificate
-              </button>
-              <div>{doc?.name}</div>
-            </div>
-          </div>
+        </form>
+        <div className="w-full mt-3 flex justify-end">
+          <InputSubmit
+            className="w-1/2"
+            loadingValue={loading ? "Add" : ""}
+            value="Add"
+            onClick={formik.handleSubmit}
+          />
         </div>
-      </form>
-      <div className="w-full mt-3 flex justify-end">
-        <InputSubmit
-          className="w-1/2"
-          loadingValue={loading ? "Add" : ""}
-          value="Add"
-          onClick={formik.handleSubmit}
-        />
       </div>
-    </Modal>
+    </RightDrawer>
   );
 }
 
@@ -225,6 +232,7 @@ PlayerFrom.propTypes = {
   data: PropTypes.object,
   profile: PropTypes.string,
   reRender: PropTypes.func,
+  openState: PropTypes.bool.isRequired,
 };
 
 export default PlayerFrom;

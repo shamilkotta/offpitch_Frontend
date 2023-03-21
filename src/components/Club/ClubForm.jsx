@@ -57,10 +57,10 @@ function ClubForm({ onClose, data, profile, reRender, isEdit, openState }) {
 
   const formik = useFormik({
     initialValues: data,
-
+    enableReinitialize: true,
     validationSchema: clubSchema,
 
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       if (!file && !photoURL) setShowImgErr(true);
       else if (!doc && !isEdit) setShowDocErr(true);
       else {
@@ -69,7 +69,6 @@ function ClubForm({ onClose, data, profile, reRender, isEdit, openState }) {
         setShowDocErr(false);
         handleSubmit(values)
           .then((res) => {
-            resetForm({ values: "" });
             useSuccessToast({ message: res.data.message });
             onClose(false);
             reRender();
@@ -123,7 +122,7 @@ function ClubForm({ onClose, data, profile, reRender, isEdit, openState }) {
                 <div
                   className="relative w-full h-full rounded flex justify-center items-center after:content-[''] after:bg-black/10 hover:after:bg-black/30 after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0"
                   style={{
-                    backgroundImage: `url('${photoURL}')`,
+                    backgroundImage: `url('${photoURL || profile}')`,
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
                     backgroundSize: "cover",
@@ -140,7 +139,7 @@ function ClubForm({ onClose, data, profile, reRender, isEdit, openState }) {
             <div>
               {!isEdit && (
                 <div className="flex flex-col">
-                  <div className="flex items-center gap-x-3 flex-wrap w-[80vw] sm:w-full">
+                  <div className="flex items-center gap-x-3 flex-wrap">
                     <input
                       type="file"
                       name="profile"
@@ -158,7 +157,7 @@ function ClubForm({ onClose, data, profile, reRender, isEdit, openState }) {
                         showDocErr
                           ? "border-red-500 text-red-500"
                           : "border-slate-200 text-slate-500"
-                      } bg-slate-200 px-3 py-2 relative w-40 h-40 border-2 rounded`}
+                      } bg-slate-200 px-3 py-2 relative w-full min-[450px]:w-56 h-40 border-2 rounded`}
                     >
                       Pdf of Govt. registration
                       <div className="h-5">

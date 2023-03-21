@@ -236,31 +236,29 @@ function PrivateClub() {
             </div>
           </div>
         )}
+        <PlayerFrom
+          openState={addPlayerModal}
+          onClose={() => {
+            setAddPlayerModal(false);
+          }}
+          reRender={fetchData}
+        />
 
-        {addPlayerModal && (
-          <PlayerFrom
-            onClose={() => {
-              setAddPlayerModal(false);
-            }}
-            reRender={fetchData}
-          />
-        )}
-        {editModal && (
-          <ClubForm
-            isEdit
-            onClose={() => {
-              setEditModal(false);
-            }}
-            data={{
-              name: data.name,
-              email: data.email,
-              phone: data.phone,
-              description: data.description,
-            }}
-            profile={data.profile}
-            reRender={fetchData}
-          />
-        )}
+        <ClubForm
+          isEdit
+          openState={editModal}
+          onClose={() => {
+            setEditModal(false);
+          }}
+          data={{
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            description: data.description,
+          }}
+          profile={data.profile}
+          reRender={fetchData}
+        />
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import spinnerIcon from "../../assets/icons/spinner.svg";
 import noDataImg from "../../assets/img/no-data.svg";
 import locationIcon from "../../assets/icons/location.svg";
 import calendarIcon from "../../assets/icons/calendar-tick.svg";
+import UpdateRegistration from "./UpdateRegistration";
 
 function Tournaments() {
   const [tournaments, setTournaments] = useState([]);
@@ -19,9 +20,33 @@ function Tournaments() {
   const [pendingReg, setPendingReg] = useState([]);
   const axios = useAxiosPrivate();
   const location = useLocation();
+  const [updatePending, setUpdatePending] = useState({ data: {}, show: false });
   const [currentTab, setCurrentTab] = useState(
     location.state?.tab || "tournaments"
   );
+  const [isRegistered, setIsRegistered] = useState({ id: "", status: false });
+  const [isCancel, setIsCancel] = useState({ id: "", status: false });
+
+  useEffect(() => {
+    if (isRegistered.status) {
+      setRegistered((reg) => [
+        ...reg,
+        ...pendingReg.filter((ele) => {
+          if (ele._id === isRegistered.id) {
+            const newEle = ele;
+            newEle.teams.status = "paid";
+            return newEle;
+          }
+          return null;
+        }),
+      ]);
+      setPendingReg((reg) => reg.filter((ele) => ele._id !== isRegistered.id));
+    }
+
+    if (isCancel.status) {
+      setPendingReg((reg) => reg.filter((ele) => ele._id !== isCancel.id));
+    }
+  }, [isRegistered, isCancel]);
 
   const fetchTournaments = () => {
     axios
@@ -338,10 +363,12 @@ function Tournaments() {
                   <h1>Pending :</h1>
                   <hr />
                   {pendingReg.map((ele) => (
-                    <Link
+                    <div
                       key={ele._id}
-                      to={`/tournament/${ele?._id}`}
-                      className="flex gap-x-2 px-2 items-center rounded-md mt-1 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-50 box-border"
+                      onClick={() => {
+                        setUpdatePending({ data: ele, show: true });
+                      }}
+                      className="flex cursor-pointer gap-x-2 px-2 items-center rounded-md mt-1 hover:bg-gradient-to-r hover:from-slate-200 hover:to-slate-50 box-border"
                     >
                       <img
                         src={ele.cover}
@@ -356,7 +383,7 @@ function Tournaments() {
                           Last date : {ele.registration.last_date}
                         </p>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
@@ -364,6 +391,19 @@ function Tournaments() {
           </div>
         )}
       </div>
+      <UpdateRegistration
+        openState={updatePending?.show}
+        setIsRegistered={(data) => {
+          setIsRegistered(data);
+        }}
+        isCancel={(data) => {
+          setIsCancel(data);
+        }}
+        data={updatePending?.data}
+        close={() => {
+          setUpdatePending({ data: {}, show: false });
+        }}
+      />
     </div>
   );
 }

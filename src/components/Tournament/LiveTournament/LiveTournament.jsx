@@ -259,7 +259,7 @@ function LiveTournament({ data }) {
                                 show: true,
                               }));
                             }}
-                            className="hover:bg-gradient-to-r rounded-md cursor-pointer hover:from-slate-200 hover:to-slate-50"
+                            className="hover:bg-gradient-to-r border-b rounded-md cursor-pointer hover:from-slate-200 hover:to-slate-50"
                           >
                             <td className="">
                               <div className="flex gap-x-2 px-2 items-center rounded-md box-border">
@@ -280,8 +280,8 @@ function LiveTournament({ data }) {
                             <td className="text-center">{team.d}</td>
                             <td className="text-center">{team.l}</td>
                             <td className="text-center">{team.gf}</td>
-                            <td className="text-center">{team.gd}</td>
                             <td className="text-center">{team.ga}</td>
+                            <td className="text-center">{team.gd}</td>
                             <td className="text-center">{team.pts}</td>
                           </tr>
                         ))}

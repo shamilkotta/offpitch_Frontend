@@ -6,6 +6,7 @@ import { Box, IconButton, Avatar, Menu } from "@mui/material";
 import useScrollPosition from "../../hooks/useScrollPosition";
 import arrowDownIcon from "../../assets/icons/arrow-down.svg";
 import useLogout from "../../hooks/useLogout";
+import logo from "../../assets/img/logo.svg";
 
 function AdminNavbar() {
   const scrollpos = useScrollPosition();
@@ -32,7 +33,7 @@ function AdminNavbar() {
         <ul className="flex justify-between items-center gap-x-5">
           <li className="">
             <Link to="/" state={{ from: location.pathname }}>
-              <img src="/logo.svg" alt="offpitch" width="110" height="100" />
+              <img src={logo} alt="offpitch" width="110" height="100" />
             </Link>
           </li>
           <li className="hidden md:block ">

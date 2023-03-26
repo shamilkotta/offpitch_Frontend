@@ -6,6 +6,7 @@ import { FaUsers, FaFolderOpen } from "react-icons/fa";
 import { MdDashboard, MdPayments } from "react-icons/md";
 
 import logoutIcon from "../../assets/icons/logout.svg";
+import logo from "../../assets/img/logo.svg";
 
 function AdminMobSidebar({ openState, close, logout }) {
   const location = useLocation();
@@ -43,7 +44,7 @@ function AdminMobSidebar({ openState, close, logout }) {
         <div className="flex flex-col justify-between h-full">
           <div>
             <div className="w-full">
-              <img src="/logo.svg" className="h-6 mt-7 ml-5 " alt="offpitch" />
+              <img src={logo} className="h-6 mt-7 ml-5 " alt="offpitch" />
             </div>
             <nav className="mt-16">
               <ul className="px-4 w-64">

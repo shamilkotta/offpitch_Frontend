@@ -8,6 +8,7 @@ import useScrollPosition from "../../hooks/useScrollPosition";
 import menuIcon from "../../assets/icons/menu.svg";
 import arrowDownIcon from "../../assets/icons/arrow-down.svg";
 import useLogout from "../../hooks/useLogout";
+import logo from "../../assets/img/logo.svg";
 
 function TopNav({ open }) {
   const scrollpos = useScrollPosition();
@@ -38,7 +39,7 @@ function TopNav({ open }) {
           <li>
             <Link to="/" state={{ from: location.pathname }}>
               <img
-                src="/logo.svg"
+                src={logo}
                 alt="offpitch"
                 className="hidden sm:block"
                 width="150"
@@ -49,7 +50,7 @@ function TopNav({ open }) {
         <ul className="flex justify-between items-center gap-x-5">
           <li className="sm:hidden md:block">
             <Link to="/" state={{ from: location.pathname }}>
-              <img src="/logo.svg" alt="offpitch" width="150" />
+              <img src={logo} alt="offpitch" width="150" />
             </Link>
           </li>
           <li className="hidden md:block ">

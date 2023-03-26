@@ -5,6 +5,7 @@ import { MdDashboard, MdPayments } from "react-icons/md";
 import PropTypes from "prop-types";
 
 import logoutIcon from "../../assets/icons/logout.svg";
+import logo from "../../assets/img/logo.svg";
 
 function AdminSidebar({ logout }) {
   const location = useLocation();
@@ -40,7 +41,7 @@ function AdminSidebar({ logout }) {
     <nav className="h-full bg-white/30 box-border overflow-auto flex flex-col justify-between w-fit min-[850px]:w-64 ">
       <div className="w-full">
         <img
-          src="/logo.svg"
+          src={logo}
           className="h-6 mt-7 ml-5 hidden min-[850px]:block"
           alt="offpitch"
         />

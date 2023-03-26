@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CiGlobe,
   CiStreamOn,
@@ -8,8 +8,39 @@ import {
 } from "react-icons/ci";
 
 import walletIcon from "../../assets/icons/wallet.svg";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useErrorToast } from "../../hooks/useToast";
 
 function Dashboard() {
+  const [data, setData] = useState({
+    userCount: 0,
+    clubCount: 0,
+    allTournament: 0,
+    activeTournament: 0,
+    upcomingTournament: 0,
+    wallet: 0,
+  });
+  const axios = useAxiosPrivate();
+
+  useEffect(() => {
+    axios
+      .get("/admin/dashboard-data")
+      .then((res) => {
+        if (res?.data?.success) {
+          setData(res.data.data);
+        } else {
+          useErrorToast({
+            message: res?.data?.message || "Something went wrong",
+          });
+        }
+      })
+      .catch((err) => {
+        useErrorToast({
+          message: err?.response?.data?.message || "Something went wrong",
+        });
+      });
+  }, []);
+
   return (
     <div className="my-2 mt-10">
       <div className="flex flex-col min-[760px]:flex-row gap-y-5 justify-between h-fit">
@@ -20,7 +51,9 @@ function Dashboard() {
                 <CiGlobe color="white" size="30px" />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-slate-900 font-semibold text-lg">500</h1>
+                <h1 className="text-slate-900 font-semibold text-lg">
+                  {data.allTournament}
+                </h1>
                 <h1 className="text-slate-500 font-medium -mt-1">
                   Tournaments
                 </h1>
@@ -31,7 +64,9 @@ function Dashboard() {
                 <CiStreamOn color="white" size="30px" />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-slate-900 font-semibold text-lg">100</h1>
+                <h1 className="text-slate-900 font-semibold text-lg">
+                  {data.activeTournament}
+                </h1>
                 <h1 className="text-slate-500 font-medium -mt-1">Live</h1>
               </div>
             </div>
@@ -40,7 +75,9 @@ function Dashboard() {
                 <CiTimer color="white" size="30px" />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-slate-900 font-semibold text-lg">200</h1>
+                <h1 className="text-slate-900 font-semibold text-lg">
+                  {data.upcomingTournament}
+                </h1>
                 <h1 className="text-slate-500 font-medium -mt-1">Upcoming</h1>
               </div>
             </div>
@@ -51,7 +88,9 @@ function Dashboard() {
                 <CiUser color="white" size="30px" />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-slate-900 font-semibold text-lg">500</h1>
+                <h1 className="text-slate-900 font-semibold text-lg">
+                  {data.userCount}
+                </h1>
                 <h1 className="text-slate-500 font-medium -mt-1">Users</h1>
               </div>
             </div>
@@ -60,7 +99,9 @@ function Dashboard() {
                 <CiMicrochip color="white" size="30px" />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-slate-900 font-semibold text-lg">200</h1>
+                <h1 className="text-slate-900 font-semibold text-lg">
+                  {data.clubCount}
+                </h1>
                 <h1 className="text-slate-500 font-medium -mt-1">Clubs</h1>
               </div>
             </div>
@@ -74,7 +115,10 @@ function Dashboard() {
             </div>
             <div className="mx-auto">
               <h1 className="text-white mr-0 ml-auto text-end">
-                ₹<span className="text-2xl font-bold text-white">000,00</span>
+                ₹
+                <span className="text-2xl font-bold text-white">
+                  {data.wallet}
+                </span>
               </h1>
             </div>
           </div>
